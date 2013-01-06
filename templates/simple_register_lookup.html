@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>SimpleRegisterLookup Demo</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables_themeroller.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui-smoothness.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/simple_register_lookup.css">
+        <script src="/static/js/jquery.js" type="text/javascript"></script>
+        <script src="/static/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="/static/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="/static/js/simple_register_lookup.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="device-selector">
+            Device:
+            <select id="device-dropdown">
+                {% for device_name in device_names %}
+                <option value="{{ device_name }}">{{ device_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <img id="loading-image" src="/static/images/ajax-loader.gif">
+        <div id="register-table-container">
+        </div>
+    </body>
+</html>
