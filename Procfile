@@ -1,1 +1,1 @@
-web: python simple_register_lookup.py
+web: gunicorn simple_register_lookup:app
