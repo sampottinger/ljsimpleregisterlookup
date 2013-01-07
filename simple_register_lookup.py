@@ -36,6 +36,7 @@ def lookup_device(device_name):
     modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map)
     response = flask.make_response(json.dumps(modbus_map_serialized))
     response.headers["X-XSS-Protection"] = "0"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 
