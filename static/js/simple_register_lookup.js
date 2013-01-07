@@ -81,7 +81,7 @@ var requestRegistersTable = function()
     // Execute AJAX request
     // TODO: jQuery does not have an onError event for getJSON. Need workaround.
     $.getJSON(
-        'lookup/' + $("#device-dropdown").val() + '.json',
+        'http://ljsimpleregisterlookup.herokuapp.com/lookup/' + $("#device-dropdown").val() + '.json',
         updateRegistersTable
     );
 }
