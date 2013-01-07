@@ -34,7 +34,9 @@ def lookup_device(device_name):
         flask.abort(404)
 
     modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map)
-    return json.dumps(modbus_map_serialized)
+    response = flask.make_response(json.dumps(modbus_map_serialized))
+    response.headers["X-XSS-Protection"] = "0"
+    return response
 
 
 if __name__ == '__main__':
