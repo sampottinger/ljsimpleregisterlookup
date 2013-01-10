@@ -1,1 +1,47 @@
-This should exist!
+h1. LJSimpleRegisterLookup
+
+LJSimpleRegisterLookup provides a web-based GUI for our device MODBUS maps.
+LJSimpleRegisterLookup is released under the GNU GPL v2 license.
+
+
+h2. Overview for the project (tl;dr)
+
+Although we don't have user research to verify this intuition, it seems like users will want a MODBUS map for their device instead of a listing across all models. Thus, Simple Register Lookup provides a device drop-down menu that then displays MODBUS maps in a searchable / paginated table (http://www.datatables.net/). In addition to this embeddable front-end, a programmatic API is also available using simple HTTP GET requests on URLs following the pattern http://ljsimpleregisterlookup.herokuapp.com/lookup/U3.json. This JSON format is flattened for the GUI but we may want to support CSV in the future (like http://ljsimpleregisterlookup.herokuapp.com/lookup/U3.csv). The back-end is written in Flask (Python, http://flask.pocoo.org/) and runs on Heroku (http://www.heroku.com/). The front-end uses jQuery (http://jquery.com/), jQuery UI (http://jqueryui.com/), and DataTables (http://www.datatables.net/). The current deployment uses Gunicorn (http://gunicorn.org/) for its web server. 
+
+
+h2. Development Environment Setup
+
+Requirements:
+* Heroku account with Heroku toolbelt (https://toolbelt.heroku.com/).
+* Get collaborator permissions on Heroku.
+* Get collaborator permissions on GitHub.
+
+Steps:
+* Clone this repo (git@github.com:Samnsparky/ljsimpleregisterlookup.git)
+* cd into directory
+* $heroku login
+* $git remote add git@heroku.com:ljsimpleregisterlookup.git
+
+
+h2. Development Standards
+
+All Python documentation is written in epydoc (http://epydoc.sourceforge.net/) and all JavaScript documentation is written in jsdoc (http://en.wikipedia.org/wiki/JSDoc). The development team has not set the precedent for client-side code testing but server logic should be tested using the Python unittest module (http://docs.python.org/2/library/unittest.html). The application uses the ljm_constants.json file at the root directory as the MODBUS map source.
+
+
+h2. Testing
+
+LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv) and the gunicorn server. Also, to accomodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
+
+To test locally:
+* Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to LOCAL_TEST_URL.
+* $source venv/bin/activate
+* $foreman start
+* Navigate to 127.0.0.1:5000 or localhost
+
+
+h2. Deployment
+
+Heroku handles server-side configuration and deployment. To deploye:
+* Commit all changes to GitHub ($git push)
+* Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to DEPLOY_URL.
+* $git push heroku master
