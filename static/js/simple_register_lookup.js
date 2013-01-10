@@ -8,6 +8,11 @@
  * @license GNU GPL v2
 **/
 
+var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com/lookup/';
+var LOCAL_TEST_URL = '/lookup/';
+var CURRENT_APP_URL = DEPLOY_URL;
+
+
 // Thanks http://www.tutorialspoint.com/javascript/array_map.htm
 if (!Array.prototype.map)
 {
@@ -81,7 +86,7 @@ var requestRegistersTable = function()
     // Execute AJAX request
     // TODO: jQuery does not have an onError event for getJSON. Need workaround.
     $.getJSON(
-        'http://ljsimpleregisterlookup.herokuapp.com/lookup/' + $("#device-dropdown").val() + '.json',
+        CURRENT_APP_URL + $("#device-dropdown").val() + '.json',
         updateRegistersTable
     );
 }
