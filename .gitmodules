@@ -1,0 +1,3 @@
+[submodule "constants"]
+	path = constants
+	url = ssh://rory@fonz.labjack.com/opt/git/constants.git
