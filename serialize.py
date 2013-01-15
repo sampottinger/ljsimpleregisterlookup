@@ -10,6 +10,7 @@ for LabJack MODBUS devices.
 import copy
 
 
+# Maybe need altnames and maybe eventually fwmax, defaut value
 DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "numregs", "fwmin",
     "read", "write", "tags"]
 
@@ -42,6 +43,10 @@ def serialize_device_modbus_map(target):
     for entry in target:
         entry = copy.deepcopy(entry)
         entry["tags"] = ",".join(entry["tags"])
+
+        # Eventually need this? -Rory
+        #entry["altnames"] = ",".join(entry["altnames"])
+
         serialized_entry = map(lambda x: entry[x], DEVICE_MODBUS_MAP_COLS)
         ret_list.append(serialized_entry)
     return ret_list

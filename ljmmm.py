@@ -9,7 +9,7 @@ import copy
 import json
 import re
 
-DEFAULT_FILE_NAME = "ljm_constants.json"
+DEFAULT_FILE_NAME = "constants/LabJackConstants/LabJack/LJM/ljm_constants.json"
 ACCESS_RESTRICTIONS_STRS = {
     "RO": {"read": True, "write": False},
     "RW": {"read": True, "write": True},
@@ -202,7 +202,7 @@ def parse_register_data(raw_register_dict):
         "readwrite": {"read": bool, "write": bool},
         "tags": list of str
     }
-    
+
     All names will be enumerated such that DAC#(0:1) will result in two
     dictionaries, one with ret_dict["name"] == "DAC#0" and another with
     ret_dict["name"] == "DAC#1"
@@ -280,7 +280,7 @@ def get_registers_data(src=DEFAULT_FILE_NAME):
         "readwrite": {"read": bool, "write": bool},
         "tags": list of str,
     }
-    
+
     All names will be enumerated such that DAC#(0:1) will result in two
     dictionaries, one with ret_dict["name"] == "DAC#0" and another with
     ret_dict["name"] == "DAC#1"
@@ -296,7 +296,7 @@ def get_registers_data(src=DEFAULT_FILE_NAME):
     ret_list = []
     for entry in raw_data:
         ret_list.extend(parse_register_data(entry))
-    
+
     return ret_list
 
 
@@ -334,11 +334,11 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
     """
     registers_data = get_registers_data(src=src)
     device_maps = {}
-    
+
     for register in registers_data:
         reg_devices = register["devices"]
         for device in reg_devices:
-            
+
             device_name = device["device"]
             if not device_name in device_maps:
                 device_maps[device_name] = []
@@ -349,7 +349,7 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
             min_firmware = device["fwmin"]
             new_entry["fwmin"] = min_firmware
             del new_entry["devices"]
-            
+
             access_permissions = new_entry["readwrite"]
             read_val = access_permissions["read"]
             write_val = access_permissions["write"]
