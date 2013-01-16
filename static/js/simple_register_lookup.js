@@ -10,7 +10,7 @@
 
 var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com/lookup/';
 var LOCAL_TEST_URL = '/lookup/';
-var CURRENT_APP_URL = LOCAL_TEST_URL;
+var CURRENT_APP_URL = DEPLOY_URL;
 
 
 // Thanks http://www.tutorialspoint.com/javascript/array_map.htm
