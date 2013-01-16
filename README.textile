@@ -45,3 +45,4 @@ Heroku handles server-side configuration and deployment. To deploye:
 * Commit all changes to GitHub ($git push)
 * Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to DEPLOY_URL.
 * $git push heroku master
+* The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Drupal tries to change the HTML to fit it's standards and it may take a few attempts.
