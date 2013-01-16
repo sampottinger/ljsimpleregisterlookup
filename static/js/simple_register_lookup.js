@@ -80,6 +80,7 @@ var updateRegistersTable = function(data)
 var requestRegistersTable = function()
 {
     // Show loading indicator
+    $('#error-message').hide();
     $('#register-table-container').hide();
     $('#loading-image').show();
 
@@ -91,9 +92,27 @@ var requestRegistersTable = function()
     );
 }
 
+var handleError = function(err)
+{
+    $('#loading-image').hide();
+
+	// Probably don't want to expose anything, I'm not sure
+	// what errors could be caught here.
+    // $('#error-message').text("Error: " + err.message);
+	$('#error-message').text("An error has occurred.");
+    $('#error-message').show();
+	throw err;
+}
 
 // Register even listener for the device dropdown menu.
 $(window).load(function () {
-    requestRegistersTable();
-    $('#device-dropdown').change(requestRegistersTable);
+    try
+    {
+        requestRegistersTable();
+        $('#device-dropdown').change(requestRegistersTable);
+    }
+    catch(err)
+    {
+        handleError(err)
+    }
 });

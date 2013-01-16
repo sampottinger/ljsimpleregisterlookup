@@ -181,7 +181,7 @@ def interpret_access_descriptor(descriptor):
     return ACCESS_RESTRICTIONS_STRS[descriptor]
 
 
-def parse_register_data(raw_register_dict):
+def parse_register_data(raw_register_dict, expand_names=False):
     """Parse information about a single register.
 
     Loads and interprets register information from the given dictionary
@@ -203,16 +203,22 @@ def parse_register_data(raw_register_dict):
         "tags": list of str
     }
 
-    All names will be enumerated such that DAC#(0:1) will result in two
-    dictionaries, one with ret_dict["name"] == "DAC#0" and another with
-    ret_dict["name"] == "DAC#1"
+    If expand_names == True, all names will be enumerated such that
+    DAC#(0:1) will result in two dictionaries, one with
+    ret_dict["name"] == "DAC#0" and another with ret_dict["name"] == "DAC#1".
+    Otherwise, DAC#(0:1) will result in one dictionary with an unmodified name.
 
     @param raw_register_dict: Raw dictionary of register information.
     @type raw_register_dict: dict.
+    @param expand_names: Choose whether or not to expand the register names
+    @type expand_names: bool
     @return: List of interpreted dictionaries.
     @rtype: list of dict
     """
-    names = interpret_ljmmm_field(raw_register_dict["name"])
+    if expand_names:
+        names = interpret_ljmmm_field(raw_register_dict["name"])
+    else:
+        names = raw_register_dict["name"]
     if isinstance(names, basestring):
         names = [names]
 
@@ -222,7 +228,7 @@ def parse_register_data(raw_register_dict):
     access_restrictions = interpret_access_descriptor(
         raw_register_dict["readwrite"]
     )
-    tags = map(lambda x: interpret_ljmmm_field(x), raw_register_dict["tags"])
+    tags = interpret_tags(raw_register_dict["tags"])
 
     # Interpret addresses
     start_address = raw_register_dict["address"]
@@ -264,6 +270,27 @@ def parse_register_data(raw_register_dict):
     return ret_list
 
 
+def interpret_tags(tags, tags_base_url='http://labjack.com/support/modbus/tags'):
+    """Converts a list of valid tag names into a list of html links.
+
+    Converts a list of valid tag names into a list of html links. For
+    example, interpret_tags(["AIN", "CONFIG"], 'labjack.com/path/to/tags/')
+    could become something like:
+    [
+        "<a class='tag-link' href='labjack.com/path/to/tags/AIN>AIN</a>",
+        "<a class='tag-link' href='labjack.com/path/to/tags/CONFIG>CONFIG</a>"
+    ]
+
+    @keyword tags: The list of tags to convert into links
+    @type tags: list of str
+    @keyword tags_base_url: The base url used to create the links
+    @type tags_base_url: str
+    @return: list of str html links
+    """
+    return map(lambda x: '<a class=\'tag-link\' href=' + tags_base_url +
+                '/' + x + '>' + x + '</a>', tags)
+
+
 def get_registers_data(src=DEFAULT_FILE_NAME):
     """Load and parse information about registers from JSON constants file.
 
@@ -281,6 +308,8 @@ def get_registers_data(src=DEFAULT_FILE_NAME):
         "tags": list of str,
     }
 
+    TODO: Add param to specify this (currenly doesn't expand the register
+    names in this way):
     All names will be enumerated such that DAC#(0:1) will result in two
     dictionaries, one with ret_dict["name"] == "DAC#0" and another with
     ret_dict["name"] == "DAC#1"
@@ -322,11 +351,15 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
     }
     The list of dictionaries for each device type will be sorted by address.
 
+    TODO: Add param to specify this (currenly doesn't expand the register
+    names in this way):
     All names will be enumerated such that DAC#(0:1) will result in two
     dictionaries, one with ret_dict["name"] == "DAC#0" and another with
-    ret_dict["name"] == "DAC#1". Similarly, all alternative names will be given
-    their own individual entry so an address with two alternative names will
-    correspond to three elements in the returned lists.
+    ret_dict["name"] == "DAC#1".
+
+    All alternative names will be given their own individual entry so
+    an address with two alternative names will correspond to three elements
+    in the returned lists.
 
     @keyword src: The name of the file to open. Defaults to DEFAULT_FILE_NAME.
     @type src: str
