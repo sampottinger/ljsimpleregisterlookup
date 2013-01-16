@@ -1,5 +1,5 @@
 <p>
-    
+
         SimpleRegisterLookup Demo
 <link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery.dataTables_themeroller.css">
 <link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery-ui-smoothness.min.css">
@@ -12,17 +12,19 @@
 <div id="device-selector">
             Device:
             <select id="device-dropdown">
-                
+
+                <option value="All Devices">All Devices</option>
+
                 <option value="T7">T7</option>
-                
+
                 <option value="U6">U6</option>
-                
+
                 <option value="DIGIT">DIGIT</option>
-                
+
                 <option value="UE9">UE9</option>
-                
+
                 <option value="U3">U3</option>
-                
+
             </select>
         </div>
 <p>
