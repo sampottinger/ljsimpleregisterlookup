@@ -195,7 +195,6 @@ def parse_register_data(raw_register_dict, expand_names=False):
         "address": int,
         "name": str,
         "type": str,
-        "numregs": int,
         "devices": [
             {"device": str, "fwmin": float / int}
         ],
@@ -251,7 +250,7 @@ def parse_register_data(raw_register_dict, expand_names=False):
                 "address": address,
                 "name": name,
                 "type": datatype_str,
-                "numregs": datatype_size,
+                #"numregs": datatype_size,
                 "devices": devices,
                 "readwrite": access_restrictions,
                 "tags": tags,
@@ -300,7 +299,6 @@ def get_registers_data(src=DEFAULT_FILE_NAME):
         "address": int,
         "name": str,
         "type": str,
-        "numregs": int,
         "devices": [
             {"device": str, "fwmin": float / int}
         ],
@@ -341,7 +339,6 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
                 "name": str,
                 "address": int,
                 "type": str,
-                "numregs": int,
                 "fwmin": float / int,
                 "read": bool,
                 "write": bool,
@@ -389,6 +386,9 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
             new_entry["read"] = read_val
             new_entry["write"] = write_val
             del new_entry["readwrite"]
+
+            # TODO: Something better
+            new_entry.pop("numregs", None)
 
             device_reg_list.append(new_entry)
 

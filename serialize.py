@@ -9,8 +9,7 @@ for LabJack MODBUS devices.
 
 import copy
 
-
-DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "numregs", "fwmin",
+DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "fwmin",
     "read", "write", "tags"]
 
 
@@ -22,7 +21,6 @@ def serialize_device_modbus_map(target):
         "name": str,
         "address": int,
         "type": str,
-        "numregs": int,
         "fwmin": float / int,
         "read": bool,
         "write": bool,

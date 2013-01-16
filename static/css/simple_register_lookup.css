@@ -3,7 +3,8 @@
     margin-bottom:15px;
 }
 
-#register-table
+#register-table-container
 {
-    width:100%;
+    width:506px; /* 506px is a hack for LabJack.com/support/modbus */
+	/*width:100%; <-- This is maybe what it should be. */
 }

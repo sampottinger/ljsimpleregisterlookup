@@ -56,13 +56,19 @@ var updateRegistersTable = function(data)
     });
 
     // Initialize data table
-    $('#register-table').dataTable( {
+    var oTable = $('#register-table').dataTable( {
         "aaData": data.slice(1),
         "aoColumns": columns,
         "aaSorting": [[ 1, "asc" ]],
         "bJQueryUI": true,
-        "sPaginationType": "full_numbers"
+        "sPaginationType": "full_numbers",
+        "sScrollX": "100%",
     } );
+
+    // http://datatables.net/forums/discussion/3835/width-columns-problem-in-chrome-safari/p1
+    setTimeout( function () {
+        oTable.fnAdjustColumnSizing();
+    }, 10 );
 
     // Show table
     $('#register-table-container').show();
