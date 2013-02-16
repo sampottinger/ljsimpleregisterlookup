@@ -11,9 +11,9 @@ import re
 
 DEFAULT_FILE_NAME = "constants/LabJackConstants/LabJack/LJM/ljm_constants.json"
 ACCESS_RESTRICTIONS_STRS = {
-    "RO": {"read": True, "write": False},
+    "R": {"read": True, "write": False},
     "RW": {"read": True, "write": True},
-    "WO": {"read": False, "write": True}
+    "W": {"read": False, "write": True}
 }
 DATATYPE_SIZES_IN_REGISTERS = {
     "FLOAT32": 2,
@@ -160,7 +160,7 @@ def interpret_access_descriptor(descriptor):
     """Interpret a string with info about the access restrictions to a register.
 
     Interpret a string with access restriction information for a register. For
-    example RO becomes {"read": True, "write": False}. Assumes all dictionaries
+    example R becomes {"read": True, "write": False}. Assumes all dictionaries
     are already valid dictionaries with access restriction information.
 
     @param descriptor: The descriptor to interpret.
