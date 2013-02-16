@@ -264,7 +264,7 @@ def parse_register_data(raw_register_dict, expand_names=False):
         del alt_names_dict["altnames"]
         for name in filter(lambda x: x != "", alt_names):
             alt_names_dict["name"] = name
-            ret_list.extend(parse_register_data(alt_names_dict))
+            ret_list.extend(parse_register_data(alt_names_dict, expand_names))
 
     return ret_list
 

@@ -76,7 +76,6 @@ class LJMMMTests(unittest.TestCase):
                 "address": 2000,
                 "name": "FIO0",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -84,13 +83,12 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             },
             {
                 "address": 2001,
                 "name": "FIO1",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -98,13 +96,12 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             },
             {
                 "address": 2002,
                 "name": "FIO2",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -112,13 +109,12 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             },
                         {
                 "address": 2000,
                 "name": "DIO0",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -126,13 +122,12 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             },
             {
                 "address": 2001,
                 "name": "DIO1",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -140,13 +135,12 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             },
             {
                 "address": 2002,
                 "name": "DIO2",
                 "type": "UINT16",
-                "numregs": 1,
                 "devices":[
                     {"device":"U3", "fwmin":0},
                     {"device":"U6", "fwmin":0},
@@ -154,7 +148,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
             }
         ]
 
@@ -172,7 +166,8 @@ class LJMMMTests(unittest.TestCase):
                 "readwrite":"RW",
                 "tags":["DIO"],
                 "altnames":["DIO#(0:2)"]
-            }
+            },
+            expand_names = True
         )
 
         self.assertIterableContentsEqual(expected, result)
