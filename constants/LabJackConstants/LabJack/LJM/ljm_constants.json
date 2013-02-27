@@ -2,7 +2,7 @@
  "header":
  {
    "filename":"ljm_constants.json",
-   "version":"2013.02.15.A",
+   "version":"2013.02.21.A",
    "checksum":"-1",
    "support_url":"http://labjack.com/support/modbus",
    "tags_base_url":"http://labjack.com/support/modbus/tags"
@@ -32,11 +32,6 @@
    {"address":2800, "name":"DIO_STATE", "type":"UINT32", "devices":["U6", "T7", "UE9"], "readwrite":"RW", "tags":["DIO"], "altnames":[""]},
    {"address":2850, "name":"DIO_DIRECTION", "type":"UINT32", "devices":["U6", "T7", "UE9"], "readwrite":"RW", "tags":["DIO"], "altnames":[""]},
    {"address":2900, "name":"DIO_MASK", "type":"UINT32", "devices":["U6", "T7", "UE9"], "readwrite":"RW", "tags":["DIO"], "altnames":[""]},
-
-   {"address":30000, "name":"TDAC#(0:22)", "type":"FLOAT32", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
-   {"address":52000, "name":"DAC_SCL", "type":"UINT16", "devices":["T7"], "readwrite":"R", "default":0, "tags":["TDAC"], "altnames":[""]},
-   {"address":52001, "name":"TDAC_SDA", "type":"UINT16", "devices":["T7"], "readwrite":"R", "default":0, "tags":["TDAC"], "altnames":[""]},
-   {"address":52002, "name":"TDAC_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["TDAC"], "altnames":[""]},
 
    {"address":40000, "name":"AIN#(0:254)_RANGE", "type":"FLOAT32", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
    {"address":41000, "name":"AIN#(0:254)_NEGATIVE", "type":"UINT16", "devices":["U3", "U6", "T7"], "readwrite":"RW", "default":199, "tags":["AIN"], "altnames":[""]},
@@ -161,33 +156,50 @@
 
  "registers_beta":
  [
+   {"address":22222, "name":"BATTERY_INSTALL_DATE", "type":"UINT32", "devices":["DIGIT"], "readwrite":"R", "default":0, "tags":[""], "altnames":[""]},
+   {"address":60010, "name":"HARDWARE_INSTALLED", "type":"UINT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["CONFIG"], "altnames":[""]},
+
+   {"address":30000, "name":"TDAC#(0:22)", "type":"FLOAT32", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
+   {"address":52000, "name":"TDAC_SCL", "type":"UINT16", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
+   {"address":52001, "name":"TDAC_SDA", "type":"UINT16", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
+   {"address":52002, "name":"TDAC_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["TDAC"], "altnames":[""]},
 
    {"address":49480, "name":"WIFI_SCAN_START", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
    {"address":49486, "name":"WIFI_SCAN_NUMBYTES", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49488, "name":"WIFI_SCAN_DATA", "type":"BYTE", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
 
-   {"address":44900, "name":"DSF_CLOCK0_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44901, "name":"DSF_CLOCK0_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44902, "name":"DSF_CLOCK0_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44904, "name":"DSF_CLOCK0_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44910, "name":"DSF_CLOCK1_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44911, "name":"DSF_CLOCK1_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44912, "name":"DSF_CLOCK1_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44914, "name":"DSF_CLOCK1_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44920, "name":"DSF_CLOCK2_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44921, "name":"DSF_CLOCK2_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44922, "name":"DSF_CLOCK2_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44924, "name":"DSF_CLOCK2_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
+   {"address":44900, "name":"DSF_CLOCK0_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44901, "name":"DSF_CLOCK0_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44902, "name":"DSF_CLOCK0_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44904, "name":"DSF_CLOCK0_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIOC"], "altnames":[""]},
+   {"address":44910, "name":"DSF_CLOCK1_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44911, "name":"DSF_CLOCK1_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44912, "name":"DSF_CLOCK1_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44914, "name":"DSF_CLOCK1_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44920, "name":"DSF_CLOCK2_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44921, "name":"DSF_CLOCK2_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44922, "name":"DSF_CLOCK2_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44924, "name":"DSF_CLOCK2_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
 
-   {"address":44000, "name":"DSF#(0:22)_ENABLE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44050, "name":"DSF#(0:22)_MODE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44100, "name":"DSF#(0:22)_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44150, "name":"DSF#(0:22)_VALUE_A", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44200, "name":"DSF#(0:22)_VALUE_B", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44250, "name":"DSF#(0:22)_VALUE_C", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":44300, "name":"DSF#(0:22)_VALUE_D", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["TNC"], "altnames":[""]},
-   {"address":3000, "name":"DSF#(0:22)_READ_A", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":[""], "altnames":[""]},
-   {"address":3050, "name":"DSF#(0:22)_READ_B", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":[""], "altnames":[""]}
+   {"address":44000, "name":"DIO#(0:22)_DSF_ENABLE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44050, "name":"DIO#(0:22)_DSF_TYPE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44100, "name":"DIO#(0:22)_DSF_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44150, "name":"DIO#(0:22)_DSF_VALUE_A", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44200, "name":"DIO#(0:22)_DSF_VALUE_B", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44250, "name":"DIO#(0:22)_DSF_VALUE_C", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44300, "name":"DIO#(0:22)_DSF_VALUE_D", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":3000, "name":"DIO#(0:22)_DSF_READ_A", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":3050, "name":"DIO#(0:22)_DSF_READ_B", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["DSF, DIO"], "altnames":[""]},
+
+   {"address":49000, "name":"IO_CONFIG_IS_FACTORY", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49002, "name":"IO_CONFIG_DEFAULT_SAVE", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["CONFIG"], "altnames":[""]},
+
+   {"address":49006, "name":"IO_CONFIG_FACTORY_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49008, "name":"IO_CONFIG_FACTORY_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49010, "name":"IO_CONFIG_DEFAULT_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49012, "name":"IO_CONFIG_DEFAULT_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49014, "name":"IO_CONFIG_CURRENT_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49016, "name":"IO_CONFIG_CURRENT_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]}
  ],
 
  "errors":
@@ -197,6 +209,7 @@
    {"error":200, "string":"LJME_WARNINGS_BEGIN"},
    {"error":399, "string":"LJME_WARNINGS_END"},
    {"error":201, "string":"LJME_FRAMES_OMITTED_DUE_TO_PACKET_SIZE"},
+   {"error":202, "string":"LJME_LOG_FAILURE"},
 
    {"error":1200, "string":"LJME_MODBUS_ERRORS_BEGIN"},
    {"error":1216, "string":"LJME_MODBUS_ERRORS_END"},
@@ -280,6 +293,7 @@
    {"error":1297, "string":"LJME_INTENT_NOT_READY"},
    {"error":1298, "string":"LJME_ATTR_LOAD_COMM_FAILURE"},
    {"error":1299, "string":"LJME_INVALID_CONFIG_NAME"},
+   {"error":1300, "string":"LJME_ERROR_RETRIEVAL_FAILURE"},
 
    {"error":2300, "string":"MODBUS_RSP_OVERFLOW"},
    {"error":2301, "string":"MODBUS_CMD_OVERFLOW"},
@@ -371,7 +385,7 @@
    {"error":2742, "string":"SHT1X_CUSTOM_MODE_INVALID"},
    {"error":2760, "string":"TDAC_SDA_SCL_INVALID"},
    {"error":2761, "string":"TDAC_SCL_INVALID"},
-   {"error":2762, "string":"TDAC_INVALID_CHN"},
+   {"error":2762, "string":"TDAC_INVALID_CHANNEL"},
    {"error":2763, "string":"TDAC_CAL_READ_FAILURE"}
  ],
 
@@ -386,7 +400,11 @@
     "2013.02.01.A:  Added DSF constants to beta section.",
     "2013.02.07.A:  Added WiFi DHCP constants.  Added DSF read registers to beta section.",
     "2013.02.11.A:  Changing some LJM error code names.",
-    "2013.02.15.A:  Changed readwrite values: RO => R and WO => W.",
+    "2013.02.15.A:  Changed readwrite values: RO => R and WO => W.  Added TDAC registers.",
+    "2013.02.18.A:  Moved TDAC registers to beta section.  Changed DAC_SCL to TDAC_SCL.",
+    "2013.02.19.A:  Added LJME_ERROR_RETRIEVAL_FAILURE.",
+    "2013.02.20.A:  Fixed tags for DSF.  Changed names for IO_CONFIG stuff.",
+    "2013.02.21.A:  Added HARDWARE_INSTALLED to beta section.",
     "End Of Comments"
   ]
 
