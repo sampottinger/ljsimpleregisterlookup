@@ -1,0 +1,4 @@
+# To prevent getting mail
+# MAILTO=""
+
+0 4-21 * * * curl http://ljsimpleregisterlookup.herokuapp.com/
