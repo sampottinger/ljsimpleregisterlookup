@@ -1,33 +1,31 @@
+<!-- Begin drupal_snippet.html_snippet -->
 <p>
+    <strong>Register Lookup Tool</strong>
 
-        SimpleRegisterLookup Demo
-<link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery.dataTables_themeroller.css">
-<link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery-ui-smoothness.min.css">
-<link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/simple_register_lookup.css">
-<script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery.js" type="text/javascript"></script>
-<script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/simple_register_lookup.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery.dataTables_themeroller.css">
+    <link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/jquery-ui-smoothness.min.css">
+    <link rel="stylesheet" type="text/css" href="http://ljsimpleregisterlookup.herokuapp.com/static/css/simple_register_lookup.css">
+    <script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery.js" type="text/javascript"></script>
+    <script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="http://ljsimpleregisterlookup.herokuapp.com/static/js/simple_register_lookup.js" type="text/javascript"></script>
 </p>
+
 <div id="device-selector">
-            Device:
-            <select id="device-dropdown">
+    Device:
+    <select id="device-dropdown">
+        <option value="All Devices">All Devices</option>
+        <option value="T7">T7</option>
+        <option value="U6">U6</option>
+        <option value="DIGIT">DIGIT</option>
+        <option value="UE9">UE9</option>
+        <option value="U3">U3</option>
+    </select>
+</div>
 
-                <option value="All Devices">All Devices</option>
-
-                <option value="T7">T7</option>
-
-                <option value="U6">U6</option>
-
-                <option value="DIGIT">DIGIT</option>
-
-                <option value="UE9">UE9</option>
-
-                <option value="U3">U3</option>
-
-            </select>
-        </div>
 <p>
-        <img id="loading-image" src="http://ljsimpleregisterlookup.herokuapp.com/static/images/ajax-loader.gif" alt="" /></p>
+    <img id="loading-image" src="http://ljsimpleregisterlookup.herokuapp.com/static/images/ajax-loader.gif" alt="" />
+</p>
 <div id="register-table-container">
-        </div>
+</div>
+<!-- End drupal_snippet.html_snippet -->
