@@ -2,7 +2,7 @@
  "header":
  {
    "filename":"ljm_constants.json",
-   "version":"2013.02.21.A",
+   "version":"2013.04.10.A",
    "checksum":"-1",
    "support_url":"http://labjack.com/support/modbus",
    "tags_base_url":"http://labjack.com/support/modbus/tags"
@@ -34,9 +34,8 @@
    {"address":2900, "name":"DIO_MASK", "type":"UINT32", "devices":["U6", "T7", "UE9"], "readwrite":"RW", "tags":["DIO"], "altnames":[""]},
 
    {"address":40000, "name":"AIN#(0:254)_RANGE", "type":"FLOAT32", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
-   {"address":41000, "name":"AIN#(0:254)_NEGATIVE", "type":"UINT16", "devices":["U3", "U6", "T7"], "readwrite":"RW", "default":199, "tags":["AIN"], "altnames":[""]},
-   {"address":41500, "name":"AIN#(0:254)_RESOLUTION", "type":"UINT16", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
-   {"address":42000, "name":"AIN#(0:254)_SETTLING", "type":"UINT16", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
+   {"address":41000, "name":"AIN#(0:254)_NEGATIVE_CH", "type":"UINT16", "devices":["U3", "U6", "T7"], "readwrite":"RW", "default":199, "tags":["AIN"], "altnames":[""]},
+   {"address":41500, "name":"AIN#(0:254)_RESOLUTION_INDEX", "type":"UINT16", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
 
    {"address":48003, "name":"POWER_ETHERNET", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.86}], "readwrite":"RW", "tags":["CONFIG", "ETHERNET"], "altnames":[""]},
    {"address":48004, "name":"POWER_WIFI", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.86}], "readwrite":"RW", "tags":["CONFIG", "WIFI"], "altnames":[""]},
@@ -52,28 +51,28 @@
    {"address":49104, "name":"ETHERNET_GATEWAY", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49106, "name":"ETHERNET_DNS", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49108, "name":"ETHERNET_ALTDNS", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
-   {"address":49110, "name":"ETHERNET_DHCP", "type":"UINT16", "devices":["T7"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
+   {"address":49110, "name":"ETHERNET_DHCP_ENABLE", "type":"UINT16", "devices":["T7"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
 
    {"address":49150, "name":"ETHERNET_IP_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49152, "name":"ETHERNET_SUBNET_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49154, "name":"ETHERNET_GATEWAY_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49156, "name":"ETHERNET_DNS_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
    {"address":49158, "name":"ETHERNET_ALTDNS_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
-   {"address":49160, "name":"ETHERNET_DHCP_DEFAULT", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
+   {"address":49160, "name":"ETHERNET_DHCP_ENABLE_DEFAULT", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "tags":["ETHERNET"], "altnames":[""]},
 
    {"address":49200, "name":"WIFI_IP", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49202, "name":"WIFI_SUBNET", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49204, "name":"WIFI_GATEWAY", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
-   {"address":49210, "name":"WIFI_DHCP", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9014}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
+   {"address":49210, "name":"WIFI_DHCP_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9014}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49300, "name":"WIFI_SSID", "type":"STRING", "devices":["T7"], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
 
-   {"address":49250, "name":"WIFI_IP_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49252, "name":"WIFI_SUBNET_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49254, "name":"WIFI_GATEWAY_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49260, "name":"WIFI_DHCP_DEFAULT", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9014}], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49350, "name":"WIFI_SSID_DEFAULT", "type":"STRING", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49375, "name":"WIFI_PASS_DEFAULT", "type":"STRING", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
-   {"address":49400, "name":"WIFI_APPLY_SETTINGS", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
+   {"address":49250, "name":"WIFI_IP_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
+   {"address":49252, "name":"WIFI_SUBNET_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
+   {"address":49254, "name":"WIFI_GATEWAY_DEFAULT", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
+   {"address":49260, "name":"WIFI_DHCP_ENABLE_DEFAULT", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9014}], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
+   {"address":49325, "name":"WIFI_SSID_DEFAULT", "type":"STRING", "devices":["T7"], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
+   {"address":49350, "name":"WIFI_PASSWORD_DEFAULT", "type":"STRING", "devices":["T7"], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
+   {"address":49400, "name":"WIFI_APPLY_SETTINGS", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["WIFI"], "altnames":[""]},
 
    {"address":49450, "name":"WIFI_STATUS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.75}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49452, "name":"WIFI_RSSI", "type":"FLOAT32", "devices":[{"device":"T7", "fwmin":0.80}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
@@ -91,12 +90,12 @@
    {"address":60020, "name":"ETHERNET_MAC", "type":"UINT64", "devices":["T7", "UE9"], "readwrite":"R", "tags":["ETHERNET"], "altnames":[""]},
    {"address":60024, "name":"WIFI_MAC", "type":"UINT64", "devices":["T7"], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":60028, "name":"SERIAL_NUMBER", "type":"UINT32", "devices":["U3", "U6", "T7", "UE9", "DIGIT"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
-   {"address":60500, "name":"DEVICE_NAME", "type":"STRING", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
+   {"address":60500, "name":"DEVICE_NAME_DEFAULT", "type":"STRING", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
 
    {"address":61600, "name":"WATCHDOG_ENABLE_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
    {"address":61602, "name":"WATCHDOG_OPTIONS_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
-   {"address":61604, "name":"WATCHDOG_TIMEOUT_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
-   {"address":61606, "name":"WATCHDOG_STARTUP_DELAY_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
+   {"address":61604, "name":"WATCHDOG_TIMEOUT_S_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
+   {"address":61606, "name":"WATCHDOG_STARTUP_DELAY_S_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
 
    {"address":61610, "name":"WATCHDOG_DIO_STATE_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
    {"address":61612, "name":"WATCHDOG_DIO_DIRECTION_DEFAULT", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.90}], "readwrite":"RW", "tags":["WATCHDOG"], "altnames":[""]},
@@ -137,6 +136,7 @@
    {"address":22200, "name":"INSTALLED_OPTIONS", "type":"UINT16", "devices":["DIGIT"], "readwrite":"R", "tags":[""], "altnames":[""]},
    {"address":22210, "name":"STORED_BYTES", "type":"UINT32", "devices":["DIGIT"], "readwrite":"R", "tags":[""], "altnames":[""]},
    {"address":22220, "name":"LIFETIME_READINGS", "type":"UINT32", "devices":["DIGIT"], "readwrite":"RW", "tags":[""], "altnames":[""]},
+   {"address":22222, "name":"BATTERY_INSTALL_DATE", "type":"UINT32", "devices":["DIGIT"], "readwrite":"R", "default":0, "tags":[""], "altnames":[""]},
    {"address":22232, "name":"HUMIDITY_CAL_OFFSET", "type":"UINT16", "devices":["DIGIT"], "readwrite":"RW", "tags":[""], "altnames":[""]},
    {"address":22233, "name":"CALIBRATE_CTMU", "type":"UINT16", "devices":["DIGIT"], "readwrite":"W", "tags":[""], "altnames":[""]},
    {"address":22242, "name":"RTCC_TIME", "type":"UINT16", "devices":["DIGIT"], "readwrite":"RW", "tags":[""], "altnames":[""]},
@@ -156,8 +156,51 @@
 
  "registers_beta":
  [
-   {"address":22222, "name":"BATTERY_INSTALL_DATE", "type":"UINT32", "devices":["DIGIT"], "readwrite":"R", "default":0, "tags":[""], "altnames":[""]},
+   {"address":42500, "name":"AIN#(0:254)_EF_TYPE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7000, "name":"AIN_EF_RESULTS_DC_OFFSET", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7002, "name":"AIN_EF_RESULTS_P2P", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7004, "name":"AIN_EF_RESULTS_PERIOD", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+
+   {"address":42000, "name":"AIN#(0:254)_SETTLING", "type":"UINT16", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
+
+   {"address":4040, "name":"STREAM_OUT#(0:4)_TARGET ", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4050, "name":"STREAM_OUT#(0:4)_BUFFER_SIZE ", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4060, "name":"STREAM_OUT#(0:4)_LOOP_SIZE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4070, "name":"STREAM_OUT#(0:4)_SET_LOOP", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"W", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4080, "name":"STREAM_OUT#(0:4)_BUFFER_STATUS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4090, "name":"STREAM_OUT#(0:4)_ENABLE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4400, "name":"STREAM_OUT#(0:4)_BUFFER", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"W", "default":0, "tags":["STREAM"], "altnames":[""]},
+
+   {"address":49402, "name":"WIFI_FIRMWARE_UPDATE_TO_VERSIONX", "type":"FLOAT32", "devices":[{"device":"T7", "fwmin":0.9206}], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
+   {"address":49454, "name":"WIFI_FIRMWARE_UPDATE_STATUS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9206}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
+
+   {"address":22234, "name":"HUMIDITY_CAL_BAT_OFFSET", "type":"UINT16", "devices":["DIGIT"], "readwrite":"RW", "tags":[""], "altnames":[""]},
    {"address":60010, "name":"HARDWARE_INSTALLED", "type":"UINT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["CONFIG"], "altnames":[""]},
+
+   {"address":4002, "name":"STREAM_SCANRATE_HZ", "type":"FLOAT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4004, "name":"STREAM_NUMCHANNELS", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4008, "name":"STREAM_SETTLING_US", "type":"FLOAT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4010, "name":"STREAM_RESOLUTION_INDEX", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4018, "name":"STREAM_DATATYPE", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4100, "name":"STREAM_SCANLIST_PCH#(0:127)", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+
+   {"address":4006, "name":"STREAM_SAMPLESPERPACKET", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4012, "name":"STREAM_BUFFER_SIZE_INDEX", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4014, "name":"STREAM_CLOCK_SOURCE", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4016, "name":"STREAM_AUTO_TARGET", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":4020, "name":"STREAM_NUMSCANS", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+
+   {"address":4500, "name":"STREAM_DATA_CR", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["STREAM"], "altnames":[""]},
+
+   {"address":4990, "name":"STREAM_START", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["STREAM"], "altnames":[""]},
+   {"address":4992, "name":"STREAM_STOP", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["STREAM"], "altnames":[""]},
+
+   {"address":5200, "name":"SHT_PIN_POWER", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":5201, "name":"SHT_PIN_ENABLE", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":5202, "name":"SHT_PIN_DATA", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":5203, "name":"SHT_PIN_CLOCK", "type":"UINT16", "devices":["T7"], "readwrite":"RW", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":5210, "name":"SHT_PIN_READ_T", "type":"FLOAT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["STREAM"], "altnames":[""]},
+   {"address":5212, "name":"SHT_PIN_READ_H", "type":"FLOAT32", "devices":["T7"], "readwrite":"R", "default":0, "tags":["STREAM"], "altnames":[""]},
 
    {"address":30000, "name":"TDAC#(0:22)", "type":"FLOAT32", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
    {"address":52000, "name":"TDAC_SCL", "type":"UINT16", "devices":["T7"], "readwrite":"W", "default":0, "tags":["TDAC"], "altnames":[""]},
@@ -168,38 +211,41 @@
    {"address":49486, "name":"WIFI_SCAN_NUMBYTES", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
    {"address":49488, "name":"WIFI_SCAN_DATA", "type":"BYTE", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"R", "tags":["WIFI"], "altnames":[""]},
 
-   {"address":44900, "name":"DSF_CLOCK0_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44901, "name":"DSF_CLOCK0_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44902, "name":"DSF_CLOCK0_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44904, "name":"DSF_CLOCK0_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIOC"], "altnames":[""]},
-   {"address":44910, "name":"DSF_CLOCK1_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44911, "name":"DSF_CLOCK1_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44912, "name":"DSF_CLOCK1_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44914, "name":"DSF_CLOCK1_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44920, "name":"DSF_CLOCK2_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44921, "name":"DSF_CLOCK2_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44922, "name":"DSF_CLOCK2_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44924, "name":"DSF_CLOCK2_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44900, "name":"DIO_EF_CLOCK0_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44901, "name":"DIO_EF_CLOCK0_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44902, "name":"DIO_EF_CLOCK0_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44904, "name":"DIO_EF_CLOCK0_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIOC"], "altnames":[""]},
+   {"address":44910, "name":"DIO_EF_CLOCK1_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44911, "name":"DIO_EF_CLOCK1_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44912, "name":"DIO_EF_CLOCK1_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44914, "name":"DIO_EF_CLOCK1_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44920, "name":"DIO_EF_CLOCK2_ENABLE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44921, "name":"DIO_EF_CLOCK2_PRESCALE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44922, "name":"DIO_EF_CLOCK2_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44924, "name":"DIO_EF_CLOCK2_COUNTS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.87}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
 
-   {"address":44000, "name":"DIO#(0:22)_DSF_ENABLE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44050, "name":"DIO#(0:22)_DSF_TYPE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44100, "name":"DIO#(0:22)_DSF_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44150, "name":"DIO#(0:22)_DSF_VALUE_A", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44200, "name":"DIO#(0:22)_DSF_VALUE_B", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44250, "name":"DIO#(0:22)_DSF_VALUE_C", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":44300, "name":"DIO#(0:22)_DSF_VALUE_D", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":3000, "name":"DIO#(0:22)_DSF_READ_A", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["DSF, DIO"], "altnames":[""]},
-   {"address":3050, "name":"DIO#(0:22)_DSF_READ_B", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["DSF, DIO"], "altnames":[""]},
+   {"address":44000, "name":"DIO#(0:22)_EF_ENABLE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44050, "name":"DIO#(0:22)_EF_TYPE", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44100, "name":"DIO#(0:22)_EF_OPTIONS", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44150, "name":"DIO#(0:22)_EF_VALUE_A", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44200, "name":"DIO#(0:22)_EF_VALUE_B", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44250, "name":"DIO#(0:22)_EF_VALUE_C", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":44300, "name":"DIO#(0:22)_EF_VALUE_D", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.88}], "readwrite":"RW", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":3000, "name":"DIO#(0:22)_EF_READ_A", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["EF, DIO"], "altnames":[""]},
+   {"address":3050, "name":"DIO#(0:22)_EF_READ_B", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["EF, DIO"], "altnames":[""]},
 
-   {"address":49000, "name":"IO_CONFIG_IS_FACTORY", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
-   {"address":49002, "name":"IO_CONFIG_DEFAULT_SAVE", "type":"UINT32", "devices":["T7"], "readwrite":"W", "tags":["CONFIG"], "altnames":[""]},
-
+   {"address":49000, "name":"IO_CONFIG_CHECK_FOR_FACTORY", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
+   {"address":49002, "name":"IO_CONFIG_SET_DEFAULT_TO_CURRENT", "type":"UINT32", "devices":["T7"], "readwrite":"W", "default":0, "tags":["CONFIG"], "altnames":[""]},
+   {"address":49004, "name":"IO_CONFIG_SET_DEFAULT_TO_FACTORY", "type":"UINT32", "devices":["T7"], "readwrite":"W", "default":0, "tags":["CONFIG"], "altnames":[""]},
    {"address":49006, "name":"IO_CONFIG_FACTORY_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
    {"address":49008, "name":"IO_CONFIG_FACTORY_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
    {"address":49010, "name":"IO_CONFIG_DEFAULT_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
    {"address":49012, "name":"IO_CONFIG_DEFAULT_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
    {"address":49014, "name":"IO_CONFIG_CURRENT_pREAD", "type":"UINT32", "devices":["T7"], "readwrite":"RW", "tags":["CONFIG"], "altnames":[""]},
-   {"address":49016, "name":"IO_CONFIG_CURRENT_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]}
+   {"address":49016, "name":"IO_CONFIG_CURRENT_READ", "type":"UINT32", "devices":["T7"], "readwrite":"R", "tags":["CONFIG"], "altnames":[""]},
+
+   {"address":61990, "name":"IO_CONFIG_SET_CURRENT_TO_FACTORY", "type":"UINT16", "devices":["T7"], "readwrite":"W", "default":0, "tags":["CONFIG"], "altnames":[""]},
+   {"address":61991, "name":"IO_CONFIG_SET_CURRENT_TO_DEFAULT", "type":"UINT16", "devices":["T7"], "readwrite":"W", "default":0, "tags":["CONFIG"], "altnames":[""]}
  ],
 
  "errors":
@@ -228,6 +274,7 @@
    {"error":1222, "string":"LJME_INVALID_DEVICE_TYPE"},
    {"error":1223, "string":"LJME_INVALID_HANDLE"},
    {"error":1224, "string":"LJME_DEVICE_NOT_OPEN"},
+   {"error":1225, "string":"LJME_STREAM_NOT_INITIALIZED"},
    {"error":1227, "string":"LJME_DEVICE_NOT_FOUND"},
    {"error":1229, "string":"LJME_DEVICE_ALREADY_OPEN"},
    {"error":1230, "string":"LJME_COULD_NOT_CLAIM_DEVICE"},
@@ -294,6 +341,10 @@
    {"error":1298, "string":"LJME_ATTR_LOAD_COMM_FAILURE"},
    {"error":1299, "string":"LJME_INVALID_CONFIG_NAME"},
    {"error":1300, "string":"LJME_ERROR_RETRIEVAL_FAILURE"},
+   {"error":1301, "string":"LJME_LJM_BUFFER_FULL"},
+   {"error":1302, "string":"LJME_COULD_NOT_START_STREAM"},
+   {"error":1303, "string":"LJME_STREAM_NOT_RUNNING"},
+   {"error":1304, "string":"LJME_UNABLE_TO_STOP_STREAM"},
 
    {"error":2300, "string":"MODBUS_RSP_OVERFLOW"},
    {"error":2301, "string":"MODBUS_CMD_OVERFLOW"},
@@ -393,11 +444,10 @@
   "comments":
   [
     "Use jslint.com to check validity of this JSON file",
-    "In Google Docs, go to Tools=>Preferences and uncheck Use Smart Quotes",
     "Try to go for noun_adjective_verb in register names.",
     "2013.01.28.A:  Removed plurals on port and all digital register names.",
     "2013.01.30.A:  Added this comments section at bottom.  Changed neg=>negative, res=>resolution, set=>settling.  Changed dio_all to just dio.",
-    "2013.02.01.A:  Added DSF constants to beta section.",
+    "2013.02.01.A:  Added DF constants to beta section.",
     "2013.02.07.A:  Added WiFi DHCP constants.  Added DSF read registers to beta section.",
     "2013.02.11.A:  Changing some LJM error code names.",
     "2013.02.15.A:  Changed readwrite values: RO => R and WO => W.  Added TDAC registers.",
@@ -405,6 +455,15 @@
     "2013.02.19.A:  Added LJME_ERROR_RETRIEVAL_FAILURE.",
     "2013.02.20.A:  Fixed tags for DSF.  Changed names for IO_CONFIG stuff.",
     "2013.02.21.A:  Added HARDWARE_INSTALLED to beta section.",
+    "2013.02.26.A:  Added BATTERY_INSTALL_DATE to beta section.",
+    "2013.02.27.A:  Changed DSF to DF in beta section.",
+    "2013.03.20.A:  Added HUMIDITY_CAL_BAT_OFFSET to beta section.",
+    "2013.03.22.A:  Changed DF to EF in beta section.",
+    "2013.03.29.A:  Moved WIFI SSID_DEFAULT and PASS_DEFAULT to make room for 64 character passphrases. Added WIFI_UPDATE and WIFI_UPDATE_STATUS.",
+    "2013.03.30.A:  Added O-stream registers.",
+    "2013.04.02.A:  Edited O-stream register names.",
+    "2013.04.10.A:  Name changes to AIN#(0:254)_NEGATIVE, AIN#(0:254)_RESOLUTION, ETHERNET_DHCP, ETHERNET_DHCP_DEFAULT, WIFI_DHCP, WIFI_DHCP_DEFAULT, WIFI_PASS_DEFAULT, DEVICE_NAME, WATCHDOG_TIMEOUT_DEFAULT, and WATCHDOG_STARTUP_DELAY_DEFAULT.",
+    "2013.04.11.A:  Added 42500, 7000, 7002, 7004 to the beta section (Analog EF).",
     "End Of Comments"
   ]
 
