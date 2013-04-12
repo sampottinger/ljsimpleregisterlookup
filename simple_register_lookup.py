@@ -31,18 +31,21 @@ def show_ui():
 
 
 @app.route("/lookup/<device_name>.json",
-    defaults={'tag': None, 'reg_name': None, 'not_tag': None})
+    defaults={'tag': 'None', 'reg_name': 'None', 'not_tag': 'None'})
 
 @app.route("/lookup/tag=<tag>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': None, 'not_tag': None})
+    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': 'None', 'not_tag': 'None'})
 
 @app.route("/lookup/tag=<tag>&not_tag=<not_tag>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': None})
+    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': 'None'})
 
 @app.route("/lookup/reg_name=<reg_name>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'tag': None, 'not_tag': None})
+    defaults={'device_name': ALL_DEVICES_NAME, 'tag': 'None', 'not_tag': 'None'})
 
-def lookup_device(device_name, reg_name, tag, not_tag):
+@app.route("/lookup/device_name=<device_name>",
+    defaults={'reg_name': 'None', 'tag': 'None', 'not_tag': 'None'})
+
+def lookup(device_name, reg_name, tag, not_tag):
     """Render JSON formatted device MODBUS map."""
     modbus_map = []
     if device_name == ALL_DEVICES_NAME:
@@ -59,7 +62,7 @@ def lookup_device(device_name, reg_name, tag, not_tag):
 
     # TODO: fix Horrible style here
     # TODO: Set defaults to "None" instead of None
-    if tag:
+    if tag != 'None':
         temp = []
         for entry in modbus_map:
             for map_tag in entry['tags']:
@@ -68,7 +71,7 @@ def lookup_device(device_name, reg_name, tag, not_tag):
 
         modbus_map = temp
 
-    if not_tag:
+    if not_tag != 'None':
         entries_to_remove = []
         for entry in modbus_map:
             for map_tag in entry['tags']:
@@ -78,7 +81,7 @@ def lookup_device(device_name, reg_name, tag, not_tag):
         for entry in entries_to_remove:
             modbus_map.remove(entry)
 
-    if reg_name:
+    if reg_name != 'None':
         temp = []
         for entry in modbus_map:
             map_name = entry['name']

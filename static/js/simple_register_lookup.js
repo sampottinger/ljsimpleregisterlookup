@@ -93,7 +93,7 @@ var requestRegistersTable = function()
     // Execute AJAX request
     // TODO: jQuery does not have an onError event for getJSON. Need workaround.
     $.getJSON(
-        CURRENT_APP_URL + $("#device-dropdown").val() + '.json',
+        CURRENT_APP_URL + 'device_name=' + $("#device-dropdown").val(),
         updateRegistersTable
     );
 }
