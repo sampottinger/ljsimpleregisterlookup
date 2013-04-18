@@ -2,7 +2,7 @@
  "header":
  {
    "filename":"ljm_constants.json",
-   "version":"2013.04.10.A",
+   "version":"2013.04.17.A",
    "checksum":"-1",
    "support_url":"http://labjack.com/support/modbus",
    "tags_base_url":"http://labjack.com/support/modbus/tags"
@@ -156,10 +156,12 @@
 
  "registers_beta":
  [
+   {"address":49410, "name":"WIFI_START_ADHOC", "type":"UINT32", "devices":[{"device":"T7", "fwmin":0.9308}], "readwrite":"W", "tags":["WIFI"], "altnames":[""]},
+
    {"address":42500, "name":"AIN#(0:254)_EF_TYPE", "type":"UINT16", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"RW", "default":0, "tags":["EF, AIN"], "altnames":[""]},
-   {"address":7000, "name":"AIN_EF_RESULTS_DC_OFFSET", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
-   {"address":7002, "name":"AIN_EF_RESULTS_P2P", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
-   {"address":7004, "name":"AIN_EF_RESULTS_PERIOD", "type":"FLOAT", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7000, "name":"AIN_EF_RESULTS_DC_OFFSET", "type":"FLOAT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7002, "name":"AIN_EF_RESULTS_P2P", "type":"FLOAT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
+   {"address":7004, "name":"AIN_EF_RESULTS_PERIOD", "type":"FLOAT32", "devices":[{"device":"T7", "fwmin":0.9300}], "readwrite":"R", "default":0, "tags":["EF, AIN"], "altnames":[""]},
 
    {"address":42000, "name":"AIN#(0:254)_SETTLING", "type":"UINT16", "devices":["U3", "U6", "T7", "UE9"], "readwrite":"RW", "default":0, "tags":["AIN"], "altnames":[""]},
 
@@ -381,6 +383,7 @@
    {"error":2451, "string":"POWER_USB_NEEDS_20MHZ_OR_MORE"},
    {"error":2452, "string":"POWER_NO_CHANGE"},
    {"error":2460, "string":"POWER_ANALOG_OFF"},
+   {"error":2490, "string":"WIFI_NOT_ASSOCIATED"},
    {"error":2500, "string":"HW_DIO_NOT_AVAILABLE"},
    {"error":2508, "string":"HW_CNTR0_NOT_AVAILABLE"},
    {"error":2509, "string":"HW_CNTR1_NOT_AVAILABLE"},
@@ -464,6 +467,8 @@
     "2013.04.02.A:  Edited O-stream register names.",
     "2013.04.10.A:  Name changes to AIN#(0:254)_NEGATIVE, AIN#(0:254)_RESOLUTION, ETHERNET_DHCP, ETHERNET_DHCP_DEFAULT, WIFI_DHCP, WIFI_DHCP_DEFAULT, WIFI_PASS_DEFAULT, DEVICE_NAME, WATCHDOG_TIMEOUT_DEFAULT, and WATCHDOG_STARTUP_DELAY_DEFAULT.",
     "2013.04.11.A:  Added 42500, 7000, 7002, 7004 to the beta section (Analog EF).",
+    "2013.04.16.A:  Added WIFI_START_ADHOC",
+    "2013.04.17.A:  Changed type of AIN_EF_RESULTS_DC_OFFSET, AIN_EF_RESULTS_P2P, and AIN_EF_RESULTS_PERIOD from FLOAT to FLOAT32",
     "End Of Comments"
   ]
 
