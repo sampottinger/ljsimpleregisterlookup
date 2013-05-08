@@ -5,6 +5,6 @@
 
 #register-table-container
 {
-    width:506px; /* 506px is a hack for LabJack.com/support/modbus */
-	/*width:100%; <-- This is maybe what it should be. */
+    width:100%;
+    max-width:716px; <!-- Seems to be the max size of the data table -->
 }
