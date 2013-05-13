@@ -10,14 +10,22 @@
         <script src="/static/js/simple_register_lookup.js" type="text/javascript"></script>
     </head>
     <body>
-        <div id="device-selector">
-            Device:
-            <select id="device-dropdown">
-                {% for device_name in device_names %}
-                <option value="{{ device_name }}">{{ device_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
+		<div id="option-selectors">
+	        <div id="device-selector" class="option-selector">
+	            Device:
+	            <select id="device-dropdown">
+					{% for device_name in device_names %}
+	                <option value="{{ device_name }}">{{ device_name }}</option>{% endfor %}
+	            </select>
+	        </div>
+	        <div id="tag-selector" class="option-selector">
+	            Tag:
+	            <select id="tag-dropdown" multiple="multiple">
+	                {% for tag in tags %}{{ tag | safe }}
+	                {% endfor %}
+	            </select>
+	        </div>
+		</div>
         <img id="loading-image" src="/static/images/ajax-loader.gif">
 		<p id="error-message"></p>
         <div id="register-table-container">

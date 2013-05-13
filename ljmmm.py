@@ -8,6 +8,7 @@
 import copy
 import json
 import re
+from sets import Set
 
 DEFAULT_FILE_NAME = "constants/LabJackConstants/LabJack/LJM/ljm_constants.json"
 ACCESS_RESTRICTIONS_STRS = {
@@ -227,7 +228,8 @@ def parse_register_data(raw_register_dict, expand_names=False):
     access_restrictions = interpret_access_descriptor(
         raw_register_dict["readwrite"]
     )
-    tags = interpret_tags(raw_register_dict["tags"])
+
+    tags = raw_register_dict["tags"]
 
     # Interpret addresses
     start_address = raw_register_dict["address"]

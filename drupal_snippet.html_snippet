@@ -16,10 +16,10 @@
     <select id="device-dropdown">
         <option value="All Devices">All Devices</option>
         <option value="T7">T7</option>
-        <option value="U6">U6</option>
         <option value="DIGIT">DIGIT</option>
+        <!-- <option value="U6">U6</option>
         <option value="UE9">UE9</option>
-        <option value="U3">U3</option>
+        <option value="U3">U3</option> -->
     </select>
 </div>
 

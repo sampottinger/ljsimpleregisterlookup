@@ -98,6 +98,23 @@ var requestRegistersTable = function()
     );
 }
 
+
+var requestTagTestFunction = function()
+{
+    // Show loading indicator
+    $('#error-message').hide();
+    $('#register-table-container').hide();
+    $('#loading-image').show();
+
+    // Execute AJAX request
+    // TODO: jQuery does not have an onError event for getJSON. Need workaround.
+    $.getJSON(
+        CURRENT_APP_URL + 'tag=' + $("#tag-dropdown").val(),
+        updateRegistersTable
+    );
+}
+
+
 var handleError = function(err)
 {
     $('#loading-image').hide();
@@ -110,12 +127,25 @@ var handleError = function(err)
 	throw err;
 }
 
-// Register even listener for the device dropdown menu.
+// Register event listener for the device dropdown menu.
 $(window).load(function () {
     try
     {
         requestRegistersTable();
         $('#device-dropdown').change(requestRegistersTable);
+    }
+    catch(err)
+    {
+        handleError(err)
+    }
+});
+
+// Register event listener for the tag list.
+$(window).load(function () {
+    try
+    {
+        requestTagTestFunction();
+        $('#tag-dropdown').change(requestTagTestFunction);
     }
     catch(err)
     {
