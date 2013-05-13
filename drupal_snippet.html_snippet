@@ -21,6 +21,20 @@
         <option value="UE9">UE9</option>
         <option value="U3">U3</option> -->
     </select>
+    <div id="tag-selector" class="option-selector">
+        Tag:
+        <select id="tag-dropdown" multiple="multiple">
+            <option value="All Tags" selected="selected">All Tags</option>
+            <option value="DIO">DIO</option>
+            <option value="USB">USB</option>
+            <option value="DAC">DAC</option>
+            <option value="WIFI">WIFI</option>
+            <option value="AIN">AIN</option>
+            <option value="WATCHDOG">WATCHDOG</option>
+            <option value="ETHERNET">ETHERNET</option>
+            <option value="CONFIG">CONFIG</option>
+        </select>
+    </div>
 </div>
 
 <p>
