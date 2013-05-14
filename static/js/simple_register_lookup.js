@@ -7,9 +7,11 @@
  * @author Sam Pottinger
  * @license GNU GPL v2
 **/
+var LOOKUP = '/lookup.json?'
 
-var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com/lookup/';
-var LOCAL_TEST_URL = '/lookup/';
+var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com' + LOOKUP;
+var LOCAL_TEST_URL = LOOKUP;
+
 var CURRENT_APP_URL = DEPLOY_URL;
 
 
@@ -93,23 +95,9 @@ var requestRegistersTable = function()
     // Execute AJAX request
     // TODO: jQuery does not have an onError event for getJSON. Need workaround.
     $.getJSON(
-        CURRENT_APP_URL + 'device_name=' + $("#device-dropdown").val(),
-        updateRegistersTable
-    );
-}
-
-
-var requestTagTestFunction = function()
-{
-    // Show loading indicator
-    $('#error-message').hide();
-    $('#register-table-container').hide();
-    $('#loading-image').show();
-
-    // Execute AJAX request
-    // TODO: jQuery does not have an onError event for getJSON. Need workaround.
-    $.getJSON(
-        CURRENT_APP_URL + 'tag=' + $("#tag-dropdown").val(),
+        CURRENT_APP_URL
+			+ 'device_name=' + $("#device-dropdown").val()
+			+ '&tags=' + $("#tag-dropdown").val(),
         updateRegistersTable
     );
 }
@@ -144,8 +132,8 @@ $(window).load(function () {
 $(window).load(function () {
     try
     {
-        requestTagTestFunction();
-        $('#tag-dropdown').change(requestTagTestFunction);
+        requestRegistersTable();
+        $('#tag-dropdown').change(requestRegistersTable);
     }
     catch(err)
     {

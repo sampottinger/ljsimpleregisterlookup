@@ -8,7 +8,7 @@ import json
 import os
 
 import flask
-from flask import Markup
+from flask import Markup, request
 
 import ljmmm
 import serialize
@@ -55,24 +55,15 @@ def show_ui():
         tags = tag_options
     )
 
-
-@app.route("/lookup/<device_name>.json",
-    defaults={'tag': 'None', 'reg_name': 'None', 'not_tag': 'None'})
-
-@app.route("/lookup/tag=<tag>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': 'None', 'not_tag': 'None'})
-
-@app.route("/lookup/tag=<tag>&not_tag=<not_tag>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'reg_name': 'None'})
-
-@app.route("/lookup/reg_name=<reg_name>",
-    defaults={'device_name': ALL_DEVICES_NAME, 'tag': 'None', 'not_tag': 'None'})
-
-@app.route("/lookup/device_name=<device_name>",
-    defaults={'reg_name': 'None', 'tag': 'None', 'not_tag': 'None'})
-
-def lookup(device_name, reg_name, tag, not_tag):
+@app.route('/lookup.json')
+def lookup():
     """Render JSON formatted device MODBUS map."""
+
+    device_name = request.args.get("device_name", ALL_DEVICES_NAME)
+    tag = request.args.get("tags", ALL_TAGS_NAME)
+    not_tag = request.args.get("not_tag", "null")
+    reg_name = request.args.get("reg_name", "null")
+
     modbus_map = []
     if device_name == ALL_DEVICES_NAME:
         for device_name in modbus_maps.keys():
@@ -87,19 +78,18 @@ def lookup(device_name, reg_name, tag, not_tag):
         flask.abort(404)
 
     # TODO: fix Horrible style here
-    if tag != 'None' and tag.find(unicode(ALL_TAGS_NAME)) == -1:
+    if tag != 'null' and tag.find(unicode(ALL_TAGS_NAME)) == -1:
+        taglist = tag.split(',')
+        temp = []
+        for entry in modbus_map:
+            for map_tag in entry['tags']:
+                for t in taglist:
+                    if map_tag.find(unicode(t)) != -1:
+                        temp.append(entry)
 
-            taglist = tag.split(',')
-            temp = []
-            for entry in modbus_map:
-                for map_tag in entry['tags']:
-                    for t in taglist:
-                        if map_tag.find(unicode(t)) != -1:
-                            temp.append(entry)
+        modbus_map = temp
 
-            modbus_map = temp
-
-    if not_tag != 'None':
+    if not_tag != 'null':
         entries_to_remove = []
         for entry in modbus_map:
             for map_tag in entry['tags']:
@@ -109,7 +99,7 @@ def lookup(device_name, reg_name, tag, not_tag):
         for entry in entries_to_remove:
             modbus_map.remove(entry)
 
-    if reg_name != 'None':
+    if reg_name != 'null':
         temp = []
         for entry in modbus_map:
             map_name = entry['name']
