@@ -83,7 +83,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             },
             {
                 "address": 2001,
@@ -96,7 +96,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             },
             {
                 "address": 2002,
@@ -109,7 +109,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             },
                         {
                 "address": 2000,
@@ -122,7 +122,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             },
             {
                 "address": 2001,
@@ -135,7 +135,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             },
             {
                 "address": 2002,
@@ -148,7 +148,7 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["<a class='tag-link' href=http://labjack.com/support/modbus/tags/DIO>DIO</a>"]
+                "tags": ["DIO"]
             }
         ]
 
