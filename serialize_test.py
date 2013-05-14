@@ -42,7 +42,6 @@ class SerializeTests(unittest.TestCase):
                 "name",
                 "address",
                 "type",
-                "numregs",
                 "fwmin",
                 "read",
                 "write",
@@ -52,21 +51,19 @@ class SerializeTests(unittest.TestCase):
                 "test_1",
                 1,
                 "UINT16",
-                1,
                 0,
                 True,
                 False,
-                "tag1,tag2"
+                "tag1, tag2"
             ],
             [
                 "test_2",
                 2,
                 "UINT16",
-                1,
                 0,
                 False,
                 True,
-                "tag3,tag4"
+                "tag3, tag4"
             ]
         ]
 
