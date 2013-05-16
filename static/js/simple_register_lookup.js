@@ -97,7 +97,9 @@ var requestRegistersTable = function()
     $.getJSON(
         CURRENT_APP_URL
 			+ 'device_name=' + $("#device-dropdown").val()
-			+ '&tags=' + $("#tag-dropdown").val(),
+			+ '&tags=' + $("#tag-dropdown").val()
+			+ '&not-tags=' + $("#not-tag-dropdown").val()
+			+ '&add-reg-names=' + $("#add-reg-name-dropdown").val(),
         updateRegistersTable
     );
 }
@@ -115,25 +117,15 @@ var handleError = function(err)
 	throw err;
 }
 
-// Register event listener for the device dropdown menu.
+// Register event listeners
 $(window).load(function () {
     try
     {
         requestRegistersTable();
         $('#device-dropdown').change(requestRegistersTable);
-    }
-    catch(err)
-    {
-        handleError(err)
-    }
-});
-
-// Register event listener for the tag list.
-$(window).load(function () {
-    try
-    {
-        requestRegistersTable();
         $('#tag-dropdown').change(requestRegistersTable);
+        $('#not-tag-dropdown').change(requestRegistersTable);
+        $('#add-reg-name-dropdown').change(requestRegistersTable);
     }
     catch(err)
     {

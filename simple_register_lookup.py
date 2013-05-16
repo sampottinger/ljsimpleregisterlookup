@@ -18,6 +18,7 @@ app = flask.Flask(__name__)
 modbus_maps = ljmmm.get_device_modbus_maps()
 ALL_DEVICES_NAME = 'All Devices'
 ALL_TAGS_NAME = 'All Tags'
+# NO_TAGS_NAME = 'No Tags'
 
 
 @app.route("/")
@@ -40,10 +41,14 @@ def show_ui():
         for reg in modbus_maps[x]:
             for tag in reg['tags']:
                 tag_options.add(tag)
-    tag_options = list(filter(None, tag_options))
+    tag_options = sorted(list(filter(None, tag_options)))
 
     tag_options = [Markup('<option value="{tag}">{tag}</option>').format(tag=tag)
         for tag in tag_options]
+
+    # not_tag_options = list(tag_options)
+    # not_tag_options.insert(0, '<option value="{not_tag}" selected="selected">{not_tag}</option>'.
+    #     format(not_tag=NO_TAGS_NAME))
 
     tag_options.insert(0,
         '<option value="{tag}" selected="selected">{tag}</option>'.format(tag=ALL_TAGS_NAME))
@@ -55,14 +60,24 @@ def show_ui():
         tags = tag_options
     )
 
+invalid_arguments = ['null', 'undefined']
+def filterArg(argument):
+    if argument in invalid_arguments:
+        return []
+
+    return argument.split(',')
+
 @app.route('/lookup.json')
 def lookup():
     """Render JSON formatted device MODBUS map."""
 
     device_name = request.args.get("device_name", ALL_DEVICES_NAME)
-    tag = request.args.get("tags", ALL_TAGS_NAME)
-    not_tag = request.args.get("not_tag", "null")
-    reg_name = request.args.get("reg_name", "null")
+    tags = filterArg(request.args.get("tags", ALL_TAGS_NAME))
+    not_tags = filterArg(request.args.get("not-tags", "null"))
+    add_reg_names = filterArg(request.args.get("add-reg-names", "null"))
+
+    if device_name in invalid_arguments:
+        device_name = ALL_DEVICES_NAME
 
     modbus_map = []
     if device_name == ALL_DEVICES_NAME:
@@ -77,36 +92,48 @@ def lookup():
     if modbus_map == None:
         flask.abort(404)
 
-    # TODO: fix Horrible style here
-    if tag != 'null' and tag.find(unicode(ALL_TAGS_NAME)) == -1:
-        taglist = tag.split(',')
+    # Pre filter
+    unfiltered_registers = []
+    if add_reg_names:
+        for entry in modbus_map:
+            for rn in add_reg_names:
+
+                # This should probably be == instead, but url params don't like the #(0:1) stuff
+                if unicode(rn) in unicode(entry['name']):
+                    unfiltered_registers.append(entry)
+
+    # Filter by tag
+    if tags and unicode(ALL_TAGS_NAME) not in tags:
         temp = []
         for entry in modbus_map:
             for map_tag in entry['tags']:
-                for t in taglist:
+                for t in tags:
                     if map_tag.find(unicode(t)) != -1:
                         temp.append(entry)
 
         modbus_map = temp
 
-    if not_tag != 'null':
+    # Filter by not-tag
+    if not_tags: # and unicode(NO_TAGS_NAME) not in not_tags:
         entries_to_remove = []
         for entry in modbus_map:
             for map_tag in entry['tags']:
-                if map_tag.find(unicode(not_tag)) != -1:
-                    entries_to_remove.append(entry)
+                for nt in not_tags:
+                    if map_tag.find(unicode(nt)) != -1:
+                        entries_to_remove.append(entry)
 
         for entry in entries_to_remove:
             modbus_map.remove(entry)
 
-    if reg_name != 'null':
-        temp = []
-        for entry in modbus_map:
-            map_name = entry['name']
-            if map_name.find(unicode(reg_name)) != -1:
-                temp.append(entry)
+    # Add the pre-filter contents
+    for unfiltered_reg in unfiltered_registers:
+        duplicate = False
+        for reg in modbus_map:
+            if unicode(unfiltered_reg['name']) == unicode(reg['name']):
+                duplicate = True
 
-        modbus_map = temp
+        if not duplicate:
+            modbus_map.append(unfiltered_reg)
 
     modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map)
     response = flask.make_response(json.dumps(modbus_map_serialized))
