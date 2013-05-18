@@ -69,7 +69,7 @@ class LJMMMTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             ljmmm.interpret_firmware(5)
 
-    def test_parse_register_data(self):
+    def test_parse_register_data_expand(self):
         """Test parsing a sample ljmmm register description."""
         expected = [
             {
@@ -171,6 +171,59 @@ class LJMMMTests(unittest.TestCase):
         )
 
         self.assertIterableContentsEqual(expected, result)
+
+
+    def test_parse_register_data_compressed(self):
+        """Test parsing a sample ljmmm register description."""
+        expected = [
+            {
+                "address": 2000,
+                "name": "FIO#(0:2)",
+                "type": "UINT16",
+                "devices":[
+                    {"device":"U3", "fwmin":0},
+                    {"device":"U6", "fwmin":0},
+                    {"device":"T7", "fwmin":0.80},
+                    {"device":"UE9", "fwmin":0}
+                ],
+                "readwrite": {"read": True, "write": True},
+                "tags": ["DIO"]
+            },
+            {
+                "address": 2000,
+                "name": "DIO#(0:2)",
+                "type": "UINT16",
+                "devices":[
+                    {"device":"U3", "fwmin":0},
+                    {"device":"U6", "fwmin":0},
+                    {"device":"T7", "fwmin":0.80},
+                    {"device":"UE9", "fwmin":0}
+                ],
+                "readwrite": {"read": True, "write": True},
+                "tags": ["DIO"]
+            }
+        ]
+
+        result = ljmmm.parse_register_data(
+            {
+                "address":2000,
+                "name":"FIO#(0:2)",
+                "type":"UINT16",
+                "devices":[
+                    "U3",
+                    "U6",
+                    {"device":"T7", "fwmin":0.80},
+                    "UE9"
+                ],
+                "readwrite":"RW",
+                "tags":["DIO"],
+                "altnames":["DIO#(0:2)"]
+            },
+            expand_names = False
+        )
+
+        self.assertIterableContentsEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()

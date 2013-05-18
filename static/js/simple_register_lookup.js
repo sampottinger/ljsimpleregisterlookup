@@ -99,7 +99,8 @@ var requestRegistersTable = function()
 			+ 'device_name=' + $("#device-dropdown").val()
 			+ '&tags=' + $("#tag-dropdown").val()
 			+ '&not-tags=' + $("#not-tag-dropdown").val()
-			+ '&add-reg-names=' + $("#add-reg-name-dropdown").val(),
+			+ '&add-reg-names=' + $("#add-reg-name-dropdown").val()
+			+ '&expand-addresses=' + $("#expand-checkbox").is(':checked'),
         updateRegistersTable
     );
 }
@@ -126,6 +127,7 @@ $(window).load(function () {
         $('#tag-dropdown').change(requestRegistersTable);
         $('#not-tag-dropdown').change(requestRegistersTable);
         $('#add-reg-name-dropdown').change(requestRegistersTable);
+		$('#expand-checkbox').change(requestRegistersTable);
     }
     catch(err)
     {

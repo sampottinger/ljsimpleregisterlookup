@@ -292,7 +292,7 @@ def interpret_tags(tags, tags_base_url='http://labjack.com/support/modbus/tags')
                 '/' + x + '>' + x + '</a>', tags)
 
 
-def get_registers_data(src=DEFAULT_FILE_NAME):
+def get_registers_data(src=DEFAULT_FILE_NAME, expand_names=False):
     """Load and parse information about registers from JSON constants file.
 
     Loads and interprets registers information from the given JSON constants
@@ -324,12 +324,12 @@ def get_registers_data(src=DEFAULT_FILE_NAME):
     raw_data = get_raw_registers_data(src=src)
     ret_list = []
     for entry in raw_data:
-        ret_list.extend(parse_register_data(entry))
+        ret_list.extend(parse_register_data(entry, expand_names))
 
     return ret_list
 
 
-def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
+def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
     """Load register info from JSON constants file and structure by device.
 
     Loads and interprets registers information from the given JSON constants
@@ -364,7 +364,7 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME):
     @type src: str
     @return: dict
     """
-    registers_data = get_registers_data(src=src)
+    registers_data = get_registers_data(src=src, expand_names=expand_names)
     device_maps = {}
 
     for register in registers_data:

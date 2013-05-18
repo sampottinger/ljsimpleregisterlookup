@@ -16,6 +16,7 @@ import serialize
 
 app = flask.Flask(__name__)
 modbus_maps = ljmmm.get_device_modbus_maps()
+modbus_maps_expanded = ljmmm.get_device_modbus_maps(expand_names=True)
 ALL_DEVICES_NAME = 'All Devices'
 ALL_TAGS_NAME = 'All Tags'
 # NO_TAGS_NAME = 'No Tags'
@@ -29,9 +30,14 @@ def show_ui():
     def safe_remove(d, item):
         if d.get(item, None):
             del d[item]
-    safe_remove(modbus_maps, 'UE9')
-    safe_remove(modbus_maps, 'U6')
-    safe_remove(modbus_maps, 'U3')
+
+    def clean_map(mod_map):
+        safe_remove(mod_map, 'UE9')
+        safe_remove(mod_map, 'U6')
+        safe_remove(mod_map, 'U3')
+
+    clean_map(modbus_maps)
+    clean_map(modbus_maps_expanded)
 
     device_options = modbus_maps.keys()
     device_options.insert(0, ALL_DEVICES_NAME)
@@ -75,19 +81,28 @@ def lookup():
     tags = filterArg(request.args.get("tags", ALL_TAGS_NAME))
     not_tags = filterArg(request.args.get("not-tags", "null"))
     add_reg_names = filterArg(request.args.get("add-reg-names", "null"))
+    expand = request.args.get("expand-addresses", "null")
 
     if device_name in invalid_arguments:
         device_name = ALL_DEVICES_NAME
 
+    if expand in invalid_arguments:
+        expand = "false"
+
+    if expand == "true":
+        map_to_use = modbus_maps_expanded
+    else:
+        map_to_use = modbus_maps
+
     modbus_map = []
     if device_name == ALL_DEVICES_NAME:
         for device_name in modbus_maps.keys():
-            modbus_map.extend(modbus_maps.get(device_name, None))
+            modbus_map.extend(map_to_use.get(device_name, None))
 
         modbus_map = uniques(modbus_map)
 
     else:
-        modbus_map = modbus_maps.get(device_name, None)
+        modbus_map = map_to_use.get(device_name, None)
 
     if modbus_map == None:
         flask.abort(404)
