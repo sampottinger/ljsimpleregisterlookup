@@ -10,7 +10,7 @@ import json
 import re
 from sets import Set
 
-DEFAULT_FILE_NAME = "constants/LabJackConstants/LabJack/LJM/ljm_constants.json"
+DEFAULT_FILE_NAME = "ljm_constants/LabJack/LJM/ljm_constants.json"
 ACCESS_RESTRICTIONS_STRS = {
     "R": {"read": True, "write": False},
     "RW": {"read": True, "write": True},
