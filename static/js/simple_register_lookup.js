@@ -7,9 +7,11 @@
  * @author Sam Pottinger
  * @license GNU GPL v2
 **/
-var LOOKUP = '/lookup.json?'
+var LOOKUP = "/lookup.json?"
 
-var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com' + LOOKUP;
+var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com";
+
+var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
 var CURRENT_APP_URL = DEPLOY_URL;
@@ -71,7 +73,10 @@ var updateRegistersTable = function(data)
             "mDataProp": null,
             "sClass": "control center",
             "mRender": function(x) {
-                return "<img src='/static/images/details_open.png'>";
+                var retCode = "<img src='";
+                retCode += BASE_URL;
+                retCode += "/static/images/details_open.png'>";
+                return retCode;
             }
         }
     );
@@ -101,14 +106,14 @@ var updateRegistersTable = function(data)
 
         if ( i === -1 )
         {
-            $("img", this).attr( "src", "/static/images/details_close.png" );
+            $("img", this).attr( "src", BASE_URL + "/static/images/details_close.png" );
             var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, descriptionIndex), 'details' );
             $('div.innerDetails', nDetailsRow).slideDown();
             anOpen.push( nTr );
         }
         else
         {
-            $("img", this).attr( "src", "/static/images/details_open.png" );
+            $("img", this).attr( "src", BASE_URL + "/static/images/details_open.png" );
             $('div.innerDetails', $(nTr).next()[0]).slideUp( function () {
                 oTable.fnClose( nTr );
                 anOpen.splice( i, 1 );
