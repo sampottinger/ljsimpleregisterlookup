@@ -1,3 +1,17 @@
+div.innerDetails
+{
+    display: none;
+    margin-bottom: 10px;
+    color: #505050;
+}
+
+.dataTables_scrollBody
+{
+    -webkit-overflow-scrolling: visible !important;
+    overflow: visible !important;
+    height: auto !important;
+}
+
 .option-selector
 {
     margin-bottom:15px;
@@ -6,5 +20,4 @@
 #register-table-container
 {
     width:100%;
-    max-width:716px; <!-- Seems to be the max size of the data table -->
 }

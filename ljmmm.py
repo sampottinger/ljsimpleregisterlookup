@@ -37,7 +37,7 @@ def get_raw_registers_data(src=DEFAULT_FILE_NAME):
     @rtype: dict
     """
     with open(src) as f:
-        contents = f.read()
+        contents = f.read().encode("ascii", "ignore")
     return json.loads(contents)["registers"]
 
 
@@ -244,6 +244,8 @@ def parse_register_data(raw_register_dict, expand_names=False):
         )
     name_address_pairs = zip(names, addresses)
 
+    description = raw_register_dict.get("description", "")
+
     # Generate resulting dicts
     ret_list = []
     for (name, address) in name_address_pairs:
@@ -256,6 +258,7 @@ def parse_register_data(raw_register_dict, expand_names=False):
                 "devices": devices,
                 "readwrite": access_restrictions,
                 "tags": tags,
+                "description": description
             }
         )
 
@@ -378,7 +381,7 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
 
             new_entry = copy.deepcopy(register)
 
-            min_firmware = device["fwmin"]
+            min_firmware = device.get("fwmin", 0)
             new_entry["fwmin"] = min_firmware
             del new_entry["devices"]
 
@@ -388,6 +391,8 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
             new_entry["read"] = read_val
             new_entry["write"] = write_val
             del new_entry["readwrite"]
+
+            new_entry["description"] = register.get("description", "")
 
             # TODO: Something better
             new_entry.pop("numregs", None)

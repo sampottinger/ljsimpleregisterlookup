@@ -12,7 +12,9 @@ var LOOKUP = '/lookup.json?'
 var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com' + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = DEPLOY_URL;
+var CURRENT_APP_URL = LOCAL_TEST_URL;
+
+var anOpen = [];
 
 
 // Thanks http://www.tutorialspoint.com/javascript/array_map.htm
@@ -52,14 +54,34 @@ var updateRegistersTable = function(data)
         '<table cellpadding="0" cellspacing="0" border="0" class="display" id="register-table"></table>'
     );
 
+    var columnNames = data[0]; // Header
+
+    var descriptionIndex = columnNames.indexOf("description");
+    columnNames.splice(descriptionIndex, 1);
+
     // Generate columns
-    var columns = data[0].map(function(x) {
+    var columns = columnNames.map(function(x) {
         return { "sTitle": x, "sClass": "left"};
     });
 
+    // Add description column controls
+    columns.push(
+        {
+            "sTitle": "details",
+            "mDataProp": null,
+            "sClass": "control center",
+            "mRender": function(x) {
+                return "<img src='/static/images/details_open.png'>";
+            }
+        }
+    );
+
+    // Remove header
+    var headerlessData = data.slice(1);
+
     // Initialize data table
     var oTable = $('#register-table').dataTable( {
-        "aaData": data.slice(1),
+        "aaData": headerlessData,
         "aoColumns": columns,
         "aaSorting": [[ 1, "asc" ]],
         "bJQueryUI": true,
@@ -72,9 +94,41 @@ var updateRegistersTable = function(data)
         oTable.fnAdjustColumnSizing();
     }, 10 );
 
+    // Attach details link listeners
+    $("#register-table td.control").live("click", function () {
+        var nTr = this.parentNode;
+        var i = $.inArray( nTr, anOpen );
+
+        if ( i === -1 )
+        {
+            $("img", this).attr( "src", "/static/images/details_close.png" );
+            var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, descriptionIndex), 'details' );
+            $('div.innerDetails', nDetailsRow).slideDown();
+            anOpen.push( nTr );
+        }
+        else
+        {
+            $("img", this).attr( "src", "/static/images/details_open.png" );
+            $('div.innerDetails', $(nTr).next()[0]).slideUp( function () {
+                oTable.fnClose( nTr );
+                anOpen.splice( i, 1 );
+            } );
+        }
+    });
+
     // Show table
     $('#register-table-container').show();
     $('#loading-image').hide();
+}
+
+function fnFormatDetails( oTable, nTr, descriptionIndex)
+{
+  var aData = oTable.fnGetData( nTr );
+  var sOut =
+    '<div class="innerDetails">'+
+        aData[descriptionIndex] +
+    '</div>';
+  return sOut;
 }
 
 
@@ -96,11 +150,11 @@ var requestRegistersTable = function()
     // TODO: jQuery does not have an onError event for getJSON. Need workaround.
     $.getJSON(
         CURRENT_APP_URL
-			+ 'device_name=' + $("#device-dropdown").val()
-			+ '&tags=' + $("#tag-dropdown").val()
-			+ '&not-tags=' + $("#not-tag-dropdown").val()
-			+ '&add-reg-names=' + $("#add-reg-name-dropdown").val()
-			+ '&expand-addresses=' + $("#expand-checkbox").is(':checked'),
+            + 'device_name=' + $("#device-dropdown").val()
+            + '&tags=' + $("#tag-dropdown").val()
+            + '&not-tags=' + $("#not-tag-dropdown").val()
+            + '&add-reg-names=' + $("#add-reg-name-dropdown").val()
+            + '&expand-addresses=' + $("#expand-checkbox").is(':checked'),
         updateRegistersTable
     );
 }
@@ -110,12 +164,12 @@ var handleError = function(err)
 {
     $('#loading-image').hide();
 
-	// Probably don't want to expose anything, I'm not sure
-	// what errors could be caught here.
+    // Probably don't want to expose anything, I'm not sure
+    // what errors could be caught here.
     // $('#error-message').text("Error: " + err.message);
-	$('#error-message').text("An error has occurred.");
+    $('#error-message').text("An error has occurred.");
     $('#error-message').show();
-	throw err;
+    throw err;
 }
 
 // Register event listeners
@@ -127,7 +181,7 @@ $(window).load(function () {
         $('#tag-dropdown').change(requestRegistersTable);
         $('#not-tag-dropdown').change(requestRegistersTable);
         $('#add-reg-name-dropdown').change(requestRegistersTable);
-		$('#expand-checkbox').change(requestRegistersTable);
+        $('#expand-checkbox').change(requestRegistersTable);
     }
     catch(err)
     {
