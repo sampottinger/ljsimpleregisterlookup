@@ -14,7 +14,7 @@ var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com";
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = DEPLOY_URL;
+var CURRENT_APP_URL = LOCAL_TEST_URL;
 
 var anOpen = [];
 
@@ -100,8 +100,10 @@ var updateRegistersTable = function(data)
     }, 10 );
 
     // Attach details link listeners
-    $("#register-table td.control").live("click", function () {
+    $("#register-table td.control").off("click");
+    $("#register-table td.control").on("click", function () {
         var nTr = this.parentNode;
+
         var i = $.inArray( nTr, anOpen );
 
         if ( i === -1 )
