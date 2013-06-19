@@ -20,11 +20,12 @@ div.innerDetails
 
 #register-table-container
 {
-    width: 680px;
+    min-width: 680px;
+    overflow-x: auto;
 }
 
 #register-table{
-    width: 680px !important;
+    min-width: 680px !important;
 }
 
 #register-table td {
