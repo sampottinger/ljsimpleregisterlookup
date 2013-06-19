@@ -12,7 +12,7 @@ var LOOKUP = '/lookup.json?'
 var DEPLOY_URL = 'http://ljsimpleregisterlookup.herokuapp.com' + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = LOCAL_TEST_URL;
+var CURRENT_APP_URL = DEPLOY_URL;
 
 var anOpen = [];
 
