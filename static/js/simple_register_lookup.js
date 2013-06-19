@@ -61,10 +61,14 @@ var updateRegistersTable = function(data)
     var descriptionIndex = columnNames.indexOf("description");
     columnNames.splice(descriptionIndex, 1);
 
+    var nameIndex = columnNames.indexOf("name");
+
     // Generate columns
     var columns = columnNames.map(function(x) {
-        return { "sTitle": x, "sClass": "left"};
+        return { "sTitle": x, "sClass": "left", "sWidth": "90px"};
     });
+
+    columns[nameIndex].sWidth = "40px";
 
     // Add description column controls
     columns.push(
@@ -77,7 +81,7 @@ var updateRegistersTable = function(data)
                 retCode += BASE_URL;
                 retCode += "/static/images/details_open.png'>";
                 return retCode;
-            }
+            },
         }
     );
 
@@ -91,7 +95,7 @@ var updateRegistersTable = function(data)
         "aaSorting": [[ 1, "asc" ]],
         "bJQueryUI": true,
         "sPaginationType": "full_numbers",
-        "sScrollX": "100%",
+        "bAutoWidth": true
     } );
 
     // http://datatables.net/forums/discussion/3835/width-columns-problem-in-chrome-safari/p1

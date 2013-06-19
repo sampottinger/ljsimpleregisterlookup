@@ -19,5 +19,13 @@ div.innerDetails
 
 #register-table-container
 {
-    width:100%;
+    width: 680px;
+}
+
+#register-table{
+    width: 680px !important;
+}
+
+#register-table td {
+  white-space: nowrap;
 }
