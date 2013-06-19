@@ -20,7 +20,7 @@ Steps:
 * Clone this repo (git@github.com:Samnsparky/ljsimpleregisterlookup.git)
 * cd into directory
 * $heroku login
-* $git remote add git@heroku.com:ljsimpleregisterlookup.git
+* $git remote add heroku git@heroku.com:ljsimpleregisterlookup.git
 
 
 h2. Development Standards
