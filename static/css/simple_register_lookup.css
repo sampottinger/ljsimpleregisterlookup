@@ -20,7 +20,7 @@ div.innerDetails
 
 #register-table-container
 {
-    min-width: 680px;
+    width: 100%;
     overflow-x: auto;
 }
 
