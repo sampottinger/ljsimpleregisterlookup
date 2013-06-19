@@ -8,7 +8,8 @@ div.innerDetails
 .dataTables_scrollBody
 {
     -webkit-overflow-scrolling: visible !important;
-    overflow: visible !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
     height: auto !important;
 }
 
