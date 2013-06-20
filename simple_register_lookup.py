@@ -22,6 +22,16 @@ ALL_TAGS_NAME = 'All Tags'
 # NO_TAGS_NAME = 'No Tags'
 
 
+def interpret_bool(target):
+    target = target.lower()
+    if target == "true":
+        return True
+    elif target == "false":
+        return False
+    else:
+        return None
+
+
 @app.route("/")
 def show_ui():
     """Display the JavaScript client for viewing MODBUS map information."""
@@ -81,7 +91,13 @@ def lookup():
     tags = filterArg(request.args.get("tags", ALL_TAGS_NAME))
     not_tags = filterArg(request.args.get("not-tags", "null"))
     add_reg_names = filterArg(request.args.get("add-reg-names", "null"))
+    add_regs_str = filterArg(request.args.get("add-regs", "null"))
     expand = request.args.get("expand-addresses", "null")
+    include_defaults_str = request.args.get("include-defaults", "false")
+
+    include_defaults = interpret_bool(include_defaults_str)
+    if include_defaults == None:
+        return "Show defaults argument invalid. Use true or false.", 400
 
     if device_name in invalid_arguments:
         device_name = ALL_DEVICES_NAME
@@ -89,7 +105,7 @@ def lookup():
     if expand in invalid_arguments:
         expand = "false"
 
-    if expand == "true":
+    if expand == "true" or add_regs_str:
         map_to_use = modbus_maps_expanded
     else:
         map_to_use = modbus_maps
@@ -112,16 +128,19 @@ def lookup():
     if add_reg_names:
         for entry in modbus_map:
             for rn in add_reg_names:
-
                 # This should probably be == instead, but url params don't like the #(0:1) stuff
-                if unicode(rn) in unicode(entry['name']):
+                if unicode(rn) in unicode(entry["name"]):
                     unfiltered_registers.append(entry)
+
+    if add_regs_str:
+        add_regs = map(lambda x: int(x), add_regs_str)
+        modbus_map = filter(lambda x: x["address"] in add_regs, modbus_map)
 
     # Filter by tag
     if tags and unicode(ALL_TAGS_NAME) not in tags:
         temp = []
         for entry in modbus_map:
-            for map_tag in entry['tags']:
+            for map_tag in entry["tags"]:
                 for t in tags:
                     if map_tag.find(unicode(t)) != -1:
                         temp.append(entry)
@@ -176,4 +195,5 @@ def uniques(seq, idfun=None):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    app.debug = True
     app.run(host='0.0.0.0', port=port)

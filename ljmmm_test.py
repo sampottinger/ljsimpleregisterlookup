@@ -83,7 +83,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
             {
                 "address": 2001,
@@ -96,7 +97,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
             {
                 "address": 2002,
@@ -109,7 +111,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
                         {
                 "address": 2000,
@@ -122,7 +125,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
             {
                 "address": 2001,
@@ -135,7 +139,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
             {
                 "address": 2002,
@@ -148,7 +153,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             }
         ]
 
@@ -165,7 +171,8 @@ class LJMMMTests(unittest.TestCase):
                 ],
                 "readwrite":"RW",
                 "tags":["DIO"],
-                "altnames":["DIO#(0:2)"]
+                "altnames":["DIO#(0:2)"],
+                "description": "test"
             },
             expand_names = True
         )
@@ -187,7 +194,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             },
             {
                 "address": 2000,
@@ -200,7 +208,8 @@ class LJMMMTests(unittest.TestCase):
                     {"device":"UE9", "fwmin":0}
                 ],
                 "readwrite": {"read": True, "write": True},
-                "tags": ["DIO"]
+                "tags": ["DIO"],
+                "description": "test"
             }
         ]
 
@@ -217,7 +226,8 @@ class LJMMMTests(unittest.TestCase):
                 ],
                 "readwrite":"RW",
                 "tags":["DIO"],
-                "altnames":["DIO#(0:2)"]
+                "altnames":["DIO#(0:2)"],
+                "description": "test"
             },
             expand_names = False
         )

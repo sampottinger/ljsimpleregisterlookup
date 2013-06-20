@@ -25,6 +25,7 @@ class SerializeTests(unittest.TestCase):
                 "read": True,
                 "write": False,
                 "tags": ["tag1", "tag2"],
+                "description": "test1"
             },
             {
                 "name": "test_2",
@@ -35,6 +36,7 @@ class SerializeTests(unittest.TestCase):
                 "read": False,
                 "write": True,
                 "tags": ["tag3", "tag4"],
+                "description": "test2"
             }
         ]
         expected = [
@@ -43,27 +45,27 @@ class SerializeTests(unittest.TestCase):
                 "address",
                 "type",
                 "fwmin",
-                "read",
-                "write",
-                "tags"
+                "read / write",
+                "tags",
+                "description"
             ],
             [
                 "test_1",
                 1,
                 "UINT16",
                 0,
-                True,
-                False,
-                "tag1, tag2"
+                "R",
+                "tag1, tag2",
+                "test1"
             ],
             [
                 "test_2",
                 2,
                 "UINT16",
                 0,
-                False,
-                True,
-                "tag3, tag4"
+                "W",
+                "tag3, tag4",
+                "test2"
             ]
         ]
 
