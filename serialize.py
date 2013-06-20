@@ -13,7 +13,7 @@ DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "fwmin",
     "read / write", "tags", "description"]
 
 
-def serialize_device_modbus_map(target):
+def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
     """Serializes the given device modbus map to a list of lists.
 
     This will, for example, take:
@@ -36,7 +36,7 @@ def serialize_device_modbus_map(target):
     @return: List of lists with the first list being a header.
     @rtype: list of list
     """
-    ret_list = [DEVICE_MODBUS_MAP_COLS]
+    ret_list = [cols]
     for entry in target:
         entry = copy.deepcopy(entry)
         entry["tags"] = ", ".join(entry["tags"])
@@ -49,7 +49,9 @@ def serialize_device_modbus_map(target):
             read_write_str += "W"
         entry["read / write"] = read_write_str
 
-        serialized_entry = map(lambda x: entry[x], DEVICE_MODBUS_MAP_COLS)
+        entry["default"] = entry.get("default", "")
+
+        serialized_entry = map(lambda x: entry[x], cols)
 
         ret_list.append(serialized_entry)
     return ret_list

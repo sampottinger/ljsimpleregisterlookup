@@ -22,16 +22,6 @@ ALL_TAGS_NAME = 'All Tags'
 # NO_TAGS_NAME = 'No Tags'
 
 
-def interpret_bool(target):
-    target = target.lower()
-    if target == "true":
-        return True
-    elif target == "false":
-        return False
-    else:
-        return None
-
-
 @app.route("/")
 def show_ui():
     """Display the JavaScript client for viewing MODBUS map information."""
@@ -93,11 +83,10 @@ def lookup():
     add_reg_names = filterArg(request.args.get("add-reg-names", "null"))
     add_regs_str = filterArg(request.args.get("add-regs", "null"))
     expand = request.args.get("expand-addresses", "null")
-    include_defaults_str = request.args.get("include-defaults", "false")
+    dataset_cols = filterArg(request.args.get("fields", "null"))
 
-    include_defaults = interpret_bool(include_defaults_str)
-    if include_defaults == None:
-        return "Show defaults argument invalid. Use true or false.", 400
+    if not dataset_cols:
+        dataset_cols = serialize.DEVICE_MODBUS_MAP_COLS
 
     if device_name in invalid_arguments:
         device_name = ALL_DEVICES_NAME
@@ -169,7 +158,8 @@ def lookup():
         if not duplicate:
             modbus_map.append(unfiltered_reg)
 
-    modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map)
+    modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map,
+        dataset_cols)
     response = flask.make_response(json.dumps(modbus_map_serialized))
     response.headers["X-XSS-Protection"] = "0"
     response.headers["Access-Control-Allow-Origin"] = "http://labjack.com"
