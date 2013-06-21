@@ -8,3 +8,8 @@
     width: 100%;
     overflow-x: auto;
 }
+
+#export-button-holder
+{
+    padding: 50px;
+}

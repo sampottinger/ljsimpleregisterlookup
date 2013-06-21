@@ -5,12 +5,6 @@
         <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui-smoothness.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/simple_register_lookup_core.css">
         <link rel="stylesheet" type="text/css" href="/static/css/simple_register_lookup.css">
-        <script src="/static/js/compatability.js" type="text/javascript"></script>
-        <script src="/static/js/jquery.js" type="text/javascript"></script>
-        <script src="/static/js/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="/static/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="/static/js/simple_register_lookup_core.js" type="text/javascript"></script>
-        <script src="/static/js/simple_register_lookup.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="description-pane-holder">
@@ -40,5 +34,44 @@
 		<p id="error-message"></p>
         <div id="register-table-container">
         </div>
+        <div id="export-button-holder">
+            <div>
+                <button id="export-button">Export</button>
+                
+                <span class="field-checkbox">
+                    <input type="checkbox" id="type-check"> type 
+                </span>
+                
+                <span class="field-checkbox">
+                    <input type="checkbox" id="fwmin-check"> fwmin 
+                </span>
+                
+                <span class="field-checkbox">
+                    <input type="checkbox" id="rw-check"> read / write 
+                </span>
+                
+                <span class="field-checkbox">
+                    <input type="checkbox" id="tags-check"> tags 
+                </span>
+                
+                <span class="field-checkbox">
+                    <input type="checkbox" id="description-check"> description 
+                </span>
+
+                <span class="field-checkbox">
+                    <input type="checkbox" id="default-check"> default value 
+                </span>
+            </div>
+            <textarea rows="10" cols="100" id="export-code-holder"></textarea>
+        </div>
+
+        <script src="/static/js/mustache.js" type="text/javascript"></script>
+        <script src="/static/js/compatability.js" type="text/javascript"></script>
+        <script src="/static/js/jquery.js" type="text/javascript"></script>
+        <script src="/static/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="/static/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="/static/js/simple_register_lookup_core.js" type="text/javascript"></script>
+        <script src="/static/js/simple_register_lookup.js" type="text/javascript"></script>
+        <script src="/static/js/test_site.js" type="text/javascript"></script>
     </body>
 </html>

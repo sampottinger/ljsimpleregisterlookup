@@ -19,3 +19,9 @@ div.innerDetails
 .register-table td {
   white-space: nowrap;
 }
+
+#tag-dropdown
+{
+    min-height: 100px;
+    min-width: 150px;
+}

@@ -5,7 +5,7 @@ var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com";
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = DEPLOY_URL;
+var CURRENT_APP_URL = LOCAL_TEST_URL;
 
 var anOpen = [];
 
@@ -129,6 +129,7 @@ function RegistersTableRequester()
     var regAddrs = null;
     var expand = null;
     var includeCSS = true;
+    var fields = null;
 
     this.setDevice = function(newVal)
     {
@@ -137,6 +138,8 @@ function RegistersTableRequester()
 
     this.setTags = function(newVal)
     {
+        if(newVal instanceof Array)
+            newVal = newVal.join(",");
         tags = newVal;
     }
 
@@ -164,6 +167,11 @@ function RegistersTableRequester()
         expand = newVal;
     }
 
+    this.setFields = function(newVal)
+    {
+        fields = newVal;
+    }
+
     this.loadTable = function(tableContainer, callback)
     {
         var data = {};
@@ -180,6 +188,8 @@ function RegistersTableRequester()
             data["add-regs"] = regAddrs;
         if(expand != null)
             data["expand-addresses"] = expand;
+        if(fields != null)
+            data["fields"] = fields;
 
         $.getJSON(
             CURRENT_APP_URL,

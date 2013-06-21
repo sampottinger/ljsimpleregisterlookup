@@ -73,6 +73,20 @@ def filterArg(argument):
 
     return argument.split(',')
 
+@app.route('/lookup.html')
+def embed_lookup():
+    values = {
+        "devices": request.args.get("devices", ALL_DEVICES_NAME),
+        "tags": request.args.get("tags", ALL_TAGS_NAME),
+        "not_tags": request.args.get("not-tags", "null"),
+        "add_reg_names": request.args.get("add-reg-names", "null"),
+        "add_regs": request.args.get("add-regs", "null"),
+        "expand-addresses": request.args.get("expand-addresses", "null"),
+        "fields": request.args.get("fields", "null")
+    }
+    return flask.render_template("embed_lookup.html", **values)
+
+
 @app.route('/lookup.json')
 def lookup():
     """Render JSON formatted device MODBUS map."""
@@ -82,8 +96,13 @@ def lookup():
     not_tags = filterArg(request.args.get("not-tags", "null"))
     add_reg_names = filterArg(request.args.get("add-reg-names", "null"))
     add_regs_str = filterArg(request.args.get("add-regs", "null"))
-    expand = request.args.get("expand-addresses", "null")
+    expand = request.args.get("expand-addresses", "true")
     dataset_cols = filterArg(request.args.get("fields", "null"))
+    
+    dataset_cols = map(
+        lambda x: "read / write" if x == "rw" else x,
+        dataset_cols
+    )
 
     if not dataset_cols:
         dataset_cols = serialize.DEVICE_MODBUS_MAP_COLS
@@ -127,14 +146,11 @@ def lookup():
 
     # Filter by tag
     if tags and unicode(ALL_TAGS_NAME) not in tags:
-        temp = []
-        for entry in modbus_map:
-            for map_tag in entry["tags"]:
-                for t in tags:
-                    if map_tag.find(unicode(t)) != -1:
-                        temp.append(entry)
-
-        modbus_map = temp
+        tags_set = set(tags)
+        modbus_map = filter(
+            lambda x: set(x["tags"]).issuperset(tags_set),
+            modbus_map
+        )
 
     # Filter by not-tag
     if not_tags: # and unicode(NO_TAGS_NAME) not in not_tags:
