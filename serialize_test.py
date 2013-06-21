@@ -45,7 +45,7 @@ class SerializeTests(unittest.TestCase):
                 "address",
                 "type",
                 "fwmin",
-                "read / write",
+                "access",
                 "tags",
                 "description"
             ],

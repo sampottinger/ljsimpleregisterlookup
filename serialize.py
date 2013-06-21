@@ -10,7 +10,7 @@ for LabJack MODBUS devices.
 import copy
 
 DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "fwmin",
-    "read / write", "tags", "description"]
+    "access", "tags", "description"]
 
 
 def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
@@ -43,11 +43,13 @@ def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
 
         # Serialize read / write values from (bool, bool) to "R", "RW", or "W"
         read_write_str = ""
-        if entry["read"]:
-            read_write_str += "R"
-        if entry["write"]:
-            read_write_str += "W"
-        entry["read / write"] = read_write_str
+        if entry["read"] and entry["write"]:
+            read_write_str = "R / W"
+        elif entry["read"]:
+            read_write_str = "R"
+        elif entry["write"]:
+            read_write_str = "W"
+        entry["access"] = read_write_str
 
         entry["default"] = entry.get("default", "")
 

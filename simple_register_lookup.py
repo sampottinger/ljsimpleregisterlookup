@@ -100,7 +100,7 @@ def lookup():
     dataset_cols = filterArg(request.args.get("fields", "null"))
     
     dataset_cols = map(
-        lambda x: "read / write" if x == "rw" else x,
+        lambda x: "access" if x == "rw" else x,
         dataset_cols
     )
 

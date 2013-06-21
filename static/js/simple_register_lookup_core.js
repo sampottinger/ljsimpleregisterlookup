@@ -5,13 +5,16 @@ var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com";
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = DEPLOY_URL;
+var CURRENT_APP_URL = LOCAL_TEST_URL;
 
 var anOpen = [];
 
 
 function attachListeners(oTable, descriptionIndex, tableID)
 {
+    $(window).resize(function() {
+        oTable.fnAdjustColumnSizing();
+    });
     $("#" + tableID + " td.control").die("click");
     $("#" + tableID + " td.control").live("click", function () {
         var nTr = this.parentNode;
@@ -93,7 +96,7 @@ var updateRegistersTable = function(data, tableContainer)
         "aaSorting": [[ 1, "asc" ]],
         "bJQueryUI": true,
         "sPaginationType": "full_numbers",
-        "bAutoWidth": true
+        "bAutoWidth": false
     } );
 
     // http://datatables.net/forums/discussion/3835/width-columns-problem-in-chrome-safari/p1
