@@ -12,13 +12,13 @@ div.innerDetails
     overflow-y: visible !important;
     height: auto !important;
 }
-.register-table {
+.registerTable {
     min-width: 680px !important;
 }
 
-.register-table td {
+.registerTable td {
   white-space: nowrap;
-  font-size: 13px !important;
+  font-size: 13px;
 }
 
 #tag-dropdown
