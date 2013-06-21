@@ -29,11 +29,10 @@ $(window).load(function () {
         if($("#tags-check").is(":checked"))
             fields.push("tags");
 
-        if($("#description-check").is(":checked"))
-            fields.push("description");
-
         if($("#default-check").is(":checked"))
             fields.push("default");
+
+        fields.push("description");
 
         var data = {
             "device_name": deviceName,

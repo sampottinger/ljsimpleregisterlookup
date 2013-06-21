@@ -5,7 +5,7 @@ var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com";
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
 
-var CURRENT_APP_URL = DEPLOY_URL;
+var CURRENT_APP_URL = LOCAL_TEST_URL;
 
 var anOpen = [];
 
