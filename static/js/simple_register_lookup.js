@@ -22,6 +22,7 @@ var handleError = function(err)
 
 function requestRegistersTable()
 {
+    $('#loading-image').show();
     var registersTableRequester = new RegistersTableRequester();
     registersTableRequester.setDevice($("#device-dropdown").val());
     registersTableRequester.setTags($("#tag-dropdown").val());
