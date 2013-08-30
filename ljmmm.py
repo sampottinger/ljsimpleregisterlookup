@@ -1,7 +1,7 @@
 """Logic for loading LabJack Modbus Map Markup notation modbus maps.
 
 @author Sam Pottinger
-@license GNU GPL v2
+@license GNU GPL v3
 """
 
 
