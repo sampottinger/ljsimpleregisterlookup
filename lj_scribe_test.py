@@ -22,9 +22,11 @@ TEST_RESOLVED_TO_UNRESOLVED_PAIRS = map(
     TEST_DEVICE_REGS
 )
 
-PRE_POST_ORIG_TAG = parse_ljsl.TagComponent('PRE_', 100, 2, 3, '_POST')
-ANOTHER_ORIG_TAG = parse_ljsl.TagComponent('ANOTHER_', 200, 2, 3, '')
-ORIG_TAG_NO_GAP = parse_ljsl.TagComponent('YAC', 200, 2, None, '')
+PRE_POST_ORIG_TAG = parse_ljsl.TagComponent('PRE_', 100, 2, 3, '_POST', True)
+ANOTHER_ORIG_TAG = parse_ljsl.TagComponent('ANOTHER_', 200, 2, 3, '', True)
+ORIG_TAG_NO_GAP = parse_ljsl.TagComponent('YAC', 200, 2, None, '', True)
+NO_LJMMM_ORIG_TAG = parse_ljsl.TagComponent('TEST', None, None, None, None,
+    False)
 
 LOREM_IPSUM = '''Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
 do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -95,9 +97,29 @@ ANOTHER_GROUPING = lj_scribe.UnresolvedWithResolvedGrouping(
     }
 )
 
+NO_LJMMM_GROUPING = lj_scribe.UnresolvedWithResolvedGrouping(
+    resolved=[
+        {
+            'name': 'TEST',
+            'address': 300,
+            'readwrite': {'read': True, 'write': False},
+            'type': 'FLOAT'
+        }
+    ],
+    unresolved={
+        'name': 'TEST',
+        'address': 300,
+        'readwrite': {'read': True, 'write': False},
+        'type': 'FLOAT',
+        'description': 'Test description 3.',
+        'default': 2
+    }
+)
+
 TEST_TAG_BY_CLASS_NAMES = collections.OrderedDict()
 TEST_TAG_BY_CLASS_NAMES['ORIG_PRE_100_POST'] = PRE_POST_GROUPING
 TEST_TAG_BY_CLASS_NAMES['ORIG_ANOTHER_200'] = ANOTHER_GROUPING
+TEST_TAG_BY_CLASS_NAMES['TEST'] = NO_LJMMM_GROUPING
 
 TEST_APP = flask.Flask(__name__)
 
@@ -113,15 +135,21 @@ class LJMMMTests(unittest.TestCase):
         self.assertEqual(names[1], 'PRE_103_POST')
 
 
+    def test_parsed_sub_tag_to_names_no_ljmmm(self):
+        names = lj_scribe.parsed_sub_tag_to_names(NO_LJMMM_ORIG_TAG)
+        self.assertEqual(len(names), 1)
+        self.assertEqual(names[0], 'TEST')
+
+
     def test_find_classes(self):
         test_tag_entries = (
             [
                 PRE_POST_ORIG_TAG,
                 ANOTHER_ORIG_TAG,
-                parse_ljsl.TagComponent('PRE_', 200, 2, 3, '_POST')
+                parse_ljsl.TagComponent('PRE_', 200, 2, 3, '_POST', True)
             ],
             [
-                parse_ljsl.TagComponent('PRE_', 300, 2, 3, '_POST')
+                parse_ljsl.TagComponent('PRE_', 300, 2, 3, '_POST', True)
             ]
         )
 
@@ -215,16 +243,17 @@ class LJMMMTests(unittest.TestCase):
             str_summary = lj_scribe.render_tag_summary(
                 TEST_TAG_BY_CLASS_NAMES,
                 [
-                    parse_ljsl.TagComponent('PRE_', 100, 4, 3, '_POST'),
-                    ANOTHER_ORIG_TAG
+                    parse_ljsl.TagComponent('PRE_', 100, 4, 3, '_POST', True),
+                    ANOTHER_ORIG_TAG,
+                    NO_LJMMM_ORIG_TAG
                 ],
                 'ORIG_TAG'
             )
 
-        self.assertEqual(str_summary.count('class-summary'), 2)
-        self.assertEqual(str_summary.count('sub-tag'), 2)
-        self.assertEqual(str_summary.count('individual-name'), 6)
-        self.assertEqual(str_summary.count('individual-address'), 6)
+        self.assertEqual(str_summary.count('class-summary'), 3)
+        self.assertEqual(str_summary.count('sub-tag'), 3)
+        self.assertEqual(str_summary.count('individual-name'), 7)
+        self.assertEqual(str_summary.count('individual-address'), 7)
         self.assertEqual(str_summary.count('ORIG_TAG'), 1)
 
 
@@ -234,6 +263,14 @@ class LJMMMTests(unittest.TestCase):
         self.assertEqual(
             original_tag_str,
             '@registers:PRE_#(100:2:3)_POST,ANOTHER_#(200:2:3),YAC#(200:2)'
+        )
+
+    def test_find_original_tag_str_no_ljmmm(self):
+        tag_components = [NO_LJMMM_ORIG_TAG, PRE_POST_ORIG_TAG]
+        original_tag_str = lj_scribe.find_original_tag_str(tag_components)
+        self.assertEqual(
+            original_tag_str,
+            '@registers:TEST,PRE_#(100:2:3)_POST'
         )
 
 if __name__ == '__main__':

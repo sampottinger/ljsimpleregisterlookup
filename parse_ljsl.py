@@ -24,7 +24,14 @@ VALID_NAME_CHAR_REGEX = re.compile('[A-Z]|[0-9]|_')
 
 TagComponent = collections.namedtuple(
     'TagComponent',
-    ['prefix', 'start_num', 'num_regs', 'num_between_regs', 'postfix']
+    [
+        'prefix',
+        'start_num',
+        'num_regs',
+        'num_between_regs',
+        'postfix',
+        'includes_ljmmm'
+    ]
 )
 
 
@@ -118,8 +125,10 @@ class ParserAutomaton:
         if char == '#':
             self.state = STATE_LOOKING_FOR_OPEN_PAREN
             self.param_1 = ''
-        elif VALID_NAME_CHAR_REGEX.match(char): self.prefix += char
-        else: self.state = STATE_LOOKING_FOR_AT
+        elif char != None and VALID_NAME_CHAR_REGEX.match(char):
+            self.prefix += char
+        else:
+            self.reading_postfix(char)
 
     def reading_param_1(self, char):
         if char == ':' and len(self.param_1) > 0:
@@ -159,20 +168,39 @@ class ParserAutomaton:
             self.end_tag()
 
     def try_to_accept_current_component(self):
-        try:
-            param_1 = int(self.param_1)
-            param_2 = int(self.param_2)
-            param_3 = self.param_3
-            if param_3 != None: param_3 = int(self.param_3)
-        except ValueError:
-            params_set = (self.param_1, self.param_2, self.param_3)
-            err = '%s:%s:%s must all be integers.' % params_set
-            self.errors.append(err)
-            return
+        if self.param_1 == None:
+            self.tag_components.append(
+                TagComponent(
+                    self.prefix,
+                    None,
+                    None,
+                    None,
+                    None,
+                    False
+                )
+            )
+        else:
+            try:
+                param_1 = int(self.param_1)
+                param_2 = int(self.param_2)
+                param_3 = self.param_3
+                if param_3 != None: param_3 = int(self.param_3)
+            except ValueError:
+                params_set = (self.param_1, self.param_2, self.param_3)
+                err = '%s:%s:%s must all be integers.' % params_set
+                self.errors.append(err)
+                return
 
-        self.tag_components.append(
-            TagComponent(self.prefix, param_1, param_2, param_3, self.postfix)
-        )
+            self.tag_components.append(
+                TagComponent(
+                    self.prefix,
+                    param_1,
+                    param_2,
+                    param_3,
+                    self.postfix,
+                    True
+                )
+            )
 
     def clear_current_subtag(self):
         self.prefix = ''

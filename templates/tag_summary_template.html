@@ -12,7 +12,11 @@
         <tbody>
             {% for (orig_subtag, subtag) in tag %}
             <tr class="class-summary">
+                {% if orig_subtag.includes_ljmmm %}
                 <td>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}..{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</td>
+                {% else %}
+                <td>{{orig_subtag.prefix}}</td>
+                {% endif %}
                 <td>{{subtag.resolved[0].address}}</td>
                 <td>{{subtag.unresolved.type}}</td>
                 <td>
@@ -34,7 +38,11 @@
     <div class="tag-details" id="">
         {% for (orig_subtag, subtag) in tag %}
         <div class="sub-tag">
+            {% if orig_subtag.includes_ljmmm %}
             <h3>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}..{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</h3>
+            {% else %}
+            <h3>{{orig_subtag.prefix}}</h3>
+            {% endif %}
             <div class="main-content">
                 <div class="description">
                     <div class="content">

@@ -24,6 +24,9 @@ SUBTAG_TEMPLATE_STR_DEFAULT_GAP = '%s#(%d:%d)%s'
 
 
 def parsed_sub_tag_to_names(entry):
+    if not entry.includes_ljmmm:
+        return [entry.prefix]
+
     if entry.num_between_regs: num_between_regs = entry.num_between_regs
     else: num_between_regs = 1
 
@@ -145,7 +148,9 @@ def find_original_tag_str(parsed_tag):
     tag_strs = []
 
     for sub_tag in parsed_tag:
-        if sub_tag.num_between_regs:
+        if not sub_tag.includes_ljmmm:
+            tag_strs.append(sub_tag.prefix)
+        elif sub_tag.num_between_regs:
             template_values = (
                 sub_tag.prefix,
                 sub_tag.start_num,
