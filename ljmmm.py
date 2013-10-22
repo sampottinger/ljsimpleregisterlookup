@@ -59,7 +59,7 @@ def generate_int_enumeration(src):
     template_str = src[0]
     start_num = int(src[1])
     end_num = int(src[2])
-    if src[3] != "":
+    if src[3] != "" and src[3] != None:
         interval = int(src[3])
     else:
         interval = 1
@@ -295,7 +295,8 @@ def interpret_tags(tags, tags_base_url='http://labjack.com/support/modbus/tags')
                 '/' + x + '>' + x + '</a>', tags)
 
 
-def get_registers_data(src=DEFAULT_FILE_NAME, expand_names=False):
+def get_registers_data(src=DEFAULT_FILE_NAME, expand_names=False,
+    inc_orig=False):
     """Load and parse information about registers from JSON constants file.
 
     Loads and interprets registers information from the given JSON constants
@@ -322,17 +323,31 @@ def get_registers_data(src=DEFAULT_FILE_NAME, expand_names=False):
 
     @keyword src: The name of the file to open. Defaults to DEFAULT_FILE_NAME.
     @type src: str
+    @keyword expand_names: Flag to indicate if LJMMM fields should be
+        interpreted, expanding register entries from AIN#(0:2) to AIN#0, AIN#1,
+        and AIN#2. Defaults to False.
+    @type expand_names: bool
+    @keyword inc_orig: Flag to indicate if the results should be zipped in with
+        the original register values. Defaults to False.
+    @type inc_orig: bool
     @return: dict
     """
     raw_data = get_raw_registers_data(src=src)
     ret_list = []
     for entry in raw_data:
-        ret_list.extend(parse_register_data(entry, expand_names))
+        if inc_orig:
+            ret_list.append(parse_register_data(entry, expand_names))
+        else:
+            ret_list.extend(parse_register_data(entry, expand_names))
 
-    return ret_list
+    if inc_orig:
+        return zip(raw_data, ret_list)
+    else:
+        return ret_list
 
 
-def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
+def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False,
+    inc_orig=False):
     """Load register info from JSON constants file and structure by device.
 
     Loads and interprets registers information from the given JSON constants
@@ -365,13 +380,32 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
 
     @keyword src: The name of the file to open. Defaults to DEFAULT_FILE_NAME.
     @type src: str
+    @keyword expand_names: Flag to indicate if LJMMM fields should be
+        interpreted, expanding register entries from AIN#(0:2) to AIN#0, AIN#1,
+        and AIN#2. Defaults to False.
+    @type expand_names: bool
+    @keyword inc_orig: Flag to indicate if the results should be zipped in with
+        the original register values. Defaults to False.
+    @type inc_orig: bool
     @return: dict
     """
-    registers_data = get_registers_data(src=src, expand_names=expand_names)
+    registers_data = get_registers_data(src=src, expand_names=expand_names,
+        inc_orig=inc_orig)
     device_maps = {}
 
-    for register in registers_data:
-        reg_devices = register["devices"]
+    if inc_orig:
+        preped_registers_data = []
+        for (orig, new_collection) in registers_data:
+            for new in new_collection:
+                preped_registers_data.append((orig, new))
+    else:
+        preped_registers_data = registers_data
+
+    for register in preped_registers_data:
+        
+        if inc_orig: reg_devices = register[1]["devices"]
+        else: reg_devices = register["devices"]
+
         for device in reg_devices:
 
             device_name = device["device"]
@@ -379,7 +413,8 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
                 device_maps[device_name] = []
             device_reg_list = device_maps[device_name]
 
-            new_entry = copy.deepcopy(register)
+            if inc_orig: new_entry = copy.deepcopy(register[1])
+            else: new_entry = copy.deepcopy(register)
 
             min_firmware = device.get("fwmin", 0)
             new_entry["fwmin"] = min_firmware
@@ -392,11 +427,17 @@ def get_device_modbus_maps(src=DEFAULT_FILE_NAME, expand_names=False):
             new_entry["write"] = write_val
             del new_entry["readwrite"]
 
-            new_entry["description"] = register.get("description", "")
+            if inc_orig:
+                new_entry["description"] = register[1].get("description", "")
+            else:
+                new_entry["description"] = register.get("description", "")
 
             # TODO: Something better
             new_entry.pop("numregs", None)
 
-            device_reg_list.append(new_entry)
+            if inc_orig:
+                device_reg_list.append((register[0], new_entry))
+            else:
+                device_reg_list.append(new_entry)
 
     return device_maps

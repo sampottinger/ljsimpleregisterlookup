@@ -70,7 +70,7 @@ class LJMMMTests(unittest.TestCase):
             ljmmm.interpret_firmware(5)
 
     def test_parse_register_data_expand(self):
-        """Test parsing a sample ljmmm register description."""
+        """Test expanding a sample ljmmm register description."""
         expected = [
             {
                 "address": 2000,

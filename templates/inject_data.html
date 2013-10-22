@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>LJScribe</title>
+        <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/static/css/inject_data.css">
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/inject_data.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <div id="title">LJScribe</div>
+            <div id="catchphrase">Making LabJack documentation more consistent since 2013.</div>
+        </div>
+        <div id="controls-section">
+            <div id="input-section" class="code-section">
+                <div id="title">Paste input code:</div>
+                <div id="controls"><button class="clean-gray" id="generate-button">Process HTML</button></div>
+                <div id="waiting"><img src="/static/images/ajax-loader.gif"> Please Wait...</div>
+                <div id="contents">
+                    <textarea id="input-code-area" rows="20" cols="100"></textarea>
+                </div>
+            </div>
+
+            <div id="output-section" class="code-section">
+                <div id="title">Output Code</div>
+                <div id="contents">
+                    <textarea id="output-code-area" rows="20" cols="100" disabled></textarea>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
