@@ -236,8 +236,8 @@ def inject_data():
     if flask.request.method == "GET":
         return flask.render_template("inject_data.html")
 
-    input_code = flask.request.form.get("input", "")
-    names = parse_ljsl.find_names(input_code)
+    target_code = flask.request.form.get("input", "")
+    names = parse_ljsl.find_names(target_code)
 
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
     dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
@@ -246,19 +246,22 @@ def inject_data():
 
     tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
         dev_regs)
-    
-    summaries = map(
-        lambda (tag, tag_names): lj_scribe.render_tag_summary(tag, tag_names),
-        zip(tag_subtags_by_class, names)
-    )
 
     original_names = map(lj_scribe.find_original_tag_str, names)
+
+    summaries = map(
+        lambda x: lj_scribe.render_tag_summary(*x),
+        zip(tag_subtags_by_class, names, original_names)
+    )
+
     original_names_to_summaries = zip(original_names, summaries)
 
     for (original_name, summary) in original_names_to_summaries:
-        input_code = input_code.replace(original_name, summary)
+        target_code = target_code.replace(original_name, summary)
 
-    return input_code
+    prefix = flask.render_template("scribe_prefix.html")
+    postfix = flask.render_template("scribe_postfix.html")
+    return prefix + target_code + postfix
 
 
 def uniques(seq, id_fun=None):

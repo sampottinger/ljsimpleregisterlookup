@@ -132,21 +132,21 @@ class LJMMMTests(unittest.TestCase):
         self.assertEqual(len(class_group_1), 3)
 
         sub_group_1 = class_group_1[0]
-        sub_name_group_1 = map(lambda x: x[1]['name'], sub_group_1)
+        sub_name_group_1 = map(lambda x: x[0]['name'], sub_group_1)
         self.assertEqual(
             sub_name_group_1,
             ['ORIG_PRE_100_POST', 'ORIG_PRE_100_POST']
         )
 
         sub_group_2 = class_group_1[1]
-        sub_name_group_2 = map(lambda x: x[1]['name'], sub_group_2)
+        sub_name_group_2 = map(lambda x: x[0]['name'], sub_group_2)
         self.assertEqual(
             sub_name_group_2,
             ['ORIG_ANOTHER_200', 'ORIG_ANOTHER_200']
         )
 
         sub_group_3 = class_group_1[2]
-        sub_name_group_3 = map(lambda x: x[1]['name'], sub_group_3)
+        sub_name_group_3 = map(lambda x: x[0]['name'], sub_group_3)
         self.assertEqual(
             sub_name_group_3,
             ['ORIG_PRE_100_POST', 'ORIG_PRE_100_POST']
@@ -156,7 +156,7 @@ class LJMMMTests(unittest.TestCase):
         self.assertEqual(len(class_group_2), 1)
 
         sub_group_4 = class_group_2[0]
-        sub_name_group_4 = map(lambda x: x[1]['name'], sub_group_4)
+        sub_name_group_4 = map(lambda x: x[0]['name'], sub_group_4)
         self.assertEqual(
             sub_name_group_4,
             ['ORIG_PRE_100_POST', 'ORIG_PRE_100_POST']
@@ -217,13 +217,15 @@ class LJMMMTests(unittest.TestCase):
                 [
                     parse_ljsl.TagComponent('PRE_', 100, 4, 3, '_POST'),
                     ANOTHER_ORIG_TAG
-                ]
+                ],
+                'ORIG_TAG'
             )
 
         self.assertEqual(str_summary.count('class-summary'), 2)
         self.assertEqual(str_summary.count('sub-tag'), 2)
         self.assertEqual(str_summary.count('individual-name'), 6)
         self.assertEqual(str_summary.count('individual-address'), 6)
+        self.assertEqual(str_summary.count('ORIG_TAG'), 1)
 
 
     def test_find_original_tag_str(self):

@@ -32,7 +32,7 @@ $(window).load(function () {
                 url: "/scribe",
                 data: { input: $('#input-code-area').val() }
             }).done(function( msg ) {
-                $('#output-code-area').html(msg);
+                $('#output-code-area').val(msg);
                 $('#output-section').slideDown();
                 $('#input-section #waiting').hide();
                 $('#input-section #controls').fadeIn();

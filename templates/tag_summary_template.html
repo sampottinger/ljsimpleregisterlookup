@@ -1,5 +1,5 @@
-<div class="tag">
-    <table class="tag-summary" id="">
+<div class="tag" id="{{ orig_str.replace('@', '') }}">
+    <table class="tag-summary">
         <thead>
             <tr class="emphasis-row">
                 <td>Name</td>
@@ -16,13 +16,13 @@
                 <td>{{subtag.resolved[0].address}}</td>
                 <td>{{subtag.unresolved.type}}</td>
                 <td>
-                {% if subtag.unresolved.read %}
-                    {% if subtag.unresolved.write %}
+                {% if subtag.resolved[0].read %}
+                    {% if subtag.resolved[0].write %}
                     R/W
                     {% else %}
                     R
                     {% endif %}
-                {% elif subtag.unresolved.write %}
+                {% elif subtag.resolved[0].write %}
                     W
                 {% endif %}
                 </td>
@@ -34,7 +34,7 @@
     <div class="tag-details" id="">
         {% for (orig_subtag, subtag) in tag %}
         <div class="sub-tag">
-            <div class="title">{{orig_subtag.prefix}}#({{orig_subtag.start_num}}..{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</div>
+            <h3>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}..{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</h3>
             <div class="main-content">
                 <div class="description">
                     <div class="content">
@@ -49,22 +49,22 @@
                     <tr class="content">
                         <td>
                             {% for individual in subtag.resolved %}
-                            <span class="individual-name {% if loop.index < 3 %}always-shown{% endif %}">
-                                {{ individual.name }}
+                            <span class="individual-name {% if loop.index <= 3 %}always-shown{% else %}sometimes-shown{% endif %}">
+                                {{ individual.name }}{% if not loop.last %},{% endif %}
                             </span>
                             {% endfor %}
                             {% if subtag.resolved|length > 3 %}
-                            ... <span class="collapsed-content-expander">Show All</span>
+                            <a href="#" class="collapsed-content-expander">Show All</a>
                             {% endif %}
                         </td>
                         <td>
                             {% for individual in subtag.resolved %}
-                            <span class="individual-address {% if loop.index < 3 %}always-shown{% endif %}">
-                                {{ individual.address }}
+                            <span class="individual-address {% if loop.index <= 3 %}always-shown{% else %}sometimes-shown{% endif %}">
+                                {{ individual.address }}{% if not loop.last %},{% endif %}
                             </span>
                             {% endfor %}
                             {% if subtag.resolved|length > 3 %}
-                            ... <span class="collapsed-content-expander">Show All</span>
+                            <a href="#" class="collapsed-content-expander">Show All</span>
                             {% endif %}
                         </td>
                     </tr>

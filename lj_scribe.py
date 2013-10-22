@@ -71,7 +71,7 @@ def resolve_registers_by_name_in_tag(target_tag, res_regs_by_res_name):
 
 def convert_unresolved_to_resolved_tuple(target_tuple):
     return map(
-        lambda x: UnresolvedToResolvedPair(*x),
+        lambda x: UnresolvedToResolvedPair(x[1], x[0]),
         target_tuple
     )
 
@@ -131,10 +131,11 @@ def organize_tag_by_class(target_tag, dev_regs):
     )
 
 
-def render_tag_summary(subtag_by_class, orig_tags):
+def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str):
     return flask.render_template(
         'tag_summary_template.html',
-        tag=zip(orig_tags, subtag_by_class.values())
+        tag=zip(orig_tags, subtag_by_class.values()),
+        orig_str=orig_tag_str
     )
 
 
