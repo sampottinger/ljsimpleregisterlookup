@@ -1,6 +1,6 @@
 var LOOKUP = "/lookup.json?"
 
-var BASE_URL = "http://0.0.0.0:5000";
+var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com/";
 
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
