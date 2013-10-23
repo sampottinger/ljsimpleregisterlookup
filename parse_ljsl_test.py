@@ -233,6 +233,69 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         target_match = matches[1]
         self.assertEqual(len(target_match), 1)
 
+    def test_title_field(self):
+        matches = parse_ljsl.find_names(
+            "@registers(Test Section):TEST,REST#(0:1) "\
+            "@registers(Test Section 2):TEST,REST#(0:1) "\
+            "@registers:TEST,REST#(0:1) "
+        )
+
+        self.assertEqual(len(matches), 3)
+
+        target_match = matches[0]
+        self.assertEqual(len(target_match), 2)
+        self.assertEqual(target_match[0].title, "Test Section")
+        self.assertEqual(target_match[0].prefix, "TEST")
+        self.assertEqual(target_match[0].start_num, None)
+        self.assertEqual(target_match[0].num_regs, None)
+        self.assertEqual(target_match[0].num_between_regs, None)
+        self.assertEqual(target_match[0].postfix, None)
+        self.assertEqual(target_match[0].includes_ljmmm, False)
+
+        self.assertEqual(target_match[1].title, "Test Section")
+        self.assertEqual(target_match[1].prefix, "REST")
+        self.assertEqual(target_match[1].start_num, 0)
+        self.assertEqual(target_match[1].num_regs, 1)
+        self.assertEqual(target_match[1].num_between_regs, None)
+        self.assertEqual(target_match[1].postfix, "")
+        self.assertEqual(target_match[1].includes_ljmmm, True)
+
+        target_match = matches[1]
+        self.assertEqual(len(target_match), 2)
+        self.assertEqual(target_match[0].title, "Test Section 2")
+        self.assertEqual(target_match[0].prefix, "TEST")
+        self.assertEqual(target_match[0].start_num, None)
+        self.assertEqual(target_match[0].num_regs, None)
+        self.assertEqual(target_match[0].num_between_regs, None)
+        self.assertEqual(target_match[0].postfix, None)
+        self.assertEqual(target_match[0].includes_ljmmm, False)
+
+        self.assertEqual(target_match[1].title, "Test Section 2")
+        self.assertEqual(target_match[1].prefix, "REST")
+        self.assertEqual(target_match[1].start_num, 0)
+        self.assertEqual(target_match[1].num_regs, 1)
+        self.assertEqual(target_match[1].num_between_regs, None)
+        self.assertEqual(target_match[1].postfix, "")
+        self.assertEqual(target_match[1].includes_ljmmm, True)
+
+        target_match = matches[2]
+        self.assertEqual(len(target_match), 2)
+        self.assertEqual(target_match[0].title, "")
+        self.assertEqual(target_match[0].prefix, "TEST")
+        self.assertEqual(target_match[0].start_num, None)
+        self.assertEqual(target_match[0].num_regs, None)
+        self.assertEqual(target_match[0].num_between_regs, None)
+        self.assertEqual(target_match[0].postfix, None)
+        self.assertEqual(target_match[0].includes_ljmmm, False)
+
+        self.assertEqual(target_match[1].title, "")
+        self.assertEqual(target_match[1].prefix, "REST")
+        self.assertEqual(target_match[1].start_num, 0)
+        self.assertEqual(target_match[1].num_regs, 1)
+        self.assertEqual(target_match[1].num_between_regs, None)
+        self.assertEqual(target_match[1].postfix, "")
+        self.assertEqual(target_match[1].includes_ljmmm, True)
+
 
 if __name__ == "__main__":
     unittest.main()
