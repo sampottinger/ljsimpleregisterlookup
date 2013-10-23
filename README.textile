@@ -118,3 +118,15 @@ Heroku handles server-side configuration and deployment. To deploye:
 * Commit all changes to GitHub ($ git push)
 * $ git push heroku master
 * The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Be aware that Drupal's TinyMCE editor may try to change the HTML. The non-visual / raw HTML editor is suggested.
+
+
+h2. Common Tasks
+
+*Update the Styling for Scribe Output*
+The CSS for LJScribe's output can be found in /templates/scribe_prefix.html. Editing that file and redeploying will change the CSS included with Scribe documentation output.
+
+*Update the Scribe Template*
+The HTML template (written using "Jinja2") used or LJScribe's output can be found in /templates/tag_summary_template.html. Editing that file and redeploying will change the template used for rendering Scribe documentation output.
+
+*Update the Scribe JavaScript Logic*
+Similarly, the JavaScript for LJScribe's output can be found in /templates/scribe_postfix.html. Editing that file and redeploying will change the JS included with Scribe documentation output.
