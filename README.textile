@@ -126,7 +126,7 @@ h2. Common Tasks
 The CSS for LJScribe's output can be found in /templates/scribe_prefix.html. Editing that file and redeploying will change the CSS included with Scribe documentation output.
 
 *Update the Scribe Template*
-The HTML template (written using "Jinja2") used or LJScribe's output can be found in /templates/tag_summary_template.html. Editing that file and redeploying will change the template used for rendering Scribe documentation output.
+The HTML template (written using "Jinja2":http://jinja.pocoo.org/docs/) used or LJScribe's output can be found in /templates/tag_summary_template.html. Editing that file and redeploying will change the template used for rendering Scribe documentation output.
 
 *Update the Scribe JavaScript Logic*
 Similarly, the JavaScript for LJScribe's output can be found in /templates/scribe_postfix.html. Editing that file and redeploying will change the JS included with Scribe documentation output.
