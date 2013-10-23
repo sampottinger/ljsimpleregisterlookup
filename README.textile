@@ -88,7 +88,6 @@ LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv)
 
 To set up locally:
 * $ virtualenv venv
-* Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to LOCAL_TEST_URL.
 * $ source venv/bin/activate
 * $ pip install -r requirements.txt
 
@@ -102,7 +101,7 @@ All unit tests can be run with @$ python runtests.py@.
 
 h2. Local Development Server
 
-A local web server can be run either through flask or foreman. Foreman:
+A local web server can be run either through Flask or Gunicorn. Gunicorn:
 
 * $ foreman start
 * Navigate to 127.0.0.1:5000 or localhost
@@ -118,4 +117,4 @@ h2. Deployment
 Heroku handles server-side configuration and deployment. To deploye:
 * Commit all changes to GitHub ($ git push)
 * $ git push heroku master
-* The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Be aware that Drupal's TinyMCE editor may try to change the HTML. The non-visual editor is suggested.
+* The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Be aware that Drupal's TinyMCE editor may try to change the HTML. The non-visual / raw HTML editor is suggested.

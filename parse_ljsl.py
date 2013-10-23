@@ -19,18 +19,18 @@ STATE_READING_PARAM_1 = 15
 STATE_READING_PARAM_2 = 16
 STATE_READING_PARAM_3 = 17
 STATE_READING_POSTFIX = 18
-DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-VALID_NAME_CHAR_REGEX = re.compile('[A-Z]|[0-9]|_')
+DIGITS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+VALID_NAME_CHAR_REGEX = re.compile("[A-Z]|[0-9]|_")
 
 TagComponent = collections.namedtuple(
-    'TagComponent',
+    "TagComponent",
     [
-        'prefix',
-        'start_num',
-        'num_regs',
-        'num_between_regs',
-        'postfix',
-        'includes_ljmmm'
+        "prefix",
+        "start_num",
+        "num_regs",
+        "num_between_regs",
+        "postfix",
+        "includes_ljmmm"
     ]
 )
 
@@ -43,59 +43,59 @@ class ParserAutomaton:
         self.errors = []
         self.rules = {
             STATE_LOOKING_FOR_AT: self.character_match(
-                '@',
+                "@",
                 STATE_LOOKING_FOR_R1,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_R1: self.character_match(
-                'r',
+                "r",
                 STATE_LOOKING_FOR_E1,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_E1: self.character_match(
-                'e',
+                "e",
                 STATE_LOOKING_FOR_G,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_G: self.character_match(
-                'g',
+                "g",
                 STATE_LOOKING_FOR_I,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_I: self.character_match(
-                'i',
+                "i",
                 STATE_LOOKING_FOR_S1,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_S1: self.character_match(
-                's',
+                "s",
                 STATE_LOOKING_FOR_T,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_T: self.character_match(
-                't',
+                "t",
                 STATE_LOOKING_FOR_E2,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_E2: self.character_match(
-                'e',
+                "e",
                 STATE_LOOKING_FOR_R2,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_R2: self.character_match(
-                'r',
+                "r",
                 STATE_LOOKING_FOR_S2,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_S2: self.character_match(
-                's',
+                "s",
                 STATE_LOOKING_FOR_COLON,
                 STATE_LOOKING_FOR_AT
             ),
             STATE_LOOKING_FOR_COLON: self.looking_for_colon,
             STATE_READING_PREFIX: self.reading_prefix,
             STATE_LOOKING_FOR_OPEN_PAREN: self.character_match(
-                '(',
+                "(",
                 STATE_READING_PARAM_1,
                 STATE_LOOKING_FOR_AT
             ),
@@ -115,48 +115,48 @@ class ParserAutomaton:
         return inner
 
     def looking_for_colon(self, char):
-        if char == ':':
+        if char == ":":
             self.state = STATE_READING_PREFIX
             self.clear_current_subtag()
             self.tag_components = []
         else: self.state = STATE_LOOKING_FOR_AT
 
     def reading_prefix(self, char):
-        if char == '#':
+        if char == "#":
             self.state = STATE_LOOKING_FOR_OPEN_PAREN
-            self.param_1 = ''
+            self.param_1 = ""
         elif char != None and VALID_NAME_CHAR_REGEX.match(char):
             self.prefix += char
         else:
             self.reading_postfix(char)
 
     def reading_param_1(self, char):
-        if char == ':' and len(self.param_1) > 0:
+        if char == ":" and len(self.param_1) > 0:
             self.state = STATE_READING_PARAM_2
-            self.param_2 = ''
+            self.param_2 = ""
         elif char not in DIGITS:
             self.state = STATE_LOOKING_FOR_AT
         else: self.param_1 += char
 
     def reading_param_2(self, char):
-        if char == ':' and len(self.param_2) > 0:
+        if char == ":" and len(self.param_2) > 0:
             self.state = STATE_READING_PARAM_3
-            self.param_3 = ''
-        elif char == ')' and len(self.param_2) > 0:
+            self.param_3 = ""
+        elif char == ")" and len(self.param_2) > 0:
             self.state = STATE_READING_POSTFIX
         elif char not in DIGITS:
             self.state = STATE_LOOKING_FOR_AT
         else: self.param_2 += char
 
     def reading_param_3(self, char):
-        if char == ')' and len(self.param_3) > 0:
+        if char == ")" and len(self.param_3) > 0:
             self.state = STATE_READING_POSTFIX
         elif char not in DIGITS:
             self.state = STATE_LOOKING_FOR_AT
         else: self.param_3 += char
 
     def reading_postfix(self, char):
-        if char == ',':
+        if char == ",":
             self.state = STATE_READING_PREFIX
             self.try_to_accept_current_component()
             self.clear_current_subtag()
@@ -187,7 +187,7 @@ class ParserAutomaton:
                 if param_3 != None: param_3 = int(self.param_3)
             except ValueError:
                 params_set = (self.param_1, self.param_2, self.param_3)
-                err = '%s:%s:%s must all be integers.' % params_set
+                err = "%s:%s:%s must all be integers." % params_set
                 self.errors.append(err)
                 return
 
@@ -203,8 +203,8 @@ class ParserAutomaton:
             )
 
     def clear_current_subtag(self):
-        self.prefix = ''
-        self.postfix = ''
+        self.prefix = ""
+        self.postfix = ""
         self.param_1 = None
         self.param_2 = None
         self.param_3 = None

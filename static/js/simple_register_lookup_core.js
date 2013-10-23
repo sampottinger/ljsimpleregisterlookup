@@ -1,6 +1,13 @@
 var LOOKUP = "/lookup.json?"
 
-var BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com/";
+var host = window.location.host;
+var BASE_URL;
+if (host.indexOf("0.0.0.0") == -1 && host.indexOf("localhost") == -1) {
+    BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com/";
+} else {
+    BASE_URL = 'http://' + host;
+}
+
 
 var DEPLOY_URL = BASE_URL + LOOKUP;
 var LOCAL_TEST_URL = LOOKUP;
@@ -24,14 +31,14 @@ function attachListeners(oTable, descriptionIndex, tableID)
         if ( i === -1 )
         {
             $("img", this).attr( "src", BASE_URL + "/static/images/details_close.png" );
-            var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, descriptionIndex), 'details' );
-            $('div.innerDetails', nDetailsRow).slideDown();
+            var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, descriptionIndex), "details" );
+            $("div.innerDetails", nDetailsRow).slideDown();
             anOpen.push( nTr );
         }
         else
         {
             $("img", this).attr( "src", BASE_URL + "/static/images/details_open.png" );
-            $('div.innerDetails', $(nTr).next()[0]).slideUp( function () {
+            $("div.innerDetails", $(nTr).next()[0]).slideUp( function () {
                 oTable.fnClose( nTr );
                 anOpen.splice( i, 1 );
             } );
@@ -53,8 +60,8 @@ var updateRegistersTable = function(data, tableContainer)
     var tableID = tableContainer + "-table";
 
     // Create bare table
-    var resultHTML = '<table cellpadding="0" cellspacing="0" border="0"' +
-    'class="display registerTable" id="' + tableID + '"></table>';
+    var resultHTML = "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\"" +
+    "class=\"display registerTable\" id=\"" + tableID + "\"></table>";
     $("#" + tableContainer).html(resultHTML);
 
     var columnNames = data[0]; // Header
@@ -78,9 +85,9 @@ var updateRegistersTable = function(data, tableContainer)
             "mDataProp": null,
             "sClass": "control center",
             "mRender": function(x) {
-                var retCode = "<img src='";
+                var retCode = "<img src=\"";
                 retCode += BASE_URL;
-                retCode += "/static/images/details_open.png'>";
+                retCode += "/static/images/details_open.png\">";
                 return retCode;
             },
         }
@@ -116,9 +123,9 @@ function fnFormatDetails( oTable, nTr, descriptionIndex)
 {
   var aData = oTable.fnGetData( nTr );
   var sOut =
-    '<div class="innerDetails">'+
+    "<div class=\"innerDetails\">"+
         aData[descriptionIndex] +
-    '</div>';
+    "</div>";
   return sOut;
 }
 

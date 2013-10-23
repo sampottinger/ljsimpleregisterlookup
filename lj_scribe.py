@@ -4,23 +4,23 @@ import flask
 
 import ljmmm
 
-TARGET_DEVICE = 'T7'
+TARGET_DEVICE = "T7"
 
 
 UnresolvedToResolvedPair = collections.namedtuple(
-    'UnresolvedToResolvedPair',
-    ['unresolved', 'resolved']
+    "UnresolvedToResolvedPair",
+    ["unresolved", "resolved"]
 )
 
 
 UnresolvedWithResolvedGrouping = collections.namedtuple(
-    'UnresolvedWithResolvedGrouping',
-    ['resolved', 'unresolved']
+    "UnresolvedWithResolvedGrouping",
+    ["resolved", "unresolved"]
 )
 
-REGISTERS_STR_START = '@registers:'
-SUBTAG_TEMPLATE_STR = '%s#(%d:%d:%d)%s'
-SUBTAG_TEMPLATE_STR_DEFAULT_GAP = '%s#(%d:%d)%s'
+REGISTERS_STR_START = "@registers:"
+SUBTAG_TEMPLATE_STR = "%s#(%d:%d:%d)%s"
+SUBTAG_TEMPLATE_STR_DEFAULT_GAP = "%s#(%d:%d)%s"
 
 
 def parsed_sub_tag_to_names(entry):
@@ -87,10 +87,10 @@ def convert_unresolved_to_resolved_tag(target_tag):
 
 
 def find_classes(tag_entries, dev_regs):
-    regs_tuple_res_name_first = map(lambda x: (x[1]['name'], x[0]), dev_regs)
+    regs_tuple_res_name_first = map(lambda x: (x[1]["name"], x[0]), dev_regs)
     unres_regs_by_res_name = dict(regs_tuple_res_name_first)
     res_regs_by_res_name = dict(
-        map(lambda x: (x[1]['name'], x[1]), dev_regs)
+        map(lambda x: (x[1]["name"], x[1]), dev_regs)
     )
 
     tag_names = map(parsed_tag_to_names, tag_entries)
@@ -114,12 +114,12 @@ def find_subtags_by_class(unresolved_resolved_pairs, dev_regs):
     ret_dict = collections.OrderedDict()
 
     unres_regs_by_unres_name = dict(
-        map(lambda x: (x[0]['name'], x[0]), dev_regs)
+        map(lambda x: (x[0]["name"], x[0]), dev_regs)
     )
 
     for entry in unresolved_resolved_pairs:
         unresolved = entry[0].unresolved
-        name = unresolved['name']
+        name = unresolved["name"]
         grouping = UnresolvedWithResolvedGrouping(
             map(lambda x: x.resolved, entry), unresolved)
         ret_dict[name] = grouping
@@ -136,7 +136,7 @@ def organize_tag_by_class(target_tag, dev_regs):
 
 def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str):
     return flask.render_template(
-        'tag_summary_template.html',
+        "tag_summary_template.html",
         tag=zip(orig_tags, subtag_by_class.values()),
         orig_str=orig_tag_str
     )
@@ -168,4 +168,4 @@ def find_original_tag_str(parsed_tag):
             )
             tag_strs.append(SUBTAG_TEMPLATE_STR_DEFAULT_GAP % template_values)
 
-    return REGISTERS_STR_START + ','.join(tag_strs)
+    return REGISTERS_STR_START + ",".join(tag_strs)

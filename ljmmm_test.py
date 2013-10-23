@@ -235,5 +235,5 @@ class LJMMMTests(unittest.TestCase):
         self.assertIterableContentsEqual(expected, result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

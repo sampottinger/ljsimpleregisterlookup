@@ -33,35 +33,35 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual([1, 3], lengths)
 
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'TEST')
+        self.assertEqual(target_match.prefix, "TEST")
         self.assertEqual(target_match.start_num, 120)
         self.assertEqual(target_match.num_regs, 5)
         self.assertEqual(target_match.num_between_regs, 3)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[1][0]
-        self.assertEqual(target_match.prefix, 'OTHERTEST')
+        self.assertEqual(target_match.prefix, "OTHERTEST")
         self.assertEqual(target_match.start_num, 1)
         self.assertEqual(target_match.num_regs, 3)
         self.assertEqual(target_match.num_between_regs, None)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[1][1]
-        self.assertEqual(target_match.prefix, 'TEST')
+        self.assertEqual(target_match.prefix, "TEST")
         self.assertEqual(target_match.start_num, 1)
         self.assertEqual(target_match.num_regs, 5)
         self.assertEqual(target_match.num_between_regs, 3)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[1][2]
-        self.assertEqual(target_match.prefix, 'OTHERTEST')
+        self.assertEqual(target_match.prefix, "OTHERTEST")
         self.assertEqual(target_match.start_num, 1)
         self.assertEqual(target_match.num_regs, 3)
         self.assertEqual(target_match.num_between_regs, None)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
     def test_find_name_after_invalid(self):
@@ -70,81 +70,81 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
 
         self.assertEqual(len(matches), 2)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'TEST')
+        self.assertEqual(target_match.prefix, "TEST")
 
         self.assertEqual(len(matches), 2)
         target_match = matches[1][0]
-        self.assertEqual(target_match.prefix, 'OTHERTEST')
+        self.assertEqual(target_match.prefix, "OTHERTEST")
 
     def test_wrong_prefix(self):
-        test_corpus = TEST_CORPUS_INVALID % '@results:INVALID#(0:1)'
+        test_corpus = TEST_CORPUS_INVALID % "@results:INVALID#(0:1)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_colon(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registersINVALID#(0:1)'
+        test_corpus = TEST_CORPUS_INVALID % "@registersINVALID#(0:1)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_pound(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:NOPOUND(0:1)'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:NOPOUND(0:1)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 2)
         
         target_match = matches[0]
         self.assertEqual(len(target_match), 1)
-        self.assertEqual(target_match[0].prefix, 'NOPOUND')
+        self.assertEqual(target_match[0].prefix, "NOPOUND")
 
         target_match = matches[1]
         self.assertEqual(len(target_match), 1)
-        self.assertEqual(target_match[0].prefix, 'VALID')
+        self.assertEqual(target_match[0].prefix, "VALID")
 
     def test_missing_front_paren(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#0:1)'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:INVALID#0:1)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_back_paren(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#(0:1'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:INVALID#(0:1"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_param(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#(0)'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:INVALID#(0)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_param_value(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#(0:)'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:INVALID#(0:)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_missing_optional_param_value(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#(0:1:)'
+        test_corpus = TEST_CORPUS_INVALID % "@registers:INVALID#(0:1:)"
         matches = parse_ljsl.find_names(test_corpus)
 
         self.assertEqual(len(matches), 1)
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
 
     def test_postfix_values(self):
         matches = parse_ljsl.find_names(POSTFIX_CORPUS)
@@ -154,45 +154,45 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(len(matches[1]), 1)
         
         target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
         self.assertEqual(target_match.start_num, 1)
         self.assertEqual(target_match.num_regs, 2)
         self.assertEqual(target_match.num_between_regs, 3)
-        self.assertEqual(target_match.postfix, 'AFTERWARDS')
+        self.assertEqual(target_match.postfix, "AFTERWARDS")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[0][1]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
         self.assertEqual(target_match.start_num, 4)
         self.assertEqual(target_match.num_regs, 5)
         self.assertEqual(target_match.num_between_regs, 6)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[0][2]
-        self.assertEqual(target_match.prefix, 'VALIDAGAIN')
+        self.assertEqual(target_match.prefix, "VALIDAGAIN")
         self.assertEqual(target_match.start_num, 101)
         self.assertEqual(target_match.num_regs, 2)
         self.assertEqual(target_match.num_between_regs, 3)
-        self.assertEqual(target_match.postfix, 'AFTERWARDS')
+        self.assertEqual(target_match.postfix, "AFTERWARDS")
         self.assertEqual(target_match.includes_ljmmm, True)
 
         target_match = matches[1][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(target_match.prefix, "VALID")
         self.assertEqual(target_match.start_num, 100)
         self.assertEqual(target_match.num_regs, 200)
         self.assertEqual(target_match.num_between_regs, 300)
-        self.assertEqual(target_match.postfix, '')
+        self.assertEqual(target_match.postfix, "")
         self.assertEqual(target_match.includes_ljmmm, True)
 
     def test_find_no_ljmmm_tag(self):
-        matches = parse_ljsl.find_names('@registers:TEST')
+        matches = parse_ljsl.find_names("@registers:TEST")
 
         self.assertEqual(len(matches), 1)
 
         target_match = matches[0]
         self.assertEqual(len(target_match), 1)
-        self.assertEqual(target_match[0].prefix, 'TEST')
+        self.assertEqual(target_match[0].prefix, "TEST")
         self.assertEqual(target_match[0].start_num, None)
         self.assertEqual(target_match[0].num_regs, None)
         self.assertEqual(target_match[0].num_between_regs, None)
@@ -201,7 +201,7 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
 
     def test_ljmmm_and_no_ljmmm_mix(self):
         matches = parse_ljsl.find_names(
-            '@registers:TEST,REST#(0:1),BES0T @registers:FEST#(0:1)'
+            "@registers:TEST,REST#(0:1),BES0T @registers:FEST#(0:1)"
         )
 
         self.assertEqual(len(matches), 2)
@@ -209,21 +209,21 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         target_match = matches[0]
         self.assertEqual(len(target_match), 3)
         
-        self.assertEqual(target_match[0].prefix, 'TEST')
+        self.assertEqual(target_match[0].prefix, "TEST")
         self.assertEqual(target_match[0].start_num, None)
         self.assertEqual(target_match[0].num_regs, None)
         self.assertEqual(target_match[0].num_between_regs, None)
         self.assertEqual(target_match[0].postfix, None)
         self.assertEqual(target_match[0].includes_ljmmm, False)
 
-        self.assertEqual(target_match[1].prefix, 'REST')
+        self.assertEqual(target_match[1].prefix, "REST")
         self.assertEqual(target_match[1].start_num, 0)
         self.assertEqual(target_match[1].num_regs, 1)
         self.assertEqual(target_match[1].num_between_regs, None)
-        self.assertEqual(target_match[1].postfix, '')
+        self.assertEqual(target_match[1].postfix, "")
         self.assertEqual(target_match[1].includes_ljmmm, True)
 
-        self.assertEqual(target_match[2].prefix, 'BES0T')
+        self.assertEqual(target_match[2].prefix, "BES0T")
         self.assertEqual(target_match[2].start_num, None)
         self.assertEqual(target_match[2].num_regs, None)
         self.assertEqual(target_match[2].num_between_regs, None)
@@ -234,5 +234,5 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(len(target_match), 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

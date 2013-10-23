@@ -5,22 +5,10 @@ $(window).load(function () {
     $('#catchphrase').hide().delay(200).slideDown();
     $('#input-section #controls').hide();
     
-    $('#input-code-area').bind("keyup", function(e) {                          
-        if ($('#input-code-area').val() == '') {
-            if (displayingInputControls) {
-                $('#input-section #controls').fadeOut(function () {
-                    $('#input-section #title').fadeIn();
-                });
-            }
-            displayingInputControls = false;
-        } else {
-            if (!displayingInputControls) {
-                $('#input-section #title').fadeOut(function () {
-                    $('#input-section #controls').fadeIn();
-                });
-            }
-            displayingInputControls = true;
-        }
+    $('#input-code-area').focus(function (e) {
+        $('#input-section #title').fadeOut(function () {
+            $('#input-section #controls').fadeIn();
+        });
     });
 
     $('#generate-button').click(function () {
