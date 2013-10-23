@@ -291,8 +291,8 @@ def interpret_tags(tags, tags_base_url='http://labjack.com/support/modbus/tags')
     @type tags_base_url: str
     @return: list of str html links
     """
-    return map(lambda x: '<a class=\'tag-link\' href=' + tags_base_url +
-                '/' + x + '>' + x + '</a>', tags)
+    return map(lambda x: "<a class=\'tag-link\' href=" + tags_base_url +
+                "/" + x + ">" + x + "</a>", tags)
 
 
 def get_registers_data(src=DEFAULT_FILE_NAME, expand_names=False,
