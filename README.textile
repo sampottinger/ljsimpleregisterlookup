@@ -45,7 +45,7 @@ Please note that LJMMM attempts to standardize the other attributes of JSON obje
 
 h2. LJSL
 
-"LJScribe":http://ljsimpleregisterlookup.herokuapp.com/scribe reads LabJack Scribe Language to produce HTML output. Basically Scribe looks for @registers: followed by a comma seperated list of LJMMM Field Language entries. Currently scribe limits these fields to a single enumeration. So, AIN#(1:10) is valid but AIN#(1:10)_#(1:10) is not currently supported. An example of input into LJScribe is at https://gist.github.com/Samnsparky/7122519 and the corresponding output is at http://jsfiddle.net/sampottinger/36vCD/.
+"LJScribe":http://ljsimpleregisterlookup.herokuapp.com/scribe reads LabJack Scribe Language to produce HTML output. Basically Scribe looks for @registers: or @registers(Title Text): followed by a comma seperated list of LJMMM Field Language entries. Currently scribe limits these fields to a single enumeration. So, AIN#(1:10) is valid but AIN#(1:10)_#(1:10) is not currently supported. An example of input into LJScribe is at https://gist.github.com/Samnsparky/7122519 and the corresponding output is at http://jsfiddle.net/sampottinger/36vCD/. Notice that the styling in the jsfiddle is slightly different than how it will appear on LabJack's pages due to inherited CSS rules.
 
 
 h2. Technology used
