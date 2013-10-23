@@ -49,6 +49,7 @@
                         {{ subtag.unresolved.description }}
                     </div>
                 </div>
+                {% if subtag.resolved|length > 1 %}
                 <table class="sub-details">
                     <tr class="title"> 
                         <td>Names</td>
@@ -77,6 +78,7 @@
                         </td>
                     </tr>
                 </table>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
