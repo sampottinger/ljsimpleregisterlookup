@@ -61,16 +61,20 @@ The back-end is written in Flask (Python, http://flask.pocoo.org/) and runs on H
 
 h2. Development Environment Setup
 
+The rest of this README concerns the development and modification of LJSimpleRegisterLookup, LJScribe, and LJMMM / LJSL, a discussion more suited for LabJack developers and not users of these solutions.
+
 Requirements:
 * Heroku account with Heroku toolbelt (https://toolbelt.heroku.com/).
 * Get collaborator permissions on Heroku.
 * Get collaborator permissions on GitHub.
 
 Steps:
-* Clone this repo (git clone --recursive git@github.com:Samnsparky/ljsimpleregisterlookup.git)
+* Clone this repo ($ git clone --recursive git@github.com:Samnsparky/ljsimpleregisterlookup.git)
 * cd into directory
-* $heroku login
-* $git remote add heroku git@heroku.com:ljsimpleregisterlookup.git
+* $ heroku login
+* $ git remote add heroku git@heroku.com:ljsimpleregisterlookup.git
+
+Note that this repository has sub-modules and --recursive or equivalent is necessary during cloning.
 
 
 h2. Development Standards
@@ -83,32 +87,35 @@ h2. Virtualenv
 LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv) and the gunicorn server. Also, to accomodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
 
 To set up locally:
+* $ virtualenv venv
 * Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to LOCAL_TEST_URL.
-* $source venv/bin/activate
+* $ source venv/bin/activate
+* $ pip install -r requirements.txt
+
+You can leave the virtual environment with @deactivate@.
 
 
 h2. Automated Testing
 
-All unit tests can be run with python runtests.py.
+All unit tests can be run with @$ python runtests.py@.
 
 
 h2. Local Development Server
 
 A local web server can be run either through flask or foreman. Foreman:
 
-* $foreman start
+* $ foreman start
 * Navigate to 127.0.0.1:5000 or localhost
 
 Alternatively, Flask:
 
-* python simple_register_lookup.py
+* $ python simple_register_lookup.py
 * Navigate to 127.0.0.1:5000 or localhost
 
 
 h2. Deployment
 
 Heroku handles server-side configuration and deployment. To deploye:
-* Commit all changes to GitHub ($git push)
-* Open /static/js/simpleregisterlookup.js and change CURRENT_APP_URL to DEPLOY_URL.
-* $git push heroku master
-* The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Drupal tries to change the HTML to fit it's standards and it may take a few attempts.
+* Commit all changes to GitHub ($ git push)
+* $ git push heroku master
+* The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Be aware that Drupal's TinyMCE editor may try to change the HTML. The non-visual editor is suggested.
