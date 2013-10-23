@@ -1,3 +1,9 @@
+"""Logic to parse LabJack Scribe Language.
+
+@author: Sam Pottinger (samnsparky, http://gleap.org)
+@license: GNU GPL v2
+"""
+
 import collections
 import re
 
@@ -39,8 +45,18 @@ TagComponent = collections.namedtuple(
 
 
 class ParserAutomaton:
+    """Automaton to parse LJSL.
+
+    An Automaton that scans for LJSL tags, converting each tag into a collection
+    of TagComponents.
+    """
 
     def __init__(self, start_state=STATE_LOOKING_FOR_AT):
+        """Create a new ParserAutomaton in the state of looking for at.
+
+        Create a new ParserAutomaton without any tags that starts in the state
+        STATE_LOOKING_FOR_AT in which it is looking for the @ symbol.
+        """
         self.state = start_state
         self.tags = []
         self.errors = []
@@ -112,12 +128,45 @@ class ParserAutomaton:
         }
 
     def next_character(self, char):
+        """Have the automaton parse the next character in the input language.
+
+        @param char: The character to parse. Should be a string containing a
+            single character.
+        @type char: str
+        """
         self.rules[self.state](char)
 
     def character_match(self, target_char, next_state, fail_state):
+        """Create a character matching enclosure that changes automaton state.
+
+        Function generator that returns a function that checks to see if the
+        provided character is as expected. If it is, it changes this automaton's
+        state to next_state and, if not, it changes the automaton's state to
+        fail_state. This is largely used to check for @,r,e,g,i,s,t,e,r,s in
+        succession.
+
+        @param target_char: The character to look for.
+        @type target_char: str
+        @param next_state: The ID of the state to put this automaton in if the
+            character is matched.
+        @type next_state: int
+        @param fail_state: The ID fo the state to put his automaton in if the
+            character is not matched.
+        @type fail_state: int
+        @return: Function that checks a character (single character string) and
+            changes state based on if that character was expected.
+        @rtype: function
+        """
         def inner(char):
+            """Function that checks to see if the given char is expected.
+
+            @param char: The character to check. Should be a single character
+                string.
+            @type char: str
+            """
             if char == target_char: self.state = next_state
             else: self.state = fail_state
+
         return inner
 
     def reading_title(self, char):
