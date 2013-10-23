@@ -6,19 +6,13 @@ LJSimpleRegisterLookup is released under the GNU GPL v2 license.
 
 h2. Overview for the project (tl;dr)
 
-
-h3. LJSimpleRegisterLookup
-
+*LJSimpleRegisterLookup*
 Simple Register Lookup provides a device drop-down menu that then displays MODBUS maps in a searchable / paginated table. In addition to this embeddable front-end, a programmatic API is also available using simple HTTP GET requests on URLs following the pattern http://ljsimpleregisterlookup.herokuapp.com/lookup/U3.json. LabJack currently serves this tool at available at http://ljsimpleregisterlookup.herokuapp.com.
 
-
-h3. LJScribe
-
+*LJScribe*
 LJScribe generates HTML documentation for registers based on the JSON modbus map. LabJack currently serves this tool at http://ljsimpleregisterlookup.herokuapp.com/scribe.
 
-
-h3. LJMMM / LJSL
-
+*LJMMM / LJSL*
 This project implements Python parsers for both LabJack MODBUS Map Markup and LabJack Scribe Lanaguage. The formal spec for LJMMM, the markup that aids in the construction of the JSON MODBUS map, is available at http://jsfiddle.net/Q2F4V/embedded/result/ and an informal discussion follows. LJSL, the language used with LJScribe, does not currently have a formal spec but a brief discussion also follows.
 
 
