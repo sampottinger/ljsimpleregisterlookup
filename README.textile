@@ -108,7 +108,7 @@ Alternatively, Flask:
 
 h2. Deployment
 
-Heroku handles server-side configuration and deployment. To deploye:
+Heroku handles server-side configuration and deployment. To deploy:
 * Commit all changes to GitHub ($ git push)
 * $ git push heroku master
 * The page on labjack.com should not need to be changed but, if it does, use the code in drupal_snippet.html_snippet. Be aware that Drupal's TinyMCE editor may try to change the HTML. The non-visual / raw HTML editor is suggested.
