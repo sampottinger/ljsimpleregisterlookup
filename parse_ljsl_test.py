@@ -93,12 +93,18 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(target_match.prefix, 'VALID')
 
     def test_missing_pound(self):
-        test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID(0:1)'
+        test_corpus = TEST_CORPUS_INVALID % '@registers:NOPOUND(0:1)'
         matches = parse_ljsl.find_names(test_corpus)
 
-        self.assertEqual(len(matches), 1)
-        target_match = matches[0][0]
-        self.assertEqual(target_match.prefix, 'VALID')
+        self.assertEqual(len(matches), 2)
+        
+        target_match = matches[0]
+        self.assertEqual(len(target_match), 1)
+        self.assertEqual(target_match[0].prefix, 'NOPOUND')
+
+        target_match = matches[1]
+        self.assertEqual(len(target_match), 1)
+        self.assertEqual(target_match[0].prefix, 'VALID')
 
     def test_missing_front_paren(self):
         test_corpus = TEST_CORPUS_INVALID % '@registers:INVALID#0:1)'
