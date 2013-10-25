@@ -19,6 +19,7 @@ UnresolvedWithResolvedGrouping = collections.namedtuple(
 )
 
 REGISTERS_STR_START = "@registers:"
+REGISTERS_STR_START_TITLE = "@registers(%s):"
 SUBTAG_TEMPLATE_STR = "%s#(%d:%d:%d)%s"
 SUBTAG_TEMPLATE_STR_DEFAULT_GAP = "%s#(%d:%d)%s"
 
@@ -168,4 +169,8 @@ def find_original_tag_str(parsed_tag):
             )
             tag_strs.append(SUBTAG_TEMPLATE_STR_DEFAULT_GAP % template_values)
 
-    return REGISTERS_STR_START + ",".join(tag_strs)
+    if parsed_tag[0].title == "":
+        return REGISTERS_STR_START + ",".join(tag_strs)
+    else:
+        prefix_section = REGISTERS_STR_START_TITLE % parsed_tag[0].title
+        return prefix_section + ",".join(tag_strs)
