@@ -17,6 +17,7 @@ ACCESS_RESTRICTIONS_STRS = {
     "W": {"read": False, "write": True}
 }
 DATATYPE_SIZES_IN_REGISTERS = {
+    "BYTE": 1,
     "FLOAT32": 2,
     "UINT16": 1,
     "UINT32": 2,
@@ -229,7 +230,7 @@ def parse_register_data(raw_register_dict, expand_names=False):
         raw_register_dict["readwrite"]
     )
 
-    tags = raw_register_dict["tags"]
+    tags = raw_register_dict.get("tags", [])
 
     # Interpret addresses
     start_address = raw_register_dict["address"]
