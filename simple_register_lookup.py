@@ -293,5 +293,5 @@ def uniques(seq, id_fun=None):
 
 
 if __name__ == "__main__":
-    app.debug = False
+    app.debug = True
     app.run(host=os.environ["IP"], port=int(os.environ["PORT"]))
