@@ -293,6 +293,6 @@ def uniques(seq, id_fun=None):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.debug = True
-    app.run(host="0.0.0.0", port=port)
+    print "here"
+    app.debug = False
+    app.run(host=os.environ["IP"], port=int(os.environ["PORT"]))
