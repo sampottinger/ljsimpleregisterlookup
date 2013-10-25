@@ -224,7 +224,6 @@ def parse_register_data(raw_register_dict, expand_names=False):
 
     datatype_str = raw_register_dict["type"]
     datatype_size = get_datatype_size(datatype_str)
-    print raw_register_dict
     devices = map(lambda x: interpret_firmware(x), raw_register_dict["devices"])
     access_restrictions = interpret_access_descriptor(
         raw_register_dict["readwrite"]
