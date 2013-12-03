@@ -17,6 +17,7 @@ ACCESS_RESTRICTIONS_STRS = {
     "W": {"read": False, "write": True}
 }
 DATATYPE_SIZES_IN_REGISTERS = {
+    "BYTE": 1,
     "FLOAT32": 2,
     "UINT16": 1,
     "UINT32": 2,
@@ -37,7 +38,7 @@ def get_raw_registers_data(src=DEFAULT_FILE_NAME):
     @rtype: dict
     """
     with open(src) as f:
-        contents = f.read().encode("ascii", "ignore")
+        contents = f.read().decode("utf-8","ignore")
     return json.loads(contents)["registers"]
 
 
@@ -229,7 +230,7 @@ def parse_register_data(raw_register_dict, expand_names=False):
         raw_register_dict["readwrite"]
     )
 
-    tags = raw_register_dict["tags"]
+    tags = raw_register_dict.get("tags", [])
 
     # Interpret addresses
     start_address = raw_register_dict["address"]

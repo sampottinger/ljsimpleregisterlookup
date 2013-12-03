@@ -22,10 +22,11 @@ TEST_RESOLVED_TO_UNRESOLVED_PAIRS = map(
     TEST_DEVICE_REGS
 )
 
-PRE_POST_ORIG_TAG = parse_ljsl.TagComponent("PRE_", 100, 2, 3, "_POST", True)
-ANOTHER_ORIG_TAG = parse_ljsl.TagComponent("ANOTHER_", 200, 2, 3, "", True)
-ORIG_TAG_NO_GAP = parse_ljsl.TagComponent("YAC", 200, 2, None, "", True)
-NO_LJMMM_ORIG_TAG = parse_ljsl.TagComponent("TEST", None, None, None, None,
+PRE_POST_ORIG_TAG = parse_ljsl.TagComponent("", "PRE_", 100, 2, 3, "_POST",
+    True)
+ANOTHER_ORIG_TAG = parse_ljsl.TagComponent("", "ANOTHER_", 200, 2, 3, "", True)
+ORIG_TAG_NO_GAP = parse_ljsl.TagComponent("", "YAC", 200, 2, None, "", True)
+NO_LJMMM_ORIG_TAG = parse_ljsl.TagComponent("", "TEST", None, None, None, None,
     False)
 
 LOREM_IPSUM = '''Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
@@ -124,7 +125,7 @@ TEST_TAG_BY_CLASS_NAMES["TEST"] = NO_LJMMM_GROUPING
 TEST_APP = flask.Flask(__name__)
 
 
-class LJMMMTests(unittest.TestCase):
+class LJScribeTests(unittest.TestCase):
 
     def test_parsed_sub_tag_to_names(self):
         test_tag_entry = PRE_POST_ORIG_TAG
@@ -146,10 +147,10 @@ class LJMMMTests(unittest.TestCase):
             [
                 PRE_POST_ORIG_TAG,
                 ANOTHER_ORIG_TAG,
-                parse_ljsl.TagComponent("PRE_", 200, 2, 3, "_POST", True)
+                parse_ljsl.TagComponent("", "PRE_", 200, 2, 3, "_POST", True)
             ],
             [
-                parse_ljsl.TagComponent("PRE_", 300, 2, 3, "_POST", True)
+                parse_ljsl.TagComponent("", "PRE_", 300, 2, 3, "_POST", True)
             ]
         )
 
@@ -240,10 +241,12 @@ class LJMMMTests(unittest.TestCase):
 
     def test_render_tag_summary(self):
         with TEST_APP.test_request_context("/"):
+            special_tag = parse_ljsl.TagComponent("", "PRE_", 100, 4, 3,
+                "_POST", True)
             str_summary = lj_scribe.render_tag_summary(
                 TEST_TAG_BY_CLASS_NAMES,
                 [
-                    parse_ljsl.TagComponent("PRE_", 100, 4, 3, "_POST", True),
+                    special_tag,
                     ANOTHER_ORIG_TAG,
                     NO_LJMMM_ORIG_TAG
                 ],
@@ -252,8 +255,8 @@ class LJMMMTests(unittest.TestCase):
 
         self.assertEqual(str_summary.count("class-summary"), 3)
         self.assertEqual(str_summary.count("sub-tag"), 3)
-        self.assertEqual(str_summary.count("individual-name"), 7)
-        self.assertEqual(str_summary.count("individual-address"), 7)
+        self.assertEqual(str_summary.count("individual-name"), 6)
+        self.assertEqual(str_summary.count("individual-address"), 6)
         self.assertEqual(str_summary.count("ORIG_TAG"), 1)
 
 
@@ -272,6 +275,18 @@ class LJMMMTests(unittest.TestCase):
             original_tag_str,
             "@registers:TEST,PRE_#(100:2:3)_POST"
         )
+    
+
+    def test_unknown_register(self):
+        test_tag_entries = [
+            [
+                parse_ljsl.TagComponent("", "UNKNOWN", 200, 2, 3, "_POST", True)
+            ]
+        ]
+
+        with self.assertRaises(lj_scribe.RegisterNotFoundError):
+            classes = lj_scribe.find_classes(test_tag_entries, TEST_DEVICE_REGS)
+
 
 if __name__ == "__main__":
     unittest.main()

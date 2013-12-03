@@ -23,6 +23,17 @@ REGISTERS_STR_START_TITLE = "@registers(%s):"
 SUBTAG_TEMPLATE_STR = "%s#(%d:%d:%d)%s"
 SUBTAG_TEMPLATE_STR_DEFAULT_GAP = "%s#(%d:%d)%s"
 
+MISSING_REG_MSG_TEMPLATE = "%s register not found"
+
+
+class RegisterNotFoundError(Exception):
+    def __init__(self, missing_reg_name):
+
+        # Call the base class constructor with the parameters it needs
+        Exception.__init__(self, MISSING_REG_MSG_TEMPLATE % missing_reg_name)
+
+        self.missing_reg_name = missing_reg_name
+
 
 def parsed_sub_tag_to_names(entry):
     if not entry.includes_ljmmm:
@@ -95,10 +106,17 @@ def find_classes(tag_entries, dev_regs):
     )
 
     tag_names = map(parsed_tag_to_names, tag_entries)
-    res_name_to_unres_entry_tuple = map(
-        lambda x: get_unres_reg_names_for_tag_names(x, unres_regs_by_res_name),
-        tag_names
-    )
+    
+    try:
+        res_name_to_unres_entry_tuple = map(
+            lambda x: get_unres_reg_names_for_tag_names(
+                x,
+                unres_regs_by_res_name
+            ),
+            tag_names
+        )
+    except KeyError as e:
+        raise RegisterNotFoundError(e.message)
 
     res_entry_to_unres_entry_tuple = map(
         lambda x: resolve_registers_by_name_in_tag(x, res_regs_by_res_name),
