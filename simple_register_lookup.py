@@ -102,6 +102,7 @@ def embed_lookup():
     @return: Rendered HTML with device info that can be embedded.
     @rtype: str
     """
+    show_embed_controls = flask.request.args.get("show-embed", "true") == "true"
     values = {
         "devices": request.args.get("devices", ALL_DEVICES_NAME),
         "tags": request.args.get("tags", ALL_TAGS_NAME),
@@ -109,7 +110,8 @@ def embed_lookup():
         "add_reg_names": request.args.get("add-reg-names", "null"),
         "add_regs": request.args.get("add-regs", "null"),
         "expand-addresses": request.args.get("expand-addresses", "null"),
-        "fields": request.args.get("fields", "null")
+        "fields": request.args.get("fields", "null"),
+        "show_embed_controls": show_embed_controls
     }
     return flask.render_template("embed_lookup.html", **values)
 
