@@ -50,6 +50,7 @@ def show_ui():
     @return: HTML register lookup table and controls.
     @rtype: str
     """
+    show_embed_controls = flask.request.args.get("show-embed", "true") == "true"
 
     clean_map(modbus_maps)
     clean_map(modbus_maps_expanded)
@@ -75,6 +76,7 @@ def show_ui():
     return flask.render_template(
         "simple_register_lookup.html",
         device_names = device_options,
+        show_embed_controls = show_embed_controls,
         tags = tag_options
     )
 
@@ -102,7 +104,6 @@ def embed_lookup():
     @return: Rendered HTML with device info that can be embedded.
     @rtype: str
     """
-    show_embed_controls = flask.request.args.get("show-embed", "true") == "true"
     values = {
         "devices": request.args.get("devices", ALL_DEVICES_NAME),
         "tags": request.args.get("tags", ALL_TAGS_NAME),
@@ -110,8 +111,7 @@ def embed_lookup():
         "add_reg_names": request.args.get("add-reg-names", "null"),
         "add_regs": request.args.get("add-regs", "null"),
         "expand-addresses": request.args.get("expand-addresses", "null"),
-        "fields": request.args.get("fields", "null"),
-        "show_embed_controls": show_embed_controls
+        "fields": request.args.get("fields", "null")
     }
     return flask.render_template("embed_lookup.html", **values)
 
