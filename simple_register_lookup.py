@@ -1,5 +1,5 @@
 """Simple Modbus Map register lookup web application.
- 
+
 @author Sam Pottinger
 @license GNU GPL v2
 """
