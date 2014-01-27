@@ -1,7 +1,7 @@
 h1. LJSimpleRegisterLookup
 
 LJSimpleRegisterLookup provides a web-based GUI for our device MODBUS maps.
-LJSimpleRegisterLookup is released under the GNU GPL v2 license.
+LJSimpleRegisterLookup is released under the GNU GPL v2 license. 
 
 
 h2. Overview for the project (tl;dr)
