@@ -1,6 +1,8 @@
+import os
 import subprocess
 
 print 'Pulling from Git repository...'
+subprocess.check_call('git pull origin master', shell=True, cwd='ljm_constants')
 subprocess.check_call('git submodule foreach git pull origin master', shell=True)
 subprocess.check_call('git pull --recurse-submodules', shell=True)
 subprocess.check_call('git submodule update --recursive', shell=True)
