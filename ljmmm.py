@@ -19,6 +19,7 @@ ACCESS_RESTRICTIONS_STRS = {
 DATATYPE_SIZES_IN_REGISTERS = {
     "BYTE": 1,
     "FLOAT32": 2,
+    "FLOAT": 2,
     "UINT16": 1,
     "UINT32": 2,
     "UINT64": 4,
