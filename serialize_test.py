@@ -44,7 +44,6 @@ class SerializeTests(unittest.TestCase):
                 "name",
                 "address",
                 "type",
-                "fwmin",
                 "access",
                 "tags",
                 "description"
@@ -53,7 +52,6 @@ class SerializeTests(unittest.TestCase):
                 "test_1",
                 1,
                 "UINT16",
-                0,
                 "R",
                 "tag1, tag2",
                 "test1"
@@ -62,7 +60,6 @@ class SerializeTests(unittest.TestCase):
                 "test_2",
                 2,
                 "UINT16",
-                0,
                 "W",
                 "tag3, tag4",
                 "test2"
