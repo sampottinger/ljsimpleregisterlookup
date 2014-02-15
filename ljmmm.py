@@ -39,7 +39,10 @@ def get_raw_registers_data(src=DEFAULT_FILE_NAME):
     """
     with open(src) as f:
         contents = f.read().decode("utf-8","ignore")
-    return json.loads(contents)["registers"]
+    regular_registers = json.loads(contents)["registers"]
+    beta_registers = json.loads(contents)["registers_beta"]
+    regular_registers.extend(beta_registers)
+    return regular_registers
 
 
 def generate_int_enumeration(src):
