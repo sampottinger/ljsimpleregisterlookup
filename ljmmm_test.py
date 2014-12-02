@@ -235,5 +235,9 @@ class LJMMMTests(unittest.TestCase):
         self.assertIterableContentsEqual(expected, result)
 
 
+def main():
+    suite = unittest.TestLoader().loadTestsFromTestCase(LJMMMTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
 if __name__ == "__main__":
-    unittest.main()
+    main()

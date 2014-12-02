@@ -297,5 +297,10 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(target_match[1].includes_ljmmm, True)
 
 
+
+def main():
+    suite = unittest.TestLoader().loadTestsFromTestCase(ExpandInjectDataFieldsTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
 if __name__ == "__main__":
-    unittest.main()
+    main()

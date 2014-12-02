@@ -287,6 +287,9 @@ class LJScribeTests(unittest.TestCase):
         with self.assertRaises(lj_scribe.RegisterNotFoundError):
             classes = lj_scribe.find_classes(test_tag_entries, TEST_DEVICE_REGS)
 
+def main():
+    suite = unittest.TestLoader().loadTestsFromTestCase(LJScribeTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
