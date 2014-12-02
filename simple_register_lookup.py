@@ -10,7 +10,7 @@ import os
 import flask
 from flask import Markup, request
 
-import ljmmm
+from ljm_constants import ljmmm
 import lj_scribe
 import parse_ljsl
 import serialize

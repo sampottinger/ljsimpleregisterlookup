@@ -2,7 +2,7 @@ import collections
 
 import flask
 
-import ljmmm
+from ljm_constants import ljmmm
 
 TARGET_DEVICE = "T7"
 
