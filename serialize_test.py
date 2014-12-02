@@ -70,9 +70,5 @@ class SerializeTests(unittest.TestCase):
         self.assertListEqual(serialized, expected)
 
 
-def main():
-    suite = unittest.TestLoader().loadTestsFromTestCase(SerializeTests)
-    unittest.TextTestRunner(verbosity=2).run(suite)
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    unittest.main()
