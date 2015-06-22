@@ -243,11 +243,24 @@ def inject_data():
 
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
     dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
-
+    
+    tag_class_tuples = 0
+    tag_subtags_by_class = 0
+    
+    # This is NOT the best way to fix this issue.  
+    # The code should use lj_scribe.TARGET_DEVICES!!!
+    
     try:
         tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
     except lj_scribe.RegisterNotFoundError as e:
-        return "Register %s not found in MODBUS map." % e.missing_reg_name
+        dev_regs = reg_maps[lj_scribe.TARGET_DEVICE_DIGIT]
+        try:
+            tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
+    
+            tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
+                dev_regs)
+        except lj_scribe.RegisterNotFoundError as e:
+            return "Register %s not found in MODBUS map." % e.missing_reg_name
 
     tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
         dev_regs)
@@ -276,11 +289,23 @@ def inject_data_service():
 
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
     dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
+    
+    tag_class_tuples = 0
+    tag_subtags_by_class = 0
+    
+    # This is NOT the best way to fix this issue.  
+    # The code should use lj_scribe.TARGET_DEVICES!!!
+    try: 
+        tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
+    
+        tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
+            dev_regs)
+    except lj_scribe.RegisterNotFoundError as e:
+        dev_regs = reg_maps[lj_scribe.TARGET_DEVICE_DIGIT]
+        tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
 
-    tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
-
-    tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
-        dev_regs)
+        tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
+            dev_regs)
 
     original_names = map(lj_scribe.find_original_tag_str, names)
 

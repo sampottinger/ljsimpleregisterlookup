@@ -5,6 +5,9 @@ import flask
 from ljm_constants import ljmmm
 
 TARGET_DEVICE = "T7"
+TARGET_DEVICE_DIGIT = "DIGIT"
+
+TARGET_DEVICES = ["T7", "DIGIT"]
 
 
 UnresolvedToResolvedPair = collections.namedtuple(
