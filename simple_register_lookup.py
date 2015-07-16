@@ -25,7 +25,7 @@ INVALID_FILTER_ARGUMENTS = ["null", "undefined"]
 OPTION_TAG_TEMLPATE = "<option value=\"{tag}\">{tag}</option>"
 SELECTED_OPTION_TAB_TEMPLATE = "<option value=\"{tag}\" selected=\"selected\">" \
     "{tag}</option>"
-ALLOWED_REDISPLAY_DOMAIN = "http://labjack.com"
+ALLOWED_REDISPLAY_DOMAIN = "https://labjack.com"
 # NO_TAGS_NAME = "No Tags"
 
 

@@ -1,4 +1,4 @@
-var URL_TEMPLATE = 'http://ljsimpleregisterlookup.herokuapp.com/lookup.html' +
+var URL_TEMPLATE = 'https://ljsimpleregisterlookup.herokuapp.com/lookup.html' +
     '?device_name={{device_name}}'+
     '&tags={{tags}}'+
     '&expand-addresses={{expand-addresses}}'+
