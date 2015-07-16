@@ -7,7 +7,7 @@ deployed = host.indexOf("0.0.0.0") == -1;
 deployed = deployed && host.indexOf("localhost") == -1;
 deployed = deployed && host.indexOf("c9") == -1;
 if (deployed) {
-    BASE_URL = "http://ljsimpleregisterlookup.herokuapp.com/";
+    BASE_URL = "https://ljsimpleregisterlookup.herokuapp.com/";
 } else {
     BASE_URL = '';
 }
