@@ -1,9 +1,13 @@
 <script type="text/javascript">
 try {
-    (function() {
-        if(typeof($) === 'undefined') {
-            $ = jQuery;
-        }
+    var jQueryObj;
+    if(typeof($) === 'undefined') {
+        jQueryObj = jQuery;
+    } else {
+        jQueryObj = $;
+    }
+    (function($) {
+        
         $( document ).ready(function() {
             $('.collapsed-content-expander').closest('.content').find('.sometimes-shown').hide();
             
@@ -14,7 +18,7 @@ try {
                 return false;
             });
         });
-    })();  // Execute.
+    })(jQueryObj);  // Execute.
 } catch(err) {
     
 }
