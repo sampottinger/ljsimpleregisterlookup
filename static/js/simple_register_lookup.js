@@ -8,6 +8,13 @@
  * @license GNU GPL v2
 **/
 
+var $;
+try {
+    $ = jQuery;
+} catch(err) {
+    
+}
+
 var handleError = function(err)
 {
     $('#loading-image').hide();
