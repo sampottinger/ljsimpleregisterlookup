@@ -1,12 +1,22 @@
 <script type="text/javascript">
-$( document ).ready(function() {
-    $('.collapsed-content-expander').closest('.content').find('.sometimes-shown').hide();
-    
-    $('.collapsed-content-expander').click(function(e) {
-        $(e.target).closest('.content').find('.collapsed-content-expander').fadeOut(function () {
-            $(e.target).closest('.content').find('.sometimes-shown').fadeIn();
+try {
+    (function()) {
+        if(typeof($) === 'undefined') {
+            $ = jQuery;
+        }
+        $( document ).ready(function() {
+            $('.collapsed-content-expander').closest('.content').find('.sometimes-shown').hide();
+            
+            $('.collapsed-content-expander').click(function(e) {
+                $(e.target).closest('.content').find('.collapsed-content-expander').fadeOut(function () {
+                    $(e.target).closest('.content').find('.sometimes-shown').fadeIn();
+                });
+                return false;
+            });
         });
-        return false;
-    });
-});
+    })();  // Execute.
+} catch(err) {
+    
+}
+
 </script>
