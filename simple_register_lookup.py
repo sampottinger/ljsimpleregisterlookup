@@ -287,12 +287,9 @@ def inject_data_service():
     target_code = flask.request.args.get("input", "")
     names = parse_ljsl.find_names(target_code)
 
-    # This is a hack and would be better done in parse_ljsl.find_names.
-    names = lj_scribe.filter_out_unknown_regs(names)
-
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
     dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
-
+    
     tag_class_tuples = 0
     tag_subtags_by_class = 0
     

@@ -1,5 +1,4 @@
 import collections
-import copy
 
 import flask
 
@@ -132,17 +131,6 @@ def find_classes(tag_entries, dev_regs):
         res_entry_to_unres_entry_tuple
     )
 
-
-def filter_out_unknown_regs(tag_entries):
-    '''TODO: This is a hack and would be better done in parse_ljsl.find_names.'''
-    new_tag_entries = copy.deepcopy(tag_entries)
-    new_tag_entries[0] = []
-
-    for entry in tag_entries[0]:
-        if entry.prefix:
-            new_tag_entries[0].append(entry)
-
-    return new_tag_entries
 
 def find_subtags_by_class(unresolved_resolved_pairs, dev_regs):
     ret_dict = collections.OrderedDict()
