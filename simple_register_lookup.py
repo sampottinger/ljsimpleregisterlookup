@@ -229,7 +229,7 @@ def lookup():
 
 @app.route("/scribe", methods=["GET", "POST"])
 def inject_data():
-    """Controls to Inject data about reigster records into an HTML template.
+    """Controls to Inject data about register records into an HTML template.
 
     @return: HTML form through which the HTML template can be filled and
         rendered.

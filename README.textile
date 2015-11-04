@@ -13,12 +13,12 @@ Simple Register Lookup provides a device drop-down menu that then displays MODBU
 LJScribe generates HTML documentation for registers based on the JSON modbus map. LabJack currently serves this tool at http://ljsimpleregisterlookup.herokuapp.com/scribe.
 
 *LJMMM / LJSL*
-This project implements Python parsers for both LabJack MODBUS Map Markup and LabJack Scribe Lanaguage. The formal spec for LJMMM, the markup that aids in the construction of the JSON MODBUS map, is available at http://jsfiddle.net/Q2F4V/embedded/result/ and an informal discussion follows. LJSL, the language used with LJScribe, does not currently have a formal spec but a brief discussion also follows.
+This project implements Python parsers for both LabJack MODBUS Map Markup and LabJack Scribe Language. The formal spec for LJMMM, the markup that aids in the construction of the JSON MODBUS map, is available at http://jsfiddle.net/Q2F4V/embedded/result/ and an informal discussion follows. LJSL, the language used with LJScribe, does not currently have a formal spec but a brief discussion also follows.
 
 
 h2. LJMMM
 
-LabJack MODBUS Map Markup provides automatic enumeration of names and reigsters in LabJack's JSON MODBUS map. While a formal spec is at http://jsfiddle.net/Q2F4V/embedded/result/, LJMMM fields interprets both special fields in register names as well as data types for the automatic enumeration of addresses. The existing "JSON MODBUS map":https://bitbucket.org/labjack/ljm_constants/src/5b43af77eb9273cb4f75af9d2be6c9f858f22c56/LabJack/LJM/ljm_constants.json?at=master already uses LJMMM extensively.
+LabJack MODBUS Map Markup provides automatic enumeration of names and registers in LabJack's JSON MODBUS map. While a formal spec is at http://jsfiddle.net/Q2F4V/embedded/result/, LJMMM fields interprets both special fields in register names as well as data types for the automatic enumeration of addresses. The existing "JSON MODBUS map":https://bitbucket.org/labjack/ljm_constants/src/5b43af77eb9273cb4f75af9d2be6c9f858f22c56/LabJack/LJM/ljm_constants.json?at=master already uses LJMMM extensively.
 
 *Names*
 LJMMM names are interpreted as LMMM Field Language which should consist of all caps with numbers and underscores. The pound sign indicates enumeration as the four following examples demonstrate:
@@ -45,7 +45,7 @@ Please note that LJMMM attempts to standardize the other attributes of JSON obje
 
 h2. LJSL
 
-"LJScribe":http://ljsimpleregisterlookup.herokuapp.com/scribe reads LabJack Scribe Language to produce HTML output. Basically Scribe looks for @registers: or @registers(Title Text): followed by a comma seperated list of LJMMM Field Language entries. Currently scribe limits these fields to a single enumeration. So, AIN#(1:10) is valid but AIN#(1:10)_#(1:10) is not currently supported. An example of input into LJScribe is at https://gist.github.com/Samnsparky/7122519 and the corresponding output is at http://jsfiddle.net/sampottinger/36vCD/. Notice that the styling in the jsfiddle is slightly different than how it will appear on LabJack's pages due to inherited CSS rules.
+"LJScribe":http://ljsimpleregisterlookup.herokuapp.com/scribe reads LabJack Scribe Language to produce HTML output. Basically Scribe looks for @registers: or @registers(Title Text): followed by a comma separated list of LJMMM Field Language entries. Currently scribe limits these fields to a single enumeration. So, AIN#(1:10) is valid but AIN#(1:10)_#(1:10) is not currently supported. An example of input into LJScribe is at https://gist.github.com/Samnsparky/7122519 and the corresponding output is at http://jsfiddle.net/sampottinger/36vCD/. Notice that the styling in the jsfiddle is slightly different than how it will appear on LabJack's pages due to inherited CSS rules.
 
 
 h2. Technology used
@@ -78,7 +78,7 @@ All Python documentation is written in epydoc (http://epydoc.sourceforge.net/) a
 
 h2. Virtualenv
 
-LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv) and the gunicorn server. Also, to accomodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
+LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv) and the gunicorn server. Also, to accommodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
 
 To set up locally:
 * $ virtualenv venv
