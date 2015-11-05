@@ -4,7 +4,7 @@ import parse_ljsl
 
 
 TEST_CORPUS = '''There is some text followed by information about
-@registers:TEST#(120:5:3) as well as a seperate mixed entry about:
+@registers:TEST#(120:5:3) as well as a separate mixed entry about:
 
 @registers:OTHERTEST#(1:3),TEST#(1:5:3),OTHERTEST#(1:3)
 '''
