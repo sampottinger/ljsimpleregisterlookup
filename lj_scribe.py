@@ -109,7 +109,7 @@ def find_classes(tag_entries, dev_regs):
     )
 
     tag_names = map(parsed_tag_to_names, tag_entries)
-    
+
     try:
         res_name_to_unres_entry_tuple = map(
             lambda x: get_unres_reg_names_for_tag_names(
@@ -132,12 +132,108 @@ def find_classes(tag_entries, dev_regs):
     )
 
 
+def strip_not_found_reg_names(target_code, not_found_reg_names):
+    """Strip given register names from the target code.
+
+    @param target_code: Something like @registers(Title):STREAM_DATA_CR,ASDF,MOOCOW,AIN0
+    @type target_code: str
+    @param not_found_reg_names: List of names to strip from the target code
+    @type not_found_reg_names: Iterable of str
+    @return the stripped target code
+    @return type: str
+    """
+    colon_index = target_code.index(':') + 1
+    prefix = target_code[:colon_index]
+    regs = target_code[colon_index:].split(',')
+    return prefix + ','.join([
+        reg for reg in regs if reg not in not_found_reg_names
+    ])
+
+
+def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
+    """Find the classes for a given set of names, given a list of device maps.
+
+    @param tag_entries: the names get get classes for
+    @param reg_maps: the list of device maps
+    @type reg_maps: dict
+    """
+    # Flatten reg_maps
+    all_regs = []
+    for dev_regs in reg_maps.values():
+        all_regs.extend(dev_regs)
+
+    regs_tuple_res_name_first = map(lambda x: (x[1]["name"], x[0]), all_regs)
+    unres_regs_by_res_name = dict(regs_tuple_res_name_first)
+
+    def inner_create_tuple(tag_entries, unres_regs_by_res_name):
+        tag_names = map(parsed_tag_to_names, tag_entries)
+        return map(
+            lambda x: get_unres_reg_names_for_tag_names(
+                x,
+                unres_regs_by_res_name
+            ),
+            tag_names
+        )
+
+    def inner_try_remove_wrapper(tag_entries, unres_regs_by_res_name):
+        while True:
+            try:
+                return inner_create_tuple(
+                    tag_entries,
+                    unres_regs_by_res_name
+                )
+            except KeyError as e:
+                # Remove the register which could not be found in reg_maps
+                # TODO: Add the offending register to a list, which we'll return
+                found = False
+                for entry in tag_entries[0]:
+                    if entry.prefix == e.message:
+                        found = True
+                        tag_entries[0].remove(entry)
+                        not_found_reg_names.append(e.message)
+                if not found:
+                    raise RegisterNotFoundError(e.message)
+
+    res_name_to_unres_entry_tuple = inner_try_remove_wrapper(
+        tag_entries,
+        unres_regs_by_res_name
+    )
+
+    res_regs_by_res_name = dict(
+        map(lambda x: (x[1]["name"], x[1]), all_regs)
+    )
+
+    res_entry_to_unres_entry_tuple = map(
+        lambda x: resolve_registers_by_name_in_tag(x, res_regs_by_res_name),
+        res_name_to_unres_entry_tuple
+    )
+
+    return map(
+        convert_unresolved_to_resolved_tag,
+        res_entry_to_unres_entry_tuple
+    )
+
+
+def fia_find_subtags_by_class(unresolved_resolved_pairs):
+    ret_dict = collections.OrderedDict()
+
+    for entry in unresolved_resolved_pairs:
+        unresolved = entry[0].unresolved
+        name = unresolved["name"]
+        grouping = UnresolvedWithResolvedGrouping(
+            map(lambda x: x.resolved, entry), unresolved
+        )
+        ret_dict[name] = grouping
+
+    return ret_dict
+
+
 def find_subtags_by_class(unresolved_resolved_pairs, dev_regs):
     ret_dict = collections.OrderedDict()
 
-    unres_regs_by_unres_name = dict(
-        map(lambda x: (x[0]["name"], x[0]), dev_regs)
-    )
+    # unres_regs_by_unres_name = dict(
+    #     map(lambda x: (x[0]["name"], x[0]), dev_regs)
+    # )
 
     for entry in unresolved_resolved_pairs:
         unresolved = entry[0].unresolved
@@ -148,6 +244,12 @@ def find_subtags_by_class(unresolved_resolved_pairs, dev_regs):
 
     return ret_dict
 
+
+def fia_organize_tag_by_class(target_tag):
+    return map(
+        lambda x: fia_find_subtags_by_class(x),
+        target_tag
+    )
 
 def organize_tag_by_class(target_tag, dev_regs):
     return map(

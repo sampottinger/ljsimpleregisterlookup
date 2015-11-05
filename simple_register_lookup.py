@@ -288,24 +288,20 @@ def inject_data_service():
     names = parse_ljsl.find_names(target_code)
 
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
-    dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
-    
-    tag_class_tuples = 0
-    tag_subtags_by_class = 0
-    
-    # This is NOT the best way to fix this issue.  
-    # The code should use lj_scribe.TARGET_DEVICES!!!
-    try: 
-        tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
-    
-        tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
-            dev_regs)
-    except lj_scribe.RegisterNotFoundError as e:
-        dev_regs = reg_maps[lj_scribe.TARGET_DEVICE_DIGIT]
-        tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
 
-        tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
-            dev_regs)
+    not_found_reg_names = []
+    tag_class_tuples = lj_scribe.find_classes_from_map(
+        names,
+        reg_maps,
+        not_found_reg_names
+    )
+
+    tag_subtags_by_class = lj_scribe.fia_organize_tag_by_class(tag_class_tuples)
+
+    target_code = lj_scribe.strip_not_found_reg_names(
+        target_code,
+        not_found_reg_names
+    )
 
     original_names = map(lj_scribe.find_original_tag_str, names)
 
