@@ -143,6 +143,9 @@ def fix_not_found_reg_names(target_code, not_found_reg_names):
         "@registers:STREAM_DATA_CR,AIN0 Unknown register(s): [MOOCOW]"
     @return type: str
     """
+    if not len(not_found_reg_names):
+        return target_code
+
     colon_index = target_code.index(':') + 1
     prefix = target_code[:colon_index]
     regs = target_code[colon_index:].split(',')
