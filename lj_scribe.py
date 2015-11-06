@@ -132,14 +132,15 @@ def find_classes(tag_entries, dev_regs):
     )
 
 
-def strip_not_found_reg_names(target_code, not_found_reg_names):
-    """Strip given register names from the target code.
+def fix_not_found_reg_names(target_code, not_found_reg_names):
+    """Fix the target code by moving unrecognized register names to the end.
 
-    @param target_code: Something like @registers(Title):STREAM_DATA_CR,ASDF,MOOCOW,AIN0
+    @param target_code: Something like "@registers:STREAM_DATA_CR,MOOCOW,AIN0"
     @type target_code: str
     @param not_found_reg_names: List of names to strip from the target code
     @type not_found_reg_names: Iterable of str
-    @return the stripped target code
+    @return the fixed target code. Something like:
+        "@registers:STREAM_DATA_CR,AIN0 Unknown register(s): [MOOCOW]"
     @return type: str
     """
     colon_index = target_code.index(':') + 1
@@ -147,7 +148,7 @@ def strip_not_found_reg_names(target_code, not_found_reg_names):
     regs = target_code[colon_index:].split(',')
     return prefix + ','.join([
         reg for reg in regs if reg not in not_found_reg_names
-    ])
+    ]) + ' Unknown register(s): ' + ', '.join(not_found_reg_names)
 
 
 def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):

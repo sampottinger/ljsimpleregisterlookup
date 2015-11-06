@@ -298,7 +298,7 @@ def inject_data_service():
 
     tag_subtags_by_class = lj_scribe.fia_organize_tag_by_class(tag_class_tuples)
 
-    target_code = lj_scribe.strip_not_found_reg_names(
+    target_code = lj_scribe.fix_not_found_reg_names(
         target_code,
         not_found_reg_names
     )
