@@ -28,7 +28,7 @@ STATE_READING_POSTFIX = 18
 STATE_READING_TITLE = 19
 STATE_RESET = 20
 DIGITS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-VALID_NAME_CHAR_REGEX = re.compile("[A-Z]|[0-9]|_")
+VALID_NAME_CHAR_REGEX = re.compile("[a-zA-Z]|[0-9]|_")
 
 TagComponent = collections.namedtuple(
     "TagComponent",

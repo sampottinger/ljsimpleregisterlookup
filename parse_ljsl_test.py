@@ -6,7 +6,7 @@ import parse_ljsl
 TEST_CORPUS = '''There is some text followed by information about
 @registers:TEST#(120:5:3) as well as a separate mixed entry about:
 
-@registers:OTHERTEST#(1:3),TEST#(1:5:3),OTHERTEST#(1:3)
+@registers:OTHERTEST#(1:3),TEST#(1:5:3),OTHERTEST#(1:3),lowertest#(1:3),l#(1:3)p
 '''
 
 TEST_CORPUS_MANY_WITH_INVALID = '''There is some text followed by information
@@ -30,7 +30,7 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(len(matches), 2)
 
         lengths = map(lambda x: len(x), matches)
-        self.assertEqual([1, 3], lengths)
+        self.assertEqual([1, 5], lengths)
 
         target_match = matches[0][0]
         self.assertEqual(target_match.prefix, "TEST")
@@ -62,6 +62,22 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(target_match.num_regs, 3)
         self.assertEqual(target_match.num_between_regs, None)
         self.assertEqual(target_match.postfix, "")
+        self.assertEqual(target_match.includes_ljmmm, True)
+
+        target_match = matches[1][3]
+        self.assertEqual(target_match.prefix, "lowertest")
+        self.assertEqual(target_match.start_num, 1)
+        self.assertEqual(target_match.num_regs, 3)
+        self.assertEqual(target_match.num_between_regs, None)
+        self.assertEqual(target_match.postfix, "")
+        self.assertEqual(target_match.includes_ljmmm, True)
+
+        target_match = matches[1][4]
+        self.assertEqual(target_match.prefix, "l")
+        self.assertEqual(target_match.start_num, 1)
+        self.assertEqual(target_match.num_regs, 3)
+        self.assertEqual(target_match.num_between_regs, None)
+        self.assertEqual(target_match.postfix, "p")
         self.assertEqual(target_match.includes_ljmmm, True)
 
     def test_find_name_after_invalid(self):
