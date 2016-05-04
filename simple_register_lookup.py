@@ -260,7 +260,7 @@ def inject_data():
             tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
                 dev_regs)
         except lj_scribe.RegisterNotFoundError as e:
-            return "Register %s not found in MODBUS map." % e.missing_reg_name
+            return "Register %s not found in Modbus map." % e.missing_reg_name
 
     tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
         dev_regs)
