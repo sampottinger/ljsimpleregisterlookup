@@ -4,6 +4,7 @@ var host = window.location.host;
 var BASE_URL;
 
 deployed = host.indexOf("0.0.0.0") == -1;
+deployed = deployed && host.indexOf("127.0.0.1") == -1;
 deployed = deployed && host.indexOf("localhost") == -1;
 deployed = deployed && host.indexOf("c9") == -1;
 if (deployed) {
