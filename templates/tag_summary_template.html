@@ -9,16 +9,15 @@
                 <td>Start Address</td>
                 <td>Type</td>
                 <td>Access</td>
-                <td>Default</td>
             </tr>
         </thead>
         <tbody>
             {% for (orig_subtag, subtag) in tag %}
             <tr class="class-summary">
                 {% if orig_subtag.includes_ljmmm %}
-                <td>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</td>
+                    <td>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</td>
                 {% else %}
-                <td>{{orig_subtag.prefix}}</td>
+                    <td>{{orig_subtag.prefix}}</td>
                 {% endif %}
                 <td>{{subtag.resolved[0].address}}</td>
                 <td>{{subtag.unresolved.type}}</td>
@@ -33,7 +32,6 @@
                     W
                 {% endif %}
                 </td>
-                <td>{{subtag.unresolved.default}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -46,18 +44,69 @@
             {% else %}
             <h4>{{orig_subtag.prefix}}</h4>
             {% endif %}
+            - {% if subtag.resolved|length == 1 %}Address:{% else %}Starting Address:{% endif %} {{subtag.resolved[0].address}}
             <div class="main-content">
                 <div class="description">
                     <div class="content">
-                        {{ subtag.unresolved.description }}
+                        {{ subtag.unresolved.description }}</br>
+                        <ul class="additional-details">
+                        <li>Data type: {{subtag.unresolved.type}}</li>
+                        <li>
+                            {% if subtag.resolved[0].read %}
+                                {% if subtag.resolved[0].write %}
+                                Readable and writable
+                                {% else %}
+                                Read-only
+                                {% endif %}
+                            {% elif subtag.resolved[0].write %}
+                                Write-only
+                            {% endif %}
+                        </li>
+                        {% if subtag.unresolved.default is defined %}
+                            <li>Default value: {{subtag.unresolved.default}}</li>
+                        {% endif %}
+                        {% if subtag.unresolved.streamable %}
+                            <li>This register may be streamed</li>
+                        {% endif %}
+                        {% if subtag.resolved[0].fwmin %}
+                            <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ subtag.resolved[0].fwmin }}</li>
+                        {% endif %}
+                        {% if subtag.unresolved.isBuffer %}
+                            <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
+                        {% endif %}
+                        {% if subtag.resolved[0].deviceDescription %}
+                            <li>Device-specific details: {{ subtag.resolved[0].deviceDescription }}</li>
+                        {% endif %}
+                        </ul>
+                        {% if subtag.resolved[0].constants %}
+                            <table class="sub-details">
+                            <thead>
+                                <tr>
+                                    <td>{{ orig_subtag.prefix }} Constants</td>
+                                    <td>Value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for constant in subtag.resolved[0].constants %}
+                                <tr>
+                                    <td>{{ constant.name }}</td>
+                                    <td>{{ constant.value }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        {% endif %}
                     </div>
                 </div>
                 {% if subtag.resolved|length > 1 %}
                 <table class="sub-details">
-                    <tr class="title"> 
-                        <td>Names</td>
+                <thead>
+                    <tr class="title">
+                        <td>Expanded Names</td>
                         <td>Addresses</td>
                     </tr>
+                </thead>
+                <tbody>
                     <tr class="content">
                         <td>
                             {% for individual in subtag.resolved %}
@@ -76,10 +125,11 @@
                             </span>
                             {% endfor %}
                             {% if subtag.resolved|length > 3 %}
-                            <a href="#" class="collapsed-content-expander">Show All</span>
+                            <a href="#" class="collapsed-content-expander">Show All</a>
                             {% endif %}
                         </td>
                     </tr>
+                </tbody>
                 </table>
                 {% endif %}
             </div>
