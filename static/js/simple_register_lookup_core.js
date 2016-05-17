@@ -21,8 +21,7 @@ var CURRENT_APP_URL = DEPLOY_URL;
 
 var anOpen = [];
 
-
-function attachListeners(oTable, descriptionIndex, tableID)
+function attachListeners(oTable, detailIndices, tableID)
 {
     $(window).resize(function() {
         oTable.fnAdjustColumnSizing();
@@ -36,7 +35,7 @@ function attachListeners(oTable, descriptionIndex, tableID)
         if ( i === -1 )
         {
             $("img", this).attr( "src", BASE_URL + "/static/images/details_close.png" );
-            var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, descriptionIndex), "details" );
+            var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, detailIndices), "details" );
             $("div.innerDetails", nDetailsRow).slideDown();
             anOpen.push( nTr );
         }
@@ -71,8 +70,20 @@ var updateRegistersTable = function(data, tableContainer)
 
     var columnNames = data[0]; // Header
 
-    var descriptionIndex = columnNames.indexOf("description");
-    columnNames.splice(descriptionIndex, 1);
+    var detailIndices = {
+      "description": columnNames.indexOf("description"),
+      "default": columnNames.indexOf("default"),
+      "streamable": columnNames.indexOf("streamable"),
+      "isBuffer": columnNames.indexOf("isBuffer"),
+      "constants": columnNames.indexOf("constants")
+    };
+
+    for (var detail in detailIndices) {
+      var currentIndex = columnNames.indexOf(detail);
+      if (currentIndex !== -1) {
+        columnNames.splice(currentIndex, 1);
+      }
+    }
 
     var nameIndex = columnNames.indexOf("name");
 
@@ -117,23 +128,47 @@ var updateRegistersTable = function(data, tableContainer)
     }, 10 );
 
     // Attach details link listeners
-    attachListeners(oTable, descriptionIndex, tableID);
+    attachListeners(oTable, detailIndices, tableID);
 
     // Show table
     $("#" + tableContainer).show();
 
 }
 
-function fnFormatDetails( oTable, nTr, descriptionIndex)
+function fnFormatDetails( oTable, nTr, detailIndices)
 {
   var aData = oTable.fnGetData( nTr );
-  var sOut =
-    "<div class=\"innerDetails\">"+
-        aData[descriptionIndex] +
-    "</div>";
-  return sOut;
-}
+  var view = {
+    "description": aData[detailIndices["description"]]
+  };
+  if (aData[detailIndices["default"]] !== null && aData[detailIndices["default"]] !== undefined) {
+    view["default"] = aData[detailIndices["default"]].toString();
+  }
+  if (aData[detailIndices["streamable"]]) {
+    view["streamable"] = true;
+  }
+  if (aData[detailIndices["isBuffer"]]) {
+    view["isBuffer"] = true;
+  }
 
+  var template = `
+<div class="innerDetails">
+{{description}}
+<ul class="additional-details">
+  {{#default}}
+    <li>Default: {{default}}</li>
+  {{/default}}
+  {{#streamable}}
+    <li>This register may be streamed</li>
+  {{/streamable}}
+  {{#isBuffer}}
+    <li>This register is a <em><a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">buffer register</a></em></li>
+  {{/isBuffer}}
+</ul>
+</div>
+`;
+  return Mustache.render(template, view);
+}
 
 function RegistersTableRequester()
 {

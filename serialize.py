@@ -10,7 +10,7 @@ for LabJack MODBUS devices.
 import copy
 
 DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "access",
-    "tags", "description"]
+    "tags", "description", "default", "streamable", "isBuffer"]
 
 
 def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
