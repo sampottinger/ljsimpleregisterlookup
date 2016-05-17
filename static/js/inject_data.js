@@ -1,5 +1,14 @@
 var displayingInputControls = false;
 
+function renderInline(msg, node) {
+    node.contents().find("html").html(
+        $.parseHTML(
+            msg,
+            node.contents(),
+            true
+        )
+    );
+};
 
 $(window).load(function () {
     $('#catchphrase').hide().delay(200).slideDown();
@@ -24,6 +33,8 @@ $(window).load(function () {
                 $('#output-section').slideDown();
                 $('#input-section #waiting').hide();
                 $('#input-section #controls').fadeIn();
+                renderInline(msg, $('#rendered-output-code-context-large'));
+                renderInline(msg, $('#rendered-output-code-context-small'));
             });
         });
     });

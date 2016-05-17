@@ -42,6 +42,23 @@ html {
     display: none;
 }
 
+#output-section #contents {
+    margin-bottom: 30px;
+}
+
+#output-section .rendered-output-code-context {
+    height: 900px;
+    margin-bottom: 30px;
+}
+
+#output-section #rendered-output-code-context-large {
+    width: 920px;
+}
+
+#output-section #rendered-output-code-context-small {
+    width: 420px;
+}
+
 button.clean-gray {
     font-size: 12px;
     background-color: #eeeeee;
