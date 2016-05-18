@@ -146,6 +146,14 @@ function fnFormatDetails( oTable, nTr, detailIndices)
       if (this.description)
         return this.description;
       return '';
+    },
+    "display_fwmin": function() {
+        if (this.fwmin.toFixed) {
+            return this.fwmin.toFixed(4);
+        }
+
+        // Because superstitious
+        return this.fwmin;
     }
   };
   if (aData[detailIndices["default"]] !== null && aData[detailIndices["default"]] !== undefined) {
@@ -191,7 +199,7 @@ function fnFormatDetails( oTable, nTr, detailIndices)
           <li>{{device_description}}</li>
         {{/device_description}}
         {{#fwmin}}
-          <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{fwmin}}</li>
+          <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{display_fwmin}}</li>
         {{/fwmin}}
       </ul>
     </li>

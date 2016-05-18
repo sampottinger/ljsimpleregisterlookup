@@ -69,7 +69,7 @@
                             <li>This register may be streamed</li>
                         {% endif %}
                         {% if subtag.resolved[0].fwmin %}
-                            <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ subtag.resolved[0].fwmin }}</li>
+                            <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ '%.04f' % subtag.resolved[0].fwmin }}</li>
                         {% endif %}
                         {% if subtag.unresolved.isBuffer %}
                             <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
