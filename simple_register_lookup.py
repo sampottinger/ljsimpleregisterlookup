@@ -17,8 +17,8 @@ import serialize
 
 app = flask.Flask(__name__)
 
-modbus_maps = ljmmm.get_device_modbus_maps()
-modbus_maps_expanded = ljmmm.get_device_modbus_maps(expand_names=True)
+reg_data_compressed = ljmmm.get_registers_data(expand_names=False, inc_orig=False)
+reg_data_expanded = ljmmm.get_registers_data(expand_names=True, inc_orig=False)
 ALL_DEVICES_NAME = "All Devices"
 ALL_TAGS_NAME = "All Tags"
 INVALID_FILTER_ARGUMENTS = ["null", "undefined"]
@@ -29,20 +29,6 @@ ALLOWED_REDISPLAY_DOMAIN = "https://labjack.com"
 # NO_TAGS_NAME = "No Tags"
 
 
-def safe_remove(d, item):
-    """Remove an item from a dictionary if that item is present.
-
-    @param 
-    """
-    if d.get(item, None):
-        del d[item]
-
-def clean_map(mod_map):
-    """Remove non-MODBUS compatible devices from the MODBUS map."""
-    safe_remove(mod_map, "UE9")
-    safe_remove(mod_map, "U6")
-    safe_remove(mod_map, "U3")
-
 @app.route("/")
 def show_ui():
     """Display the JavaScript client for viewing MODBUS map information.
@@ -50,9 +36,6 @@ def show_ui():
     @return: HTML register lookup table and controls.
     @rtype: str
     """
-
-    clean_map(modbus_maps)
-    clean_map(modbus_maps_expanded)
 
     device_options = modbus_maps.keys()
     device_options.insert(0, ALL_DEVICES_NAME)
@@ -116,6 +99,12 @@ def embed_lookup():
     return flask.render_template("embed_lookup.html", **values)
 
 
+def match_device(reg, device_name):
+    for dev in reg['devices']:
+        if dev['device'] == device_name:
+            return True
+
+
 @app.route("/lookup.json")
 def lookup():
     """Render JSON formatted device MODBUS map.
@@ -135,7 +124,7 @@ def lookup():
     add_regs_str = prepareFilterArg(request.args.get("add-regs", "null"))
     expand = request.args.get("expand-addresses", "true")
     dataset_cols = prepareFilterArg(request.args.get("fields", "null"))
-    
+
     dataset_cols = map(
         lambda x: "access" if x == "rw" else x,
         dataset_cols
@@ -154,72 +143,65 @@ def lookup():
         expand = "false"
 
     # Choose between either the MODBUS maps with raw LJMMM entries or the maps
-    # with LJMMM fields interpereted and expanded.
+    # with LJMMM fields interpreted and expanded.
     if expand == "true" or add_regs_str:
-        map_to_use = modbus_maps_expanded
+        regs_to_use = reg_data_expanded
     else:
-        map_to_use = modbus_maps
+        regs_to_use = reg_data_compressed
 
     # Filter out which entries to use based on device.
-    modbus_map = []
-    if device_name == ALL_DEVICES_NAME:
-        for device_name in modbus_maps.keys():
-            modbus_map.extend(map_to_use.get(device_name, None))
-
-        modbus_map = uniques(modbus_map, lambda x: x["name"])
-
-    else:
-        modbus_map = map_to_use.get(device_name, None)
+    if device_name != ALL_DEVICES_NAME:
+        regs_to_use = [x for x in regs_to_use if match_device(x, device_name)]
 
     # If the selected device / modbus map is not available, default to not
     # found.
-    if modbus_map == None:
+    if len(regs_to_use) == 0:
         flask.abort(404)
 
     # Pre filter
     unfiltered_registers = []
     if add_reg_names:
-        for entry in modbus_map:
+        for entry in regs_to_use:
             for reg_num in add_reg_names:
                 if unicode(reg_num) in unicode(entry["name"]):
                     unfiltered_registers.append(entry)
 
     if add_regs_str:
         add_regs = map(lambda x: int(x), add_regs_str)
-        modbus_map = filter(lambda x: x["address"] in add_regs, modbus_map)
+        regs_to_use = filter(lambda x: x["address"] in add_regs, regs_to_use)
 
     # Filter by tag
     if tags and unicode(ALL_TAGS_NAME) not in tags:
         tags_set = set(tags)
-        modbus_map = filter(
+        regs_to_use = filter(
             lambda x: set(x["tags"]).issuperset(tags_set),
-            modbus_map
+            regs_to_use
         )
 
     # Filter by not-tag
     if not_tags: # and unicode(NO_TAGS_NAME) not in not_tags:
         entries_to_remove = []
-        for entry in modbus_map:
+        for entry in regs_to_use:
             for map_tag in entry["tags"]:
                 for not_tag in not_tags:
                     if map_tag.find(unicode(not_tag)) != -1:
                         entries_to_remove.append(entry)
 
         for entry in entries_to_remove:
-            modbus_map.remove(entry)
+            regs_to_use.remove(entry)
 
     # Add the pre-filter contents
     for unfiltered_reg in unfiltered_registers:
         duplicate = False
-        for reg in modbus_map:
+        for reg in regs_to_use:
             if unicode(unfiltered_reg["name"]) == unicode(reg["name"]):
                 duplicate = True
 
         if not duplicate:
-            modbus_map.append(unfiltered_reg)
+            regs_to_use.append(unfiltered_reg)
 
     # Serailize the results and return.
-    modbus_map_serialized = serialize.serialize_device_modbus_map(modbus_map,
+    modbus_map_serialized = serialize.serialize_device_modbus_map(regs_to_use,
         dataset_cols)
     response = flask.make_response(json.dumps(modbus_map_serialized))
     response.headers["X-XSS-Protection"] = "0"

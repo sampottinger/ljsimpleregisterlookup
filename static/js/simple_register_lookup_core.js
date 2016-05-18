@@ -75,7 +75,8 @@ var updateRegistersTable = function(data, tableContainer)
       "default": columnNames.indexOf("default"),
       "streamable": columnNames.indexOf("streamable"),
       "isBuffer": columnNames.indexOf("isBuffer"),
-      "constants": columnNames.indexOf("constants")
+      "constants": columnNames.indexOf("constants"),
+      "devices": columnNames.indexOf("devices")
     };
 
     for (var detail in detailIndices) {
@@ -139,7 +140,13 @@ function fnFormatDetails( oTable, nTr, detailIndices)
 {
   var aData = oTable.fnGetData( nTr );
   var view = {
-    "description": aData[detailIndices["description"]]
+    "description": aData[detailIndices["description"]],
+    "device_description": function() {
+      // Prevent it from looking up the scope and finding the non-device "description"
+      if (this.description)
+        return this.description;
+      return '';
+    }
   };
   if (aData[detailIndices["default"]] !== null && aData[detailIndices["default"]] !== undefined) {
     view["default"] = aData[detailIndices["default"]].toString();
@@ -149,6 +156,19 @@ function fnFormatDetails( oTable, nTr, detailIndices)
   }
   if (aData[detailIndices["isBuffer"]]) {
     view["isBuffer"] = true;
+  }
+  var devs = aData[detailIndices["devices"]];
+  if (devs) {
+    for (dev in devs) {
+      if (
+        devs[dev]["fwmin"] != 0 ||
+        devs[dev]["description"] ||
+        devs[dev]["default"]
+      ) {
+        view["devices"] = devs;
+        break;
+      }
+    }
   }
 
   var template = `
@@ -164,6 +184,18 @@ function fnFormatDetails( oTable, nTr, detailIndices)
   {{#isBuffer}}
     <li>This register is a <em><a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">buffer register</a></em></li>
   {{/isBuffer}}
+  {{#devices}}
+    <li>{{device}}-specific:
+      <ul>
+        {{#device_description}}
+          <li>{{device_description}}</li>
+        {{/device_description}}
+        {{#fwmin}}
+          <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{fwmin}}</li>
+        {{/fwmin}}
+      </ul>
+    </li>
+  {{/devices}}
 </ul>
 </div>
 `;

@@ -9,8 +9,13 @@ for LabJack MODBUS devices.
 
 import copy
 
-DEVICE_MODBUS_MAP_COLS = ["name", "address", "type", "access",
-    "tags", "description", "default", "streamable", "isBuffer"]
+DEVICE_MODBUS_MAP_COLS = [
+    # Regular columns
+    "name", "address", "type", "access", "tags",
+
+    # detail columns
+    "description", "default", "streamable", "isBuffer", "devices"
+]
 
 
 def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
@@ -21,7 +26,14 @@ def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
         "name": str,
         "address": int,
         "type": str,
-        "fwmin": float / int,
+        "devices": [
+            {
+                "device": str,
+                "fwmin": float
+                "description": str,
+                "default": int / float
+            }
+        ],
         "read": bool,
         "write": bool,
         "tags": list of str,
@@ -43,17 +55,17 @@ def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
 
         # Serialize read / write values from (bool, bool) to "R", "RW", or "W"
         read_write_str = ""
-        if entry["read"] and entry["write"]:
+        if entry["readwrite"]["read"] and entry["readwrite"]["write"]:
             read_write_str = "R / W"
-        elif entry["read"]:
+        elif entry["readwrite"]["read"]:
             read_write_str = "R"
-        elif entry["write"]:
+        elif entry["readwrite"]["write"]:
             read_write_str = "W"
         entry["access"] = read_write_str
 
         entry["default"] = entry.get("default", "")
 
-        serialized_entry = map(lambda x: entry[x], cols)
+        serialized_entry = map(lambda x: entry[x] if x in entry else None, cols)
 
         ret_list.append(serialized_entry)
     return ret_list
