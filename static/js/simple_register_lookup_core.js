@@ -136,6 +136,31 @@ var updateRegistersTable = function(data, tableContainer)
 
 }
 
+function display_constants() {
+  if (!this.constants || !this.constants.length || this.constants.length === 0) {
+    return '';
+  }
+  var constants_template = `
+    <table class="sub-details">
+    <thead>
+      <tr>
+        <td><strong>Constants</strong></td>
+        <td><strong>Value</strong></td>
+      </tr>
+    </thead>
+    <tbody>
+    {{#constants}}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{value}}</td>
+      </tr>
+    {{/constants}}
+    </tbody>
+    </table>
+  `;
+  return Mustache.render(constants_template, this);
+}
+
 function fnFormatDetails( oTable, nTr, detailIndices)
 {
   var aData = oTable.fnGetData( nTr );
@@ -164,6 +189,10 @@ function fnFormatDetails( oTable, nTr, detailIndices)
   }
   if (aData[detailIndices["isBuffer"]]) {
     view["isBuffer"] = true;
+  }
+  if (aData[detailIndices["constants"]]) {
+    view["display_constants"] = display_constants;
+    view["constants"] = aData[detailIndices["constants"]];
   }
   var devs = aData[detailIndices["devices"]];
   if (devs) {
@@ -205,6 +234,7 @@ function fnFormatDetails( oTable, nTr, detailIndices)
     </li>
   {{/devices}}
 </ul>
+  {{{display_constants}}}
 </div>
 `;
   return Mustache.render(template, view);

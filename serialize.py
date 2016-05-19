@@ -14,7 +14,7 @@ DEVICE_MODBUS_MAP_COLS = [
     "name", "address", "type", "access", "tags",
 
     # detail columns
-    "description", "default", "streamable", "isBuffer", "devices"
+    "description", "default", "streamable", "isBuffer", "devices", "constants"
 ]
 
 
