@@ -22,8 +22,10 @@ class SerializeTests(unittest.TestCase):
                 "type": "UINT16",
                 "numregs": 1,
                 "fwmin": 0,
-                "read": True,
-                "write": False,
+                "readwrite": {
+                    "read": True,
+                    "write": False
+                },
                 "tags": ["tag1", "tag2"],
                 "description": "test1"
             },
@@ -33,8 +35,10 @@ class SerializeTests(unittest.TestCase):
                 "type": "UINT16",
                 "numregs": 1,
                 "fwmin": 0,
-                "read": False,
-                "write": True,
+                "readwrite": {
+                    "read": False,
+                    "write": True
+                },
                 "tags": ["tag3", "tag4"],
                 "description": "test2"
             }
@@ -46,7 +50,12 @@ class SerializeTests(unittest.TestCase):
                 "type",
                 "access",
                 "tags",
-                "description"
+                "description",
+                "default",
+                "streamable",
+                "isBuffer",
+                "devices",
+                "constants"
             ],
             [
                 "test_1",
@@ -54,7 +63,12 @@ class SerializeTests(unittest.TestCase):
                 "UINT16",
                 "R",
                 "tag1, tag2",
-                "test1"
+                "test1",
+                "",
+                None,
+                None,
+                None,
+                None
             ],
             [
                 "test_2",
@@ -62,7 +76,12 @@ class SerializeTests(unittest.TestCase):
                 "UINT16",
                 "W",
                 "tag3, tag4",
-                "test2"
+                "test2",
+                "",
+                None,
+                None,
+                None,
+                None
             ]
         ]
 

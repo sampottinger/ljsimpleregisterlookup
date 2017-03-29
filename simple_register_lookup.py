@@ -201,7 +201,7 @@ def lookup():
         if not duplicate:
             regs_to_use.append(unfiltered_reg)
 
-    # Serailize the results and return.
+    # Serialize the results and return.
     modbus_map_serialized = serialize.serialize_device_modbus_map(regs_to_use,
         dataset_cols)
     response = flask.make_response(json.dumps(modbus_map_serialized))
