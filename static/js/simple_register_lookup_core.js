@@ -210,7 +210,7 @@ function fnFormatDetails( oTable, nTr, detailIndices)
 
   var template = `
 <div class="innerDetails">
-{{description}}
+description: {{{description}}}
 <ul class="additional-details">
   {{#default}}
     <li>Default: {{default}}</li>
