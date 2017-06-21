@@ -6,6 +6,11 @@
     }
 
     .lj-scribe-tag {
+        background-color: #C9ECFF;
+        padding-top: 1px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 0px;
         font-size: 13px;
     }
 
@@ -15,7 +20,7 @@
     }
 
     .tag-summary {
-        background-color: #CCCCCC;
+        background-color: #9DDAFB;
         margin-bottom: 5px;
         width: 100%;
     }
@@ -27,8 +32,22 @@
         padding-right: 5px !important;
         margin: 0 30px;
         border: none;
-        border-right: 10px solid #CCCCCC !important;
+        border-right: 10px solid #9DDAFB !important;
     }
+
+    @media print {
+    .lj-scribe-tag {
+        background-color: #C9ECFF;
+        -webkit-print-color-adjust: exact;
+    }
+    .tag-summary {
+        background-color: #9DDAFB;
+        -webkit-print-color-adjust: exact;
+    }
+    .tag-summary td {
+        border-right: 10px solid #9DDAFB !important;
+        -webkit-print-color-adjust: exact;
+    }}
 
     .emphasis-row td {
         border-bottom: 1px solid !important;
