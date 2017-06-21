@@ -27,6 +27,9 @@ TEST_CORPUS_WITH_DEVICE = '''There is some text followed by information about
 @registers[T4,T7]:OTHERTEST#(1:3),TEST#(1:5:3),OTHERTEST#(1:3),lowertest#(1:3),l#(1:3)p
 '''
 
+TEST_EMPTY_DEVICE = '''There is some text followed by information about
+@registers[]:TEST#(120:5:3) as well as a separate mixed entry about:
+'''
 
 class ExpandInjectDataFieldsTests(unittest.TestCase):
 
@@ -114,6 +117,20 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(len(matches[1][4].device_types), 2)
         self.assertEqual(    matches[1][4].device_types[0], 'T4')
         self.assertEqual(    matches[1][4].device_types[1], 'T7')
+
+
+    def test_empty_device_type(self):
+        matches = parse_ljsl.find_names(TEST_EMPTY_DEVICE)
+
+        self.assertEqual(len(matches), 1)
+        target_match = matches[0][0]
+        self.assertEqual(target_match.prefix, "TEST")
+        self.assertEqual(target_match.start_num, 120)
+        self.assertEqual(target_match.num_regs, 5)
+        self.assertEqual(target_match.num_between_regs, 3)
+        self.assertEqual(target_match.postfix, "")
+        self.assertEqual(target_match.includes_ljmmm, True)
+        self.assertEqual(len(matches[0][0].device_types), 0)
 
 
     def test_find_name_after_invalid(self):

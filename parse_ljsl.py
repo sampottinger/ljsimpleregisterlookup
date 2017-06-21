@@ -249,7 +249,7 @@ class ParserAutomaton:
             self.end_tag()
 
     def accept_current_device_type(self):
-        if not self.device_type.upper() in self.device_types:
+        if not self.device_type.upper() in self.device_types and self.device_type != "":
             self.device_types.append(self.device_type.upper())
         self.device_type = ""
 
