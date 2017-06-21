@@ -21,12 +21,16 @@ POSTFIX_CORPUS = '''Of course
 demonstrate that some registers have postfixes as well. On the other hand,
 some like @registers:VALID#(100:200:300) do not.'''
 
+TEST_CORPUS_WITH_DEVICE = '''There is some text followed by information about
+@registers[T4]:TEST#(120:5:3) as well as a separate mixed entry about:
+
+@registers[T4,T7]:OTHERTEST#(1:3),TEST#(1:5:3),OTHERTEST#(1:3),lowertest#(1:3),l#(1:3)p
+'''
+
 
 class ExpandInjectDataFieldsTests(unittest.TestCase):
 
-    def test_find_names(self):
-        matches = parse_ljsl.find_names(TEST_CORPUS)
-
+    def corpus_matches_tests(self, matches):
         self.assertEqual(len(matches), 2)
 
         lengths = map(lambda x: len(x), matches)
@@ -79,6 +83,38 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
         self.assertEqual(target_match.num_between_regs, None)
         self.assertEqual(target_match.postfix, "p")
         self.assertEqual(target_match.includes_ljmmm, True)
+
+    def test_find_names(self):
+        matches = parse_ljsl.find_names(TEST_CORPUS)
+        self.corpus_matches_tests(matches)
+
+    def test_find_names_and_device(self):
+        matches = parse_ljsl.find_names(TEST_CORPUS_WITH_DEVICE)
+        self.corpus_matches_tests(matches)
+        self.assertEqual(len(matches), 2)
+        self.assertEqual(len(matches[0][0].device_types), 1)
+        self.assertEqual(    matches[0][0].device_types[0], 'T4')
+
+        self.assertEqual(len(matches[1][0].device_types), 2)
+        self.assertEqual(    matches[1][0].device_types[0], 'T4')
+        self.assertEqual(    matches[1][0].device_types[1], 'T7')
+
+        self.assertEqual(len(matches[1][1].device_types), 2)
+        self.assertEqual(    matches[1][1].device_types[0], 'T4')
+        self.assertEqual(    matches[1][1].device_types[1], 'T7')
+
+        self.assertEqual(len(matches[1][2].device_types), 2)
+        self.assertEqual(    matches[1][2].device_types[0], 'T4')
+        self.assertEqual(    matches[1][2].device_types[1], 'T7')
+
+        self.assertEqual(len(matches[1][3].device_types), 2)
+        self.assertEqual(    matches[1][3].device_types[0], 'T4')
+        self.assertEqual(    matches[1][3].device_types[1], 'T7')
+
+        self.assertEqual(len(matches[1][4].device_types), 2)
+        self.assertEqual(    matches[1][4].device_types[0], 'T4')
+        self.assertEqual(    matches[1][4].device_types[1], 'T7')
+
 
     def test_find_name_after_invalid(self):
         matches = parse_ljsl.find_names(

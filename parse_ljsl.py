@@ -27,8 +27,10 @@ STATE_READING_PARAM_3 = 17
 STATE_READING_POSTFIX = 18
 STATE_READING_TITLE = 19
 STATE_RESET = 20
+STATE_READING_DEVICE_TYPE = 21
 DIGITS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 VALID_NAME_CHAR_REGEX = re.compile("[a-zA-Z]|[0-9]|_")
+VALID_DEVICE_TYPE_CHAR_REGEX = VALID_NAME_CHAR_REGEX
 
 TagComponent = collections.namedtuple(
     "TagComponent",
@@ -39,7 +41,8 @@ TagComponent = collections.namedtuple(
         "num_regs",
         "num_between_regs",
         "postfix",
-        "includes_ljmmm"
+        "includes_ljmmm",
+        "device_types",
     ]
 )
 
@@ -61,6 +64,8 @@ class ParserAutomaton:
         self.tags = []
         self.errors = []
         self.title = ""
+        self.device_types = []
+        self.device_type = ""
         self.rules = {
             STATE_LOOKING_FOR_AT: self.character_match(
                 "@",
@@ -114,6 +119,7 @@ class ParserAutomaton:
             ),
             STATE_LOOKING_FOR_COLON: self.looking_for_colon,
             STATE_READING_TITLE: self.reading_title,
+            STATE_READING_DEVICE_TYPE: self.reading_device_type,
             STATE_READING_PREFIX: self.reading_prefix,
             STATE_LOOKING_FOR_OPEN_PAREN: self.character_match(
                 "(",
@@ -173,6 +179,18 @@ class ParserAutomaton:
         if char == ")": self.state = STATE_LOOKING_FOR_COLON
         else: self.title += char
 
+    def reading_device_type(self, char):
+        if char == "]":
+            self.state = STATE_LOOKING_FOR_COLON
+            self.accept_current_device_type()
+        elif char == ",":
+            self.accept_current_device_type()
+        elif char != None and VALID_DEVICE_TYPE_CHAR_REGEX.match(char):
+            self.device_type += char
+        else:
+            self.state = STATE_RESET
+            self.accept_current_device_type()
+
     def looking_for_colon(self, char):
         if char == ":":
             self.state = STATE_READING_PREFIX
@@ -180,6 +198,8 @@ class ParserAutomaton:
             self.tag_components = []
         elif char == "(":
             self.state = STATE_READING_TITLE
+        elif char == "[":
+            self.state = STATE_READING_DEVICE_TYPE
         else: self.state = STATE_RESET
 
     def reading_prefix(self, char):
@@ -228,6 +248,11 @@ class ParserAutomaton:
             self.try_to_accept_current_component()
             self.end_tag()
 
+    def accept_current_device_type(self):
+        if not self.device_type.upper() in self.device_types:
+            self.device_types.append(self.device_type.upper())
+        self.device_type = ""
+
     def try_to_accept_current_component(self):
         if self.param_1 == None:
             self.tag_components.append(
@@ -238,7 +263,8 @@ class ParserAutomaton:
                     None,
                     None,
                     None,
-                    False
+                    False,
+                    self.device_types,
                 )
             )
         else:
@@ -261,7 +287,8 @@ class ParserAutomaton:
                     param_2,
                     param_3,
                     self.postfix,
-                    True
+                    True,
+                    self.device_types,
                 )
             )
 
@@ -278,6 +305,7 @@ class ParserAutomaton:
 
     def reset(self, char):
         self.title = ""
+        self.device_types = []
         if char == "@": self.state=STATE_LOOKING_FOR_R1
 
 

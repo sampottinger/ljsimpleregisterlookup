@@ -1,6 +1,6 @@
 <div class="lj-scribe-tag" id="{{ orig_str.replace('@', '') }}">
-    {% if tag[0][0].title != "" %}
-    <h5 class="tag-title">{{ tag[0][0].title }}</h5>
+    {% if tags[0][0].title != "" %}
+    <h5 class="tag-title">{{ tags[0][0].title }}</h5>
     {% endif %}
     <table class="tag-summary">
         <thead>
@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for (orig_subtag, subtag) in tag %}
+            {% for (orig_subtag, subtag) in tags %}
             <tr class="class-summary">
                 {% if orig_subtag.includes_ljmmm %}
                     <td>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</td>
@@ -37,7 +37,7 @@
         </tbody>
     </table>
     <div class="tag-details" id="">
-        {% for (orig_subtag, subtag) in tag %}
+        {% for (orig_subtag, subtag) in tags %}
         <div class="sub-tag">
             {% if orig_subtag.includes_ljmmm %}
             <h6>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</h6>
@@ -74,9 +74,25 @@
                         {% if subtag.unresolved.isBuffer %}
                             <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
                         {% endif %}
-                        {% if subtag.resolved[0].deviceDescription %}
-                            <li>Device-specific details: {{ subtag.resolved[0].deviceDescription }}</li>
-                        {% endif %}
+                        {% for unres_device in subtag.unresolved.devices %}
+                            {% set display_unres_device %}
+                                {% if unres_device.description %}
+                                    <li>{{ unres_device.device }}-specific details: {{ unres_device.description }}</li>
+                                {% endif %}
+                                {% if unres_device.default %}
+                                    <li>{{ unres_device.device }}-specific default value: {{ unres_device.default }}</li>
+                                {% endif %}
+                            {% endset %}
+                            {% if orig_subtag.device_types|length > 0 %}
+                                {% for device_type in orig_subtag.device_types %}
+                                    {% if unres_device.device == device_type %}
+                                        {{ display_unres_device }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {{ display_unres_device }}
+                            {% endif %}
+                        {% endfor %}
                         </ul>
                         {% if subtag.resolved[0].constants %}
                             <table class="sub-details">

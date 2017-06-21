@@ -222,52 +222,16 @@ def inject_data():
         return flask.render_template("inject_data.html")
 
     target_code = flask.request.form.get("input", "")
-    names = parse_ljsl.find_names(target_code)
-
-    reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
-    dev_regs = reg_maps[lj_scribe.TARGET_DEVICE]
-    
-    tag_class_tuples = 0
-    tag_subtags_by_class = 0
-    
-    # This is NOT the best way to fix this issue.  
-    # The code should use lj_scribe.TARGET_DEVICES!!!
-    
-    try:
-        tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
-    except lj_scribe.RegisterNotFoundError as e:
-        dev_regs = reg_maps[lj_scribe.TARGET_DEVICE_DIGIT]
-        try:
-            tag_class_tuples = lj_scribe.find_classes(names, dev_regs)
-    
-            tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
-                dev_regs)
-        except lj_scribe.RegisterNotFoundError as e:
-            return "Register %s not found in Modbus map." % e.missing_reg_name
-
-    tag_subtags_by_class = lj_scribe.organize_tag_by_class(tag_class_tuples,
-        dev_regs)
-
-    original_names = map(lj_scribe.find_original_tag_str, names)
-
-    summaries = map(
-        lambda x: lj_scribe.render_tag_summary(*x),
-        zip(tag_subtags_by_class, names, original_names)
-    )
-
-    original_names_to_summaries = zip(original_names, summaries)
-
-    for (original_name, summary) in original_names_to_summaries:
-        target_code = target_code.replace(original_name, summary)
-
-    prefix = flask.render_template("scribe_prefix.html")
-    postfix = flask.render_template("scribe_postfix.html")
-    return prefix + target_code + postfix
+    return render_scribe(target_code)
 
 
 @app.route("/scribe_component", methods=["GET"])
 def inject_data_service():
     target_code = flask.request.args.get("input", "")
+    return render_scribe(target_code)
+
+
+def render_scribe(target_code):
     names = parse_ljsl.find_names(target_code)
 
     reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)

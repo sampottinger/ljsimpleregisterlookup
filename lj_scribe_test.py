@@ -1,4 +1,5 @@
 import collections
+import copy
 import unittest
 
 import flask
@@ -23,11 +24,11 @@ TEST_RESOLVED_TO_UNRESOLVED_PAIRS = map(
 )
 
 PRE_POST_ORIG_TAG = parse_ljsl.TagComponent("", "PRE_", 100, 2, 3, "_POST",
-    True)
-ANOTHER_ORIG_TAG = parse_ljsl.TagComponent("", "ANOTHER_", 200, 2, 3, "", True)
-ORIG_TAG_NO_GAP = parse_ljsl.TagComponent("", "YAC", 200, 2, None, "", True)
+    True, [])
+ANOTHER_ORIG_TAG = parse_ljsl.TagComponent("", "ANOTHER_", 200, 2, 3, "", True, [])
+ORIG_TAG_NO_GAP = parse_ljsl.TagComponent("", "YAC", 200, 2, None, "", True, [])
 NO_LJMMM_ORIG_TAG = parse_ljsl.TagComponent("", "TEST", None, None, None, None,
-    False)
+    False, [])
 
 LOREM_IPSUM = '''Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
 do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -147,10 +148,10 @@ class LJScribeTests(unittest.TestCase):
             [
                 PRE_POST_ORIG_TAG,
                 ANOTHER_ORIG_TAG,
-                parse_ljsl.TagComponent("", "PRE_", 200, 2, 3, "_POST", True)
+                parse_ljsl.TagComponent("", "PRE_", 200, 2, 3, "_POST", True, [])
             ],
             [
-                parse_ljsl.TagComponent("", "PRE_", 300, 2, 3, "_POST", True)
+                parse_ljsl.TagComponent("", "PRE_", 300, 2, 3, "_POST", True, [])
             ]
         )
 
@@ -242,7 +243,7 @@ class LJScribeTests(unittest.TestCase):
     def test_render_tag_summary(self):
         with TEST_APP.test_request_context("/"):
             special_tag = parse_ljsl.TagComponent("", "PRE_", 100, 4, 3,
-                "_POST", True)
+                "_POST", True, [])
             str_summary = lj_scribe.render_tag_summary(
                 TEST_TAG_BY_CLASS_NAMES,
                 [
@@ -268,6 +269,22 @@ class LJScribeTests(unittest.TestCase):
             "@registers:PRE_#(100:2:3)_POST,ANOTHER_#(200:2:3),YAC#(200:2)"
         )
 
+
+    def test_find_original_tag_str_device_type(self):
+        pre_post_orig_tag = copy.deepcopy(PRE_POST_ORIG_TAG)
+        another_orig_tag = copy.deepcopy(ANOTHER_ORIG_TAG)
+        orig_tag_no_gap = copy.deepcopy(ORIG_TAG_NO_GAP)
+        pre_post_orig_tag.device_types.append('T7')
+        another_orig_tag.device_types.append('T7')
+        orig_tag_no_gap.device_types.append('T7')
+        tag_components = [pre_post_orig_tag, another_orig_tag, orig_tag_no_gap]
+        original_tag_str = lj_scribe.find_original_tag_str(tag_components)
+        self.assertEqual(
+            original_tag_str,
+            "@registers[T7]:PRE_#(100:2:3)_POST,ANOTHER_#(200:2:3),YAC#(200:2)"
+        )
+
+
     def test_find_original_tag_str_no_ljmmm(self):
         tag_components = [NO_LJMMM_ORIG_TAG, PRE_POST_ORIG_TAG]
         original_tag_str = lj_scribe.find_original_tag_str(tag_components)
@@ -280,7 +297,7 @@ class LJScribeTests(unittest.TestCase):
     def test_unknown_register(self):
         test_tag_entries = [
             [
-                parse_ljsl.TagComponent("", "UNKNOWN", 200, 2, 3, "_POST", True)
+                parse_ljsl.TagComponent("", "UNKNOWN", 200, 2, 3, "_POST", True, [])
             ]
         ]
 

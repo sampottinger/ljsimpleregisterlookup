@@ -4,12 +4,6 @@ import flask
 
 from ljm_constants import ljmmm
 
-TARGET_DEVICE = "T7"
-TARGET_DEVICE_DIGIT = "DIGIT"
-
-TARGET_DEVICES = ["T7", "DIGIT"]
-
-
 UnresolvedToResolvedPair = collections.namedtuple(
     "UnresolvedToResolvedPair",
     ["unresolved", "resolved"]
@@ -21,8 +15,9 @@ UnresolvedWithResolvedGrouping = collections.namedtuple(
     ["resolved", "unresolved"]
 )
 
-REGISTERS_STR_START = "@registers:"
-REGISTERS_STR_START_TITLE = "@registers(%s):"
+REGISTERS_TEMPLATE_STR = "@registers%s:%s"
+TITLE_TEMPLATE_STR = "(%s)"
+DEVICE_TYPES_TEMPLATE_STR = "[%s]"
 SUBTAG_TEMPLATE_STR = "%s#(%d:%d:%d)%s"
 SUBTAG_TEMPLATE_STR_DEFAULT_GAP = "%s#(%d:%d)%s"
 
@@ -265,14 +260,12 @@ def organize_tag_by_class(target_tag, dev_regs):
 def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str):
     return flask.render_template(
         "tag_summary_template.html",
-        tag=zip(orig_tags, subtag_by_class.values()),
+        tags=zip(orig_tags, subtag_by_class.values()),
         orig_str=orig_tag_str
     )
 
 
 def find_original_tag_str(parsed_tag):
-
-    REGISTERS_STR_START
     tag_strs = []
 
     for sub_tag in parsed_tag:
@@ -296,8 +289,12 @@ def find_original_tag_str(parsed_tag):
             )
             tag_strs.append(SUBTAG_TEMPLATE_STR_DEFAULT_GAP % template_values)
 
-    if parsed_tag[0].title == "":
-        return REGISTERS_STR_START + ",".join(tag_strs)
-    else:
-        prefix_section = REGISTERS_STR_START_TITLE % parsed_tag[0].title
-        return prefix_section + ",".join(tag_strs)
+    prefix_section = ''
+    if parsed_tag[0].title != "":
+        prefix_section += TITLE_TEMPLATE_STR % parsed_tag[0].title
+    if len(parsed_tag[0].device_types):
+        prefix_section += DEVICE_TYPES_TEMPLATE_STR % (
+            ",".join(parsed_tag[0].device_types)
+        )
+
+    return REGISTERS_TEMPLATE_STR % (prefix_section, ",".join(tag_strs))
