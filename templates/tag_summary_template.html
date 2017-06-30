@@ -50,7 +50,7 @@
                     <div class="content">
                         {{ subtag.resolved[0].description | safe }}</br>
                         <ul class="additional-details">
-                        <li>Data type: {{subtag.unresolved.type}}</li>
+                        <li>Data type: {{subtag.unresolved.type}}&nbsp;&nbsp;(type index = {{subtag.resolved[0].type_index}})</li>
                         <li>
                             {% if subtag.resolved[0].read %}
                                 {% if subtag.resolved[0].write %}
