@@ -20,8 +20,8 @@ app = flask.Flask(__name__)
 reg_data_compressed = ljmmm.get_registers_data(expand_names=False, inc_orig=False)
 reg_data_expanded = ljmmm.get_registers_data(expand_names=True, inc_orig=False)
 modbus_maps = ljmmm.get_device_modbus_maps()
-ALL_DEVICES_NAME = "All Devices"
-ALL_TAGS_NAME = "All Tags"
+ALL_DEVICES_NAME = u"All Devices"
+ALL_TAGS_NAME = u"All Tags"
 INVALID_FILTER_ARGUMENTS = ["null", "undefined"]
 OPTION_TAG_TEMLPATE = "<option value=\"{tag}\">{tag}</option>"
 SELECTED_OPTION_TAB_TEMPLATE = "<option value=\"{tag}\" selected=\"selected\">" \

@@ -76,7 +76,8 @@ var updateRegistersTable = function(data, tableContainer)
       "streamable": columnNames.indexOf("streamable"),
       "isBuffer": columnNames.indexOf("isBuffer"),
       "constants": columnNames.indexOf("constants"),
-      "devices": columnNames.indexOf("devices")
+      "devices": columnNames.indexOf("devices"),
+      "altnames": columnNames.indexOf("altnames"),
     };
 
     for (var detail in detailIndices) {
@@ -194,6 +195,11 @@ function fnFormatDetails( oTable, nTr, detailIndices)
     view["display_constants"] = display_constants;
     view["constants"] = aData[detailIndices["constants"]];
   }
+
+  if (aData[detailIndices["altnames"]]) {
+    view["altnames"] = aData[detailIndices["altnames"]];
+  }
+
   var devs = aData[detailIndices["devices"]];
   if (devs) {
     for (dev in devs) {
@@ -210,7 +216,12 @@ function fnFormatDetails( oTable, nTr, detailIndices)
 
   var template = `
 <div class="innerDetails">
-description: {{{description}}}
+{{{description}}}
+<ul>
+{{#altnames}}
+  <li>Also known as: {{.}}</li>
+{{/altnames}}
+</ul>
 <ul class="additional-details">
   {{#default}}
     <li>Default: {{default}}</li>

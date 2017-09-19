@@ -14,7 +14,7 @@ DEVICE_MODBUS_MAP_COLS = [
     "name", "address", "type", "access", "tags",
 
     # detail columns
-    "description", "default", "streamable", "isBuffer", "devices", "constants"
+    "description", "default", "streamable", "isBuffer", "devices", "constants", "altnames"
 ]
 
 
@@ -64,6 +64,14 @@ def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
         entry["access"] = read_write_str
 
         entry["default"] = entry.get("default", "")
+
+        if len(entry.get("altnames", [])):
+            entry["name"] = '%s (also known as: %s)' % (
+                entry["name"],
+                ", ".join(entry["altnames"])
+            )
+        else:
+            entry["altnames"] = []
 
         serialized_entry = map(lambda x: entry[x] if x in entry else None, cols)
 

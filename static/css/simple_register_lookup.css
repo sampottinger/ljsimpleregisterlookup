@@ -9,6 +9,13 @@
     overflow-x: auto;
 }
 
+#register-table-container table tbody tr td:first-child
+{
+    text-overflow: ellipsis;
+    max-width: 400px;
+    overflow: hidden;
+}
+
 #export-button-holder
 {
     padding: 50px;

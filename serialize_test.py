@@ -40,7 +40,8 @@ class SerializeTests(unittest.TestCase):
                     "write": True
                 },
                 "tags": ["tag3", "tag4"],
-                "description": "test2"
+                "description": "test2",
+                "altnames": ["alternate_name"],
             }
         ]
         expected = [
@@ -55,7 +56,8 @@ class SerializeTests(unittest.TestCase):
                 "streamable",
                 "isBuffer",
                 "devices",
-                "constants"
+                "constants",
+                "altnames",
             ],
             [
                 "test_1",
@@ -68,10 +70,11 @@ class SerializeTests(unittest.TestCase):
                 None,
                 None,
                 None,
-                None
+                None,
+                [],
             ],
             [
-                "test_2",
+                "test_2 (also known as: alternate_name)",
                 2,
                 "UINT16",
                 "W",
@@ -81,7 +84,8 @@ class SerializeTests(unittest.TestCase):
                 None,
                 None,
                 None,
-                None
+                None,
+                ['alternate_name']
             ]
         ]
 
