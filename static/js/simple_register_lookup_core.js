@@ -36,6 +36,10 @@ function attachListeners(oTable, detailIndices, tableID)
         {
             $("img", this).attr( "src", BASE_URL + "/static/images/details_close.png" );
             var nDetailsRow = oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, detailIndices), "details" );
+
+            // Add the zebra stripe coloring to the details row.
+            nDetailsRow.className += nTr.className;
+
             $("div.innerDetails", nDetailsRow).slideDown();
             anOpen.push( nTr );
         }
