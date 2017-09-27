@@ -87,14 +87,14 @@
                             <table class="sub-details">
                             <thead>
                                 <tr>
-                                    <td></td>
+                                    <td>Constant</td>
                                     <td>Value</td>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for constant in subtag.resolved[0].constants %}
                                 <tr>
-                                    <td class="label">{{ constant.name }}</td>
+                                    <td>{{ constant.name }}</td>
                                     <td>{{ constant.value }}</td>
                                 </tr>
                             {% endfor %}

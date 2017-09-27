@@ -156,7 +156,7 @@ function display_constants() {
     <tbody>
     {{#constants}}
       <tr>
-        <td class="label">{{name}}</td>
+        <td>{{name}}</td>
         <td>{{value}}</td>
       </tr>
     {{/constants}}
