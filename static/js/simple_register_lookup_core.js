@@ -149,7 +149,7 @@ function display_constants() {
     <table class="sub-details">
     <thead>
       <tr>
-        <td><strong>Constants</strong></td>
+        <td><strong>Constant</strong></td>
         <td><strong>Value</strong></td>
       </tr>
     </thead>
