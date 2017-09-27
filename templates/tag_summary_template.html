@@ -75,22 +75,11 @@
                             <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
                         {% endif %}
                         {% for unres_device in subtag.unresolved.devices %}
-                            {% set display_unres_device %}
-                                {% if unres_device.description %}
-                                    <li>{{ unres_device.device }}-specific details: {{ unres_device.description }}</li>
-                                {% endif %}
-                                {% if unres_device.default %}
-                                    <li>{{ unres_device.device }}-specific default value: {{ unres_device.default }}</li>
-                                {% endif %}
-                            {% endset %}
-                            {% if orig_subtag.device_types|length > 0 %}
-                                {% for device_type in orig_subtag.device_types %}
-                                    {% if unres_device.device == device_type %}
-                                        {{ display_unres_device }}
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {{ display_unres_device }}
+                            {% if unres_device.description %}
+                                <li>{{ unres_device.device }}-specific details: {{ unres_device.description }}</li>
+                            {% endif %}
+                            {% if unres_device.default %}
+                                <li>{{ unres_device.device }}-specific default value: {{ unres_device.default }}</li>
                             {% endif %}
                         {% endfor %}
                         </ul>
@@ -98,7 +87,7 @@
                             <table class="sub-details">
                             <thead>
                                 <tr>
-                                    <td>{{ orig_subtag.prefix }} Constants</td>
+                                    <td></td>
                                     <td>Value</td>
                                 </tr>
                             </thead>
