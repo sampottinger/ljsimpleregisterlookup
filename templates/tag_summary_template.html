@@ -1,3 +1,17 @@
+{% macro get_full_name(orig_subtag) -%}
+    {% if orig_subtag.includes_ljmmm %}
+    {% set full_name = '%s#(%d:%d)%s' % (
+        orig_subtag.prefix,
+        orig_subtag.start_num,
+        (orig_subtag.start_num + orig_subtag.num_regs - 1),
+        orig_subtag.postfix
+    ) %}
+        {{ full_name }}
+    {% else %}
+        {{orig_subtag.prefix}}
+    {% endif %}
+{%- endmacro %}
+{% macro get_expand_name(individual, prefix) -%}{% if individual.name.startswith(prefix) %}{{ individual.name }}{% else %}{{ individual.altnames[0] }}{% endif %}{%- endmacro %}
 <div class="lj-scribe-tag" id="{{ orig_str.replace('@', '') }}">
     {% if tags[0][0].title != "" %}
     <h5 class="tag-title">{{ tags[0][0].title }}</h5>
@@ -14,11 +28,7 @@
         <tbody>
             {% for (orig_subtag, subtag) in tags %}
             <tr class="class-summary">
-                {% if orig_subtag.includes_ljmmm %}
-                    <td>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</td>
-                {% else %}
-                    <td>{{orig_subtag.prefix}}</td>
-                {% endif %}
+                <td>{{ get_full_name(orig_subtag) }}</td>
                 <td>{{subtag.resolved[0].address}}</td>
                 <td>{{subtag.unresolved.type}}</td>
                 <td>
@@ -39,11 +49,7 @@
     <div class="tag-details" id="">
         {% for (orig_subtag, subtag) in tags %}
         <div class="sub-tag">
-            {% if orig_subtag.includes_ljmmm %}
-            <h6>{{orig_subtag.prefix}}#({{orig_subtag.start_num}}:{{orig_subtag.start_num + orig_subtag.num_regs - 1}}){{orig_subtag.postfix}}</h6>
-            {% else %}
-            <h6>{{orig_subtag.prefix}}</h6>
-            {% endif %}
+            <h6>{{ get_full_name(orig_subtag) }}</h6>
             - {% if subtag.resolved|length == 1 %}Address:{% else %}Starting Address:{% endif %} {{subtag.resolved[0].address}}
             <div class="main-content">
                 <div class="description">
@@ -116,7 +122,7 @@
                         <td>
                             {% for individual in subtag.resolved %}
                             <span class="individual-name {% if loop.index <= 3 %}always-shown{% else %}sometimes-shown{% endif %}">
-                                {{ individual.name }}{% if not loop.last %},{% endif %}
+                                {{ get_expand_name(individual, orig_subtag.prefix) }}{% if not loop.last %},{% endif %}
                             </span>
                             {% endfor %}
                             {% if subtag.resolved|length > 3 %}

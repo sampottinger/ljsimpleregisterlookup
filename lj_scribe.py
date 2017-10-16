@@ -164,6 +164,17 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
     regs_tuple_res_name_first = map(lambda x: (x[1]["name"], x[0]), all_regs)
     unres_regs_by_res_name = dict(regs_tuple_res_name_first)
 
+    regs_tuple_res_altnames_first = map(lambda x: (x[1]["altnames"], x[0]), all_regs)
+
+    def inner_expand_by_altname(unexpanded_altname_list):
+        for each_unexpanded_tuple in unexpanded_altname_list:
+            for altname in each_unexpanded_tuple[0]:
+                yield (altname, each_unexpanded_tuple[1])
+
+    regs_tuple_res_altname_first = \
+        [x for x in inner_expand_by_altname(regs_tuple_res_altnames_first)]
+    unres_regs_by_res_altname = dict(regs_tuple_res_altname_first)
+
     def inner_create_tuple(tag_entries, unres_regs_by_res_name):
         tag_names = map(parsed_tag_to_names, tag_entries)
         return map(
@@ -173,6 +184,8 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
             ),
             tag_names
         )
+
+    unres_regs_by_res_name.update(unres_regs_by_res_altname)
 
     def inner_try_remove_wrapper(tag_entries, unres_regs_by_res_name):
         while True:
@@ -201,6 +214,9 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
     res_regs_by_res_name = dict(
         map(lambda x: (x[1]["name"], x[1]), all_regs)
     )
+    res_regs_by_res_name.update(dict(
+        [x for x in inner_expand_by_altname(map(lambda x: (x[1]["altnames"], x[1]), all_regs))]
+    ))
 
     res_entry_to_unres_entry_tuple = map(
         lambda x: resolve_registers_by_name_in_tag(x, res_regs_by_res_name),
