@@ -20,6 +20,7 @@ app = flask.Flask(__name__)
 reg_data_compressed = ljmmm.get_registers_data(expand_names=False, inc_orig=False)
 reg_data_expanded = ljmmm.get_registers_data(expand_names=True, inc_orig=False)
 modbus_maps = ljmmm.get_device_modbus_maps()
+reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
 ALL_DEVICES_NAME = u"All Devices"
 ALL_TAGS_NAME = u"All Tags"
 INVALID_FILTER_ARGUMENTS = ["null", "undefined"]
@@ -233,8 +234,6 @@ def inject_data_service():
 
 def render_scribe(target_code):
     names = parse_ljsl.find_names(target_code)
-
-    reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
 
     not_found_reg_names = []
     tag_class_tuples = lj_scribe.find_classes_from_map(
