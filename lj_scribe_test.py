@@ -292,7 +292,7 @@ class LJScribeTests(unittest.TestCase):
             original_tag_str,
             "@registers:TEST,PRE_#(100:2:3)_POST"
         )
-    
+
 
     def test_unknown_register(self):
         test_tag_entries = [
@@ -303,6 +303,116 @@ class LJScribeTests(unittest.TestCase):
 
         with self.assertRaises(lj_scribe.RegisterNotFoundError):
             classes = lj_scribe.find_classes(test_tag_entries, TEST_DEVICE_REGS)
+
+
+    def test_find_classes_from_map(self):
+        names = [[parse_ljsl.TagComponent(
+            title='',
+            prefix=u'LED_COMM',
+            start_num=None,
+            num_regs=None,
+            num_between_regs=None,
+            postfix=None,
+            includes_ljmmm=False,
+            device_types=[]
+        )]]
+
+        LED_COMM_PAIR = lj_scribe.UnresolvedToResolvedPair(
+            {
+                'streamable': False,
+                'displayname': ['LED COMM displayname'],
+                'name': 'LED_COMM',
+                'tags': ['DIO'],
+                'readwrite': 'RW',
+                'devices': [
+                    {'name': 'T7', 'fwmin': 1.7777},
+                    {'name': 'T4', 'fwmin': 1.4444}
+                ],
+                'address': 2990,
+                'type': 'UINT16',
+                'description': 'Test desc.',
+                'constants': [
+                    {'name': 'Off', 'value': 0},
+                    {'name': 'On', 'value': 1},
+                ]
+            },
+            {
+                'streamable': False,
+                'description': 'Test desc.',
+                'tags': ['DIO'],
+                'altnames': [],
+                'write': True,
+                'type_index': '1',
+                'read': True,
+                'constants': [
+                    {'name': 'Off', 'value': 0},
+                    {'name': 'On', 'value': 1},
+                ],
+                'address': 2990,
+                'type': 'UINT16',
+                'isBuffer': False,
+                'name': 'LED_COMM'
+            }
+        )
+
+        reg_maps = {
+            'T7': [LED_COMM_PAIR],
+            'T4': [LED_COMM_PAIR]
+        }
+        reg_maps['T4'][0][1]['fwmin'] = 1.4444
+        reg_maps['T7'][0][1]['fwmin'] = 1.7777
+        not_found_reg_names = []
+        tag_class_tuples = lj_scribe.find_classes_from_map(
+            names,
+            reg_maps,
+            not_found_reg_names
+        )
+
+        EXPECTED_TAG_CLASS_TUPLES = [[[
+            lj_scribe.UnresolvedToResolvedPair(
+                unresolved={
+                    'streamable': False,
+                    'displayname': ['LED COMM displayname'],
+                    'name': 'LED_COMM',
+                    'tags': ['DIO'],
+                    'readwrite': 'RW',
+                    'constants': [
+                        {'name': 'Off', 'value': 0},
+                        {'name': 'On', 'value': 1}
+                    ],
+                    'address': 2990,
+                    'type': 'UINT16',
+                    'devices': [
+                        {'name': 'T7', 'fwmin': 1.7777},
+                        {'name': 'T4', 'fwmin': 1.4444}
+                    ],
+                    'description': 'Test desc.'
+                },
+                resolved={
+                    'description': 'Test desc.',
+                    'tags': ['DIO'],
+                    'read': True,
+                    'type_index': '1',
+                    'address': 2990,
+                    'constants': [
+                        {'name': 'Off', 'value': 0},
+                        {'name': 'On', 'value': 1}
+                    ],
+
+                    'fwmin': 1.7777, # This isn't needed
+
+                    'streamable': False,
+                    'name': 'LED_COMM',
+                    'altnames': [],
+                    'write': True,
+                    'isBuffer': False,
+                    'type': 'UINT16'
+                }
+            )
+        ]]]
+
+        self.assertEqual(0, len(not_found_reg_names))
+        self.assertEqual(EXPECTED_TAG_CLASS_TUPLES, tag_class_tuples)
 
 
 if __name__ == "__main__":

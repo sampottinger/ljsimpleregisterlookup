@@ -74,18 +74,22 @@
                         {% if subtag.unresolved.streamable %}
                             <li>This register may be streamed</li>
                         {% endif %}
-                        {% if subtag.resolved[0].fwmin %}
-                            <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ '%.04f' % subtag.resolved[0].fwmin }}</li>
-                        {% endif %}
                         {% if subtag.unresolved.isBuffer %}
                             <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
                         {% endif %}
                         {% for unres_device in subtag.unresolved.devices %}
-                            {% if unres_device.description %}
-                                <li>{{ unres_device.device }}-specific details: {{ unres_device.description }}</li>
-                            {% endif %}
-                            {% if unres_device.default %}
-                                <li>{{ unres_device.device }}-specific default value: {{ unres_device.default }}</li>
+                            {% if unres_device.description or unres_device.default or unres_device.fwmin %}
+                                <li>{{ unres_device.device }}:<ul>
+                                    {% if unres_device.description %}
+                                        <li>{{ unres_device.description }}</li>
+                                    {% endif %}
+                                    {% if unres_device.default %}
+                                        <li>Default value: {{ unres_device.default }}</li>
+                                    {% endif %}
+                                    {% if unres_device.fwmin %}
+                                        <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ unres_device.fwmin }}</li>
+                                    {% endif %}
+                                </ul></li>
                             {% endif %}
                         {% endfor %}
                         </ul>
