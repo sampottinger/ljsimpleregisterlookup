@@ -54,7 +54,6 @@ def show_ui():
         SELECTED_OPTION_TAB_TEMPLATE.
         format(tag=ALL_TAGS_NAME)
     )
-    print tag_options
     return flask.render_template(
         "simple_register_lookup.html",
         device_names = device_options,
