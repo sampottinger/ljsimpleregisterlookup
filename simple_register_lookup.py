@@ -226,7 +226,6 @@ def inject_data():
     return render_scribe(target_code)
 
 
-
 @app.route("/scribe_component", methods=["GET"])
 def inject_data_service():
     target_code = flask.request.args.get("input", "")
@@ -302,7 +301,6 @@ def inject_errors():
         return flask.render_template("inject_error.html")
     
     target_code = flask.request.form.get("input", "")
-    error_string = "@"
     target_code =  target_code.replace('@error(', '')
     target_code =  target_code.replace(')', '')
     return render_error_scribe(target_code)
