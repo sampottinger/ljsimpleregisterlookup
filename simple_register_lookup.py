@@ -226,6 +226,7 @@ def inject_data():
     return render_scribe(target_code)
 
 
+
 @app.route("/scribe_component", methods=["GET"])
 def inject_data_service():
     target_code = flask.request.args.get("input", "")
@@ -292,14 +293,31 @@ def uniques(seq, id_fun=None):
         seen[marker] = 1
         result.append(item)
     return result
+    return result
 
 
+@app.route("/error_scribe", methods=["GET", "POST"])
+def inject_errors():
+    if flask.request.method == "GET":
+        return flask.render_template("inject_error.html")
+    
+    target_code = flask.request.form.get("input", "")
+    error_string = "@"
+    target_code =  target_code.replace('@error(', '')
+    target_code =  target_code.replace(')', '')
+    return render_error_scribe(target_code)
+   
+    
 @app.route("/error_scribe_component", methods=["GET", "POST"])
-def render_error_scribe():
+def error_scribe():
     target_code = flask.request.args.get("input", "")
-    #determin the value of input
+    return render_error_scribe(target_code)
+
+def render_error_scribe(target_code):
+    
+    target_code = target_code.lower()
     if(target_code != ""):
-        if(target_code == "All"):
+        if(target_code == "all"):
             high = float("inf")
             low = high*-1
         else:
