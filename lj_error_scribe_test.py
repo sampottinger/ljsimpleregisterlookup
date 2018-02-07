@@ -32,10 +32,6 @@ EXPECTED_ERRORS = [
 
 
 class LJErrorScribeTests(unittest.TestCase):
-    def test_sanity(self):
-        self.assertTrue(True)
-    
-    
     def test_find_error_range_from_errors_gets_all_errors(self):
         errors = lj_error_scribe.find_error_range_from_errors(lj_error_scribe.NEG_INF,lj_error_scribe.POS_INF,EXPECTED_ERRORS)
         self.assertEqual(EXPECTED_ERRORS,errors)

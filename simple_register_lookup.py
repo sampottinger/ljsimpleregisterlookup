@@ -1,4 +1,5 @@
 """Simple Modbus Map register lookup web application.
+
 @author Sam Pottinger
 @license GNU GPL v2
 """
@@ -33,6 +34,7 @@ ALLOWED_REDISPLAY_DOMAIN = "https://labjack.com"
 @app.route("/")
 def show_ui():
     """Display the JavaScript client for viewing MODBUS map information.
+    
     @return: HTML register lookup table and controls.
     @rtype: str
     """
@@ -54,6 +56,7 @@ def show_ui():
         SELECTED_OPTION_TAB_TEMPLATE.
         format(tag=ALL_TAGS_NAME)
     )
+    
     return flask.render_template(
         "simple_register_lookup.html",
         device_names = device_options,
@@ -62,12 +65,12 @@ def show_ui():
 
 
 def prepareFilterArg(argument):
-    
     """Parse the value of a filter argument.
+    
     Reject filter arguments that were given invalid values in the request like
     null or undefined. If it is a valid value, split a list of filter arguments
-    
     (eventually joined by AND), by commas.
+    
     @return: List of parsed filter arguments.
     @rtype: list
     """
@@ -80,10 +83,10 @@ def prepareFilterArg(argument):
 @app.route("/lookup.html")
 def embed_lookup():
     """Render an embeded registers information table based on query params.
+    
     @return: Rendered HTML with device info that can be embedded.
     @rtype: str
     """
-    
     show_embed_controls = flask.request.args.get("show-embed", "true") == "true"
     values = {
         "devices": request.args.get("devices", ALL_DEVICES_NAME),
