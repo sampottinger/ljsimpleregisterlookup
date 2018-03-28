@@ -11,6 +11,7 @@ import flask
 from flask import Markup, request
 
 from ljm_constants import ljmmm
+import lj_error_scribe
 import lj_scribe
 import parse_ljsl
 import serialize
@@ -292,7 +293,6 @@ def uniques(seq, id_fun=None):
         seen[marker] = 1
         result.append(item)
     return result
-    return result
 
 
 @app.route("/error_scribe", methods=["GET", "POST"])
@@ -306,10 +306,11 @@ def inject_errors():
     return render_error_scribe(target_code)
    
     
-@app.route("/error_scribe_component", methods=["GET", "POST"])
+@app.route("/error_scribe_component", methods=["GET"])
 def error_scribe():
     target_code = flask.request.args.get("input", "")
     return render_error_scribe(target_code)
+
 
 def render_error_scribe(target_code):
     
@@ -325,17 +326,9 @@ def render_error_scribe(target_code):
     else:
         high = float("inf")
         low = high*-1
-    return format_errors(high,low)
+    return lj_error_scribe.format_errors(high,low)
    
     
-def format_errors(high,low):
-    raw_error = zip(ljmmm.get_errors())
-    #sort errors based on high and low values
-    output_dict = [x for x in raw_error if x[0]['error'] >= low and x[0]['error'] <= high] 
-    #send filterd json to tag_summary_template_error.html for rendering
-    return flask.render_template("tag_summary_template_error.html",tag =  output_dict)
-
-
 if __name__ == "__main__":
     app.debug = True
     app.run(host=os.environ["IP"], port=int(os.environ["PORT"]))

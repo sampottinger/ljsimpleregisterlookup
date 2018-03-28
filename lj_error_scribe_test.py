@@ -1,10 +1,14 @@
 import collections
 import copy
 import unittest
+import json
+import os
 
-import flask
 
 import lj_error_scribe
+
+from ljm_constants import ljmmm
+
 
 
 
@@ -30,12 +34,18 @@ EXPECTED_ERRORS = [
     }
 ]
 
+ONE_TEST_ERROR = [({'string': 'LJ_SUCCESS', 'error': 0},)]
+EXPECTED_ERRORS = zip(EXPECTED_ERRORS)
+
 
 class LJErrorScribeTests(unittest.TestCase):
+
     def test_find_error_range_from_errors_gets_all_errors(self):
-        errors = lj_error_scribe.find_error_range_from_errors(lj_error_scribe.NEG_INF,lj_error_scribe.POS_INF,EXPECTED_ERRORS)
-        self.assertEqual(EXPECTED_ERRORS,errors)
-   
+        errors = lj_error_scribe.find_error_range_from_errors(all, 0, EXPECTED_ERRORS)
+        self.assertEqual(EXPECTED_ERRORS, errors)
+    def test_find_error_range_from_errors_gets_one_error(self):
+      errors = lj_error_scribe.find_error_range_from_errors(0, 0, EXPECTED_ERRORS)
+      self.assertEqual(ONE_TEST_ERROR, errors)
 
-
-
+if __name__ == "__main__":
+  unittest.main()
