@@ -35,7 +35,7 @@ ALLOWED_REDISPLAY_DOMAIN = "https://labjack.com"
 @app.route("/")
 def show_ui():
     """Display the JavaScript client for viewing MODBUS map information.
-    
+
     @return: HTML register lookup table and controls.
     @rtype: str
     """
@@ -57,7 +57,7 @@ def show_ui():
         SELECTED_OPTION_TAB_TEMPLATE.
         format(tag=ALL_TAGS_NAME)
     )
-    
+
     return flask.render_template(
         "simple_register_lookup.html",
         device_names = device_options,
@@ -67,11 +67,11 @@ def show_ui():
 
 def prepareFilterArg(argument):
     """Parse the value of a filter argument.
-    
+
     Reject filter arguments that were given invalid values in the request like
     null or undefined. If it is a valid value, split a list of filter arguments
     (eventually joined by AND), by commas.
-    
+
     @return: List of parsed filter arguments.
     @rtype: list
     """
@@ -84,7 +84,7 @@ def prepareFilterArg(argument):
 @app.route("/lookup.html")
 def embed_lookup():
     """Render an embeded registers information table based on query params.
-    
+
     @return: Rendered HTML with device info that can be embedded.
     @rtype: str
     """
@@ -111,10 +111,10 @@ def match_device(reg, device_name):
 @app.route("/lookup.json")
 def lookup():
     """Render JSON formatted device MODBUS map.
-    
+
     Render a JSON listing of filtered MODBUS map records for use in external
     applications or by the simple register lookup tool itself.
-    
+
     @return: JSON encoded MODBUS map records.
     @rtype: str
     """
@@ -215,7 +215,7 @@ def lookup():
 @app.route("/scribe", methods=["GET", "POST"])
 def inject_data():
     """Controls to Inject data about register records into an HTML template.
-    
+
     @return: HTML form through which the HTML template can be filled and
         rendered.
     @rtype: str or flask response (redirect)
@@ -269,7 +269,7 @@ def render_scribe(target_code):
 
 def uniques(seq, id_fun=None):
     """Remove duplicates from a collection.
-    
+
     @param seq: The sequence to remove duplicates from.
     @type seq: iterable
     @keyword id_fun: The function to use to create a unique comparable identity
