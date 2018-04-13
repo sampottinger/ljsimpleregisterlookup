@@ -78,6 +78,7 @@ var updateRegistersTable = function(data, tableContainer)
       "description": columnNames.indexOf("description"),
       "default": columnNames.indexOf("default"),
       "streamable": columnNames.indexOf("streamable"),
+      "usesRAM": columnNames.indexOf("usesRAM"),
       "isBuffer": columnNames.indexOf("isBuffer"),
       "constants": columnNames.indexOf("constants"),
       "devices": columnNames.indexOf("devices"),
@@ -192,6 +193,9 @@ function fnFormatDetails( oTable, nTr, detailIndices)
   if (aData[detailIndices["streamable"]]) {
     view["streamable"] = true;
   }
+  if (aData[detailIndices["usesRAM"]]) {
+    view["usesRAM"] = true;
+  }
   if (aData[detailIndices["isBuffer"]]) {
     view["isBuffer"] = true;
   }
@@ -233,6 +237,9 @@ function fnFormatDetails( oTable, nTr, detailIndices)
   {{#streamable}}
     <li>This register may be streamed</li>
   {{/streamable}}
+  {{#usesRAM}}
+    <li>This register uses system RAM. The maximum RAM is 64KB. For more information, see <a href="/support/datasheets/t-series/hardware-overview/ram">4.4 RAM</a></li>
+  {{/usesRAM}}
   {{#isBuffer}}
     <li>This register is a <em><a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">buffer register</a></em></li>
   {{/isBuffer}}
