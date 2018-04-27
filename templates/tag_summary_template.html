@@ -78,7 +78,7 @@
                             <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
                         {% endif %}
                         {% if subtag.unresolved.usesRAM %}
-                            <li>This register uses system RAM. The maximum ram is 64KB. For more information, see <a href="/support/datasheets/t-series/hardware-overview/ram">4.4 RAM</a></li>
+                            <li>This register uses system RAM. The maximum RAM is 64KB. For more information, see <a href="/support/datasheets/t-series/hardware-overview/ram">4.4 RAM</a></li>
                         {% endif %}
                         {% for unres_device in subtag.unresolved.devices %}
                             {% if unres_device.description or unres_device.default or unres_device.fwmin %}
