@@ -1,10 +1,5 @@
 var displayingInputControls = false;
 
-function renderInline(msg, node) {
-    div = document.getElementById(node);
-    div.innerHTML = "test";
-}
-
 $(window).load(function () {
     $('#catchphrase').hide().delay(200).slideDown();
     $('#input-section #controls').hide();

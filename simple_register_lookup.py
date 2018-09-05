@@ -218,7 +218,7 @@ def decodeview():
         return render_scribe(target_code)
 
     target_code = json.loads(target_code)
-    if(target_code['TYPE'] == 'Auto'):
+    if(target_code['TYPE'].lower() == 'auto'):
         device = ""
         if('Device' in target_code):
             device = target_code['Device'] + ":"
@@ -227,7 +227,7 @@ def decodeview():
             return render_scribe(base, expand=target_code['Expanded'])
         return render_scribe(base)
 
-    if(target_code['TYPE'] == 'Error'):
+    if(target_code['TYPE'].lower() == 'error'):
         return render_error_scribe(target_code['ERRORS'])
     return json.dumps(target_code)
 
