@@ -211,6 +211,27 @@ def lookup():
     response.headers["Access-Control-Allow-Origin"] = ALLOWED_REDISPLAY_DOMAIN
     return response
 
+@app.route("/decodeview", methods=["GET", "POST"])
+def decodeview():
+    target_code = flask.request.args.get("input", "")
+    if(target_code[:1] == '@'):
+        return render_scribe(target_code)
+
+    target_code = json.loads(target_code)
+    if(target_code['TYPE'] == 'Auto'):
+        device = ""
+        if('Device' in target_code):
+            device = target_code['Device'] + ":"
+        base = '@registers(' + target_code['TITLE'] + '):' + device + target_code['REGISTER']
+        if('Expanded' in target_code):
+            return render_scribe(base, expand=target_code['Expanded'])
+        return render_scribe(base)
+
+    if(target_code['TYPE'] == 'Error'):
+        return render_error_scribe(target_code['ERRORS'])
+    return json.dumps(target_code)
+
+
 
 @app.route("/scribe", methods=["GET", "POST"])
 def inject_data():
@@ -233,7 +254,7 @@ def inject_data_service():
     return render_scribe(target_code)
 
 
-def render_scribe(target_code):
+def render_scribe(target_code, expand=False):
     names = parse_ljsl.find_names(target_code)
 
     not_found_reg_names = []
@@ -247,13 +268,14 @@ def render_scribe(target_code):
 
     target_code = lj_scribe.fix_not_found_reg_names(
         target_code,
-        not_found_reg_names
+        not_found_reg_names,
+
     )
 
     original_names = map(lj_scribe.find_original_tag_str, names)
 
     summaries = map(
-        lambda x: lj_scribe.render_tag_summary(*x),
+        lambda x: lj_scribe.render_tag_summary(*x ,expand=expand),
         zip(tag_subtags_by_class, names, original_names)
     )
 

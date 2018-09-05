@@ -12,6 +12,7 @@
     {% endif %}
 {%- endmacro %}
 {% macro get_expand_name(individual, prefix) -%}{% if individual.name.startswith(prefix) %}{{ individual.name }}{% else %}{{ individual.altnames[0] }}{% endif %}{%- endmacro %}
+ {% if expand %}
 <div class="lj-scribe-tag" id="{{ orig_str.replace('@', '') }}">
     {% if tags[0][0].title != "" %}
     <h5 class="tag-title">{{ tags[0][0].title }}</h5>
@@ -155,3 +156,164 @@
         {% endfor %}
     </div>
 </div>
+ {% else %}
+<div class="lj-scribe-tag" id="{{ orig_str.replace('@', '') }}">
+    {% if tags[0][0].title != "" %}
+    <h5 class="tag-title">{{ tags[0][0].title }}</h5>
+    {% endif %}
+    <table class="tag-summary">
+        <thead>
+            <tr class="emphasis-row">
+                <td>Name</td>
+                <td>Start Address</td>
+                <td>Type</td>
+                <td>Access</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for (orig_subtag, subtag) in tags %}
+            <tr class="class-summary">
+                <td>{{ get_full_name(orig_subtag) }}</td>
+                <td>{{subtag.resolved[0].address}}</td>
+                <td>{{subtag.unresolved.type}}</td>
+                <td>
+                {% if subtag.resolved[0].read %}
+                    {% if subtag.resolved[0].write %}
+                    R/W
+                    {% else %}
+                    R
+                    {% endif %}
+                {% elif subtag.resolved[0].write %}
+                    W
+                {% endif %} &#160;&#160;&#160;
+                 <img src="/static/images/details_open.png" onclick="hideDetails('{{subtag.resolved[0].address}}')">
+                </td>
+            </tr>
+            <tr>
+                <td id="{{subtag.resolved[0].address}}" style="display:none;">
+                    <div class="tag-details" id="">
+       
+        <div class="sub-tag">
+            <h6>{{ get_full_name(orig_subtag) }}</h6>
+            - {% if subtag.resolved|length == 1 %}Address:{% else %}Starting Address:{% endif %} {{subtag.resolved[0].address}}
+            <div class="main-content">
+                <div class="description">
+                    <div class="content">
+                        {{ subtag.resolved[0].description | safe }}</br>
+                        <ul class="additional-details">
+                        <li>Data type: {{subtag.unresolved.type}}&nbsp;&nbsp;(type index = {{subtag.resolved[0].type_index}})</li>
+                        <li>
+                            {% if subtag.resolved[0].read %}
+                                {% if subtag.resolved[0].write %}
+                                Readable and writable
+                                {% else %}
+                                Read-only
+                                {% endif %}
+                            {% elif subtag.resolved[0].write %}
+                                Write-only
+                            {% endif %}
+                        </li>
+                        {% if subtag.unresolved.default is defined %}
+                            <li>Default value: {{subtag.unresolved.default}}</li>
+                        {% endif %}
+                        {% if subtag.unresolved.streamable %}
+                            <li>This register may be streamed</li>
+                        {% endif %}
+                        {% if subtag.unresolved.isBuffer %}
+                            <li>This register is a <a href="https://labjack.com/support/datasheets/t7/communication/modbus-map/buffer-registers">Buffer Register</a></li>
+                        {% endif %}
+                        {% if subtag.unresolved.usesRAM %}
+                            <li>This register uses system RAM. The maximum RAM is 64KB. For more information, see <a href="/support/datasheets/t-series/hardware-overview/ram">4.4 RAM</a></li>
+                        {% endif %}
+                        {% for unres_device in subtag.unresolved.devices %}
+                            {% if unres_device.description or unres_device.default or unres_device.fwmin %}
+                                <li>{{ unres_device.device }}:<ul>
+                                    {% if unres_device.description %}
+                                        <li>{{ unres_device.description }}</li>
+                                    {% endif %}
+                                    {% if unres_device.default %}
+                                        <li>Default value: {{ unres_device.default }}</li>
+                                    {% endif %}
+                                    {% if unres_device.fwmin %}
+                                        <li>Minimum <a href="https://labjack.com/support/firmware">firmware</a> version: {{ '%.04f' % unres_device.fwmin }}</li>
+                                    {% endif %}
+                                </ul></li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                        {% if subtag.resolved[0].constants %}
+                            <table class="sub-details">
+                            <thead>
+                                <tr>
+                                    <td>Constant</td>
+                                    <td>Value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for constant in subtag.resolved[0].constants %}
+                                <tr>
+                                    <td>{{ constant.name }}</td>
+                                    <td>{{ constant.value }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if subtag.resolved|length > 1 %}
+                <table class="sub-details">
+                <thead>
+                    <tr class="title">
+                        <td>Expanded Names</td>
+                        <td>Addresses</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="content">
+                        <td>
+                            {% for individual in subtag.resolved %}
+                            <span class="individual-name {% if loop.index <= 3 %}always-shown{% else %}sometimes-shown{% endif %}">
+                                {{ get_expand_name(individual, orig_subtag.prefix) }}{% if not loop.last %},{% endif %}
+                            </span>
+                            {% endfor %}
+                            {% if subtag.resolved|length > 3 %}
+                            <a href="#" class="collapsed-content-expander">Show All</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% for individual in subtag.resolved %}
+                            <span class="individual-address {% if loop.index <= 3 %}always-shown{% else %}sometimes-shown{% endif %}">
+                                {{ individual.address }}{% if not loop.last %},{% endif %}
+                            </span>
+                            {% endfor %}
+                            {% if subtag.resolved|length > 3 %}
+                            <a href="#" class="collapsed-content-expander">Show All</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function hideDetails(z) {
+    var id = z
+    var x = document.getElementById(id);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    }
+</script>
+ {% endif %}
