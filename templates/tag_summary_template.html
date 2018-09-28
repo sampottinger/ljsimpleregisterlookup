@@ -13,7 +13,7 @@
 {%- endmacro %}
 {% macro get_expand_name(individual, prefix) -%}{% if individual.name.startswith(prefix) %}{{ individual.name }}{% else %}{{ individual.altnames[0] }}{% endif %}{%- endmacro %}
 
- {% macro usedalot(orig_subtag, subtag) %}
+ {% macro registerBody(orig_subtag, subtag) %}
     <div class="sub-tag">
             <h6>{{ get_full_name(orig_subtag) }}</h6>
             - {% if subtag.resolved|length == 1 %}Address:{% else %}Starting Address:{% endif %} {{subtag.resolved[0].address}}
@@ -158,7 +158,7 @@
     </table>
     <div class="tag-details" id="">
         {% for (orig_subtag, subtag) in tags %}
-          {{ usedalot(orig_subtag, subtag) }}
+          {{ registerBody(orig_subtag, subtag) }}
         {% endfor %}
     </div>
 </div>
@@ -199,7 +199,7 @@
                 <td id="{{subtag.resolved[0].address}}" style="display:none;">
                     <div class="tag-details" id="">
        
-            {{ usedalot(orig_subtag, subtag) }}
+            {{ registerBody(orig_subtag, subtag) }}
 
     </div>
                 </td>
