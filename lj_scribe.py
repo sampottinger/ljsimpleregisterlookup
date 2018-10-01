@@ -273,11 +273,12 @@ def organize_tag_by_class(target_tag, dev_regs):
     )
 
 
-def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str):
+def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str, expand=False):
     return flask.render_template(
         "tag_summary_template.html",
         tags=zip(orig_tags, subtag_by_class.values()),
-        orig_str=orig_tag_str
+        orig_str=orig_tag_str,
+        expand = expand
     )
 
 
