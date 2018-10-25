@@ -215,7 +215,11 @@ def lookup():
 def decodeview():
     target_code = flask.request.args.get("input", "")
     if(target_code[:1] == '@'):
-        return render_scribe(target_code)
+        printarg = request.args.get("printarg")
+        if(printarg is None):
+            return render_scribe(target_code)
+        else:
+            return render_scribe(target_code, expand=True)
 
     target_code = json.loads(target_code)
     if(target_code['TYPE'].lower() == 'auto'):
