@@ -186,7 +186,7 @@
                     
                         {{ get_full_name(orig_subtag) }} &nbsp;&nbsp; &nbsp;&nbsp; 
                      
-                  {{ subtag.resolved[0].description | safe }}</p>
+                 <span id="{{subtag.resolved[0].address}}SPN"> {{ subtag.resolved[0].description | safe }}</span></p>
                    
                 </td>
                 <td>{{subtag.resolved[0].address}}</td>
@@ -205,7 +205,7 @@
             </tr>
             <tr class="expandbody">
                 <td id="{{subtag.resolved[0].address}}" colspan="2" style="display:none;" class="printexpand">
-                    <div class="tag-details">
+                    <div>
        
             {{ registerBody(orig_subtag, subtag) }}
 
@@ -220,11 +220,15 @@
     function hideDetails(id, imgid) {
     var x = document.getElementById(id);
     var buttonimg = document.getElementById(imgid);
+    var span = id + "SPN";
+    span = document.getElementById(span);
     if (x.style.display === "none") {
         x.style.display = "block";
+        span.style.display = "none";
         buttonimg.src = "http://ljsimpleregisterlookup.herokuapp.com/static/images/details_close.png"
     } else {
         x.style.display = "none";
+        span.style.display = "inline";
         buttonimg.src = "https://ljsimpleregisterlookup.herokuapp.com/static/images/details_open.png"
 
     }
