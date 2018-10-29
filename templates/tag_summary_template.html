@@ -170,7 +170,7 @@
     <table class="tag-summary">
         <thead>
             <tr class="emphasis-row">
-                <td>Name</td>
+                <td width="80%">Name</td>
                 <td>Start Address</td>
                 <td>Type</td>
                 <td>Access</td>
@@ -178,8 +178,17 @@
         </thead>
         <tbody>
             {% for (orig_subtag, subtag) in tags %}
-            <tr class="class-summary">
-                <td>{{ get_full_name(orig_subtag) }}</td>
+            <tr class="class-summary expand" onclick="hideDetails('{{subtag.resolved[0].address}}','{{subtag.resolved[0].address}}IMG')">
+                <td > 
+                     <p class="shortdes" > 
+                    <a onclick="hideDetails('{{subtag.resolved[0].address}}','{{subtag.resolved[0].address}}IMG')">
+                    <img src="https://ljsimpleregisterlookup.herokuapp.com/static/images/details_open.png" id="{{subtag.resolved[0].address}}IMG" onclick="hideDetails('{{subtag.resolved[0].address}}','{{subtag.resolved[0].address}}IMG')"></a>
+                    
+                        {{ get_full_name(orig_subtag) }} &nbsp;&nbsp; &nbsp;&nbsp; 
+                     
+                  {{ subtag.resolved[0].description | safe }}</p>
+                   
+                </td>
                 <td>{{subtag.resolved[0].address}}</td>
                 <td>{{subtag.unresolved.type}}</td>
                 <td>
@@ -192,12 +201,11 @@
                 {% elif subtag.resolved[0].write %}
                     W
                 {% endif %} &#160;&#160;&#160;
-                 <img src="https://ljsimpleregisterlookup.herokuapp.com/static/images/details_open.png" onclick="hideDetails('{{subtag.resolved[0].address}}')">
                 </td>
             </tr>
-            <tr>
-                <td id="{{subtag.resolved[0].address}}" style="display:none;">
-                    <div class="tag-details" id="">
+            <tr class="expandbody">
+                <td id="{{subtag.resolved[0].address}}" colspan="2" style="display:none;" class="printexpand">
+                    <div class="tag-details">
        
             {{ registerBody(orig_subtag, subtag) }}
 
@@ -209,13 +217,16 @@
     </table>
 </div>
 <script>
-    function hideDetails(z) {
-    var id = z
+    function hideDetails(id, imgid) {
     var x = document.getElementById(id);
+    var buttonimg = document.getElementById(imgid);
     if (x.style.display === "none") {
         x.style.display = "block";
+        buttonimg.src = "http://ljsimpleregisterlookup.herokuapp.com/static/images/details_close.png"
     } else {
         x.style.display = "none";
+        buttonimg.src = "https://ljsimpleregisterlookup.herokuapp.com/static/images/details_open.png"
+
     }
     }
 </script>
