@@ -8,7 +8,7 @@
         var len = deviceDropdown.options.length;
         for(i = 0; i < len; i++)
          {
-         if (deviceDropdown.options[i].innerHTML == Device)
+         if (deviceDropdown.options[i].innerHTML === Device)
          {
          deviceDropdown.selectedIndex = i;
          break;
@@ -18,13 +18,13 @@
         var len = tagdropdown.options.length;
         for(i = 0; i < len; i++)
          {
-         if (tagdropdown.options[i].innerHTML == DevicesTag)
+         if (tagdropdown.options[i].innerHTML === DevicesTag)
          {
          tagdropdown.selectedIndex = i;
          break;
          }     
         }
-        if(TagsExpand == "true"){
+        if(TagsExpand === "true"){
             document.getElementById("expand-checkbox").checked = true;
         }
         });
