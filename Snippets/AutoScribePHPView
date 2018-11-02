@@ -1,0 +1,42 @@
+<?php
+$scribeBaseURL = "http://ljsimpleregisterlookup.herokuapp.com/decodeview?input=";
+$uri = $_SERVER['REQUEST_URI'];
+$jsonData = $view->args[0];
+$jsonDatans = strtolower(str_replace(' ', '', $jsonData));
+if($jsonData[0] == "{"){
+	if (strpos($uri, '/printpdf/') !== false ) {
+		if (strpos($jsonDatans, 'expanded":true') == false) {
+			if (strpos($jsonDatans, 'expanded":false') !== false ) {
+				$jsonData = str_ireplace('Expanded":false','Expanded":true',$jsonData);
+				$jsonData = str_ireplace('Expanded" : false','Expanded":true',$jsonData);
+				$jsonData = str_ireplace('Expanded" :false','Expanded":true',$jsonData);
+				$jsonData = str_ireplace('Expanded": false','Expanded":true',$jsonData);
+			}
+			else{
+				$jsonData = substr_replace($jsonData ,',"Expanded":true}',-1);
+			}
+		}
+	}
+	$escapedInput = urlencode($jsonData);
+	$escapedInput = str_ireplace('#','%23',$escapedInput);
+	$renderedHTML = file_get_contents($scribeBaseURL . $escapedInput);
+}
+else {
+	$title = $view->args[0];
+	$ljmmm = $view->args[1];
+	$devs = '';
+	$printexpand = '';
+	if (array_key_exists(2, $view->args)) {
+		$devs = '[' . $view->args[2] . ']';
+	}
+	$title = str_replace('_fslash', "/", $title);
+	$ljmmm = str_replace('_fslash', "/", $ljmmm);
+	$devs = str_replace('_fslash', "/", $devs);
+	if (strpos($uri, '/printpdf/') !== false ) {
+		$printexpand = '&printarg=true';
+	}
+	$escapedInput = urlencode('@registers(' . $title . ')' . $devs . ':' . $ljmmm . $printexpand);
+	$renderedHTML = file_get_contents($scribeBaseURL . $escapedInput);
+}
+print $renderedHTML;
+?>
