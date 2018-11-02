@@ -13,6 +13,7 @@ from flask import Markup, request
 from ljm_constants import ljmmm
 import lj_error_scribe
 import lj_scribe
+import lj_device_scribe
 import parse_ljsl
 import serialize
 
@@ -229,7 +230,14 @@ def decodeview():
 
     if(target_code['TYPE'].lower() == 'error'):
         return render_error_scribe(target_code['ERRORS'])
-    return json.dumps(target_code)
+    if(target_code['TYPE'].lower() == 'device'):
+        if('TAGS' in target_code):
+            if('Expanded' in target_code):
+                return render_device_Scribe(target_code['Device'], tags=target_code['TAGS'], expand=target_code['Expanded'])
+        if('Expanded' in target_code):
+                return render_device_Scribe(target_code['Device'], expand=target_code['Expanded'])
+        return render_device_Scribe(target_code['device'])
+    return "Error invalid JSON"
 
 
 
@@ -350,7 +358,15 @@ def render_error_scribe(target_code):
         low = high*-1
     return lj_error_scribe.format_errors(high,low)
    
-   
+
+def render_device_Scribe(device_name, tags="ALL_TAGS_NAME", expand=False):
+    tags = tags.replace(" ","").split(',')
+    tagdata = lj_device_scribe.get_all_register_grouped_by_tags(device_name, tags, ljmmm.get_registers_data(expand_names=False, inc_orig=False))
+    combinded_scribe_data = ""
+    for x in tagdata:
+        combinded_scribe_data += render_scribe(x,expand)
+    return combinded_scribe_data
+
 if __name__ == "__main__":
     app.debug = True
     app.run(host=os.environ["IP"], port=int(os.environ["PORT"]))
