@@ -233,9 +233,9 @@ def decodeview():
     if(target_code['TYPE'].lower() == 'device'):
         if('TAGS' in target_code):
             if('Expanded' in target_code):
-                return render_device_Scribe(target_code['Device'], tags=target_code['TAGS'], expand=target_code['Expanded'])
+                return render_device_scribe(target_code['Device'], tags=target_code['TAGS'], expand=target_code['Expanded'])
         if('Expanded' in target_code):
-                return render_device_Scribe(target_code['Device'], expand=target_code['Expanded'])
+                return render_device_scribe(target_code['Device'], expand=target_code['Expanded'])
         return render_device_Scribe(target_code['device'])
     return "Error invalid JSON"
 
@@ -359,13 +359,13 @@ def render_error_scribe(target_code):
     return lj_error_scribe.format_errors(high,low)
    
 
-def render_device_Scribe(device_name, tags="ALL_TAGS_NAME", expand=False):
+def render_device_scribe(device_name, tags="ALL_TAGS_NAME", expand=False):
     tags = tags.replace(" ","").split(',')
-    tagdata = lj_device_scribe.get_all_register_grouped_by_tags(device_name, tags, ljmmm.get_registers_data(expand_names=False, inc_orig=False))
-    combinded_scribe_data = ""
+    tagdata = lj_device_scribe.get_all_registers_grouped_by_tags(device_name, tags, ljmmm.get_registers_data(expand_names=False, inc_orig=False))
+    combined_scribe_data = ""
     for x in tagdata:
-        combinded_scribe_data += render_scribe(x,expand)
-    return combinded_scribe_data
+        combined_scribe_data += render_scribe(x,expand)
+    return combined_scribe_data
 
 if __name__ == "__main__":
     app.debug = True
