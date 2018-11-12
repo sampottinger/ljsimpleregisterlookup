@@ -1,6 +1,7 @@
 import json
 from ljm_constants import ljmmm
 
+
 def get_all_tags():
     tags = ""
     tagjson = ljmmm.get_registers_data(expand_names=False, inc_orig=False)
@@ -11,8 +12,11 @@ def get_all_tags():
     return tags[:-1].replace(" ","").split(',')
 
 alltags_list = get_all_tags()
+
+
 def sanitize_get_all_registers_grouped_by_tags(rawdata):
     return json.loads(json.dumps(rawdata))
+
 
 def get_all_registers_grouped_by_tags(device, tags, data):
     data = sanitize_get_all_registers_grouped_by_tags(data)
