@@ -19,6 +19,12 @@ var LOCAL_TEST_URL = LOOKUP;
 
 var CURRENT_APP_URL = DEPLOY_URL;
 
+var TAG_LINK_URL = BASE_URL + "/static/tag_mappings.json"
+var TAG_MAPPINGS = ""
+jQuery.get(TAG_LINK_URL, function(data) {
+    TAG_MAPPINGS = JSON.parse(data);
+});
+
 var anOpen = [];
 
 function attachListeners(oTable, detailIndices, tableID)
@@ -337,6 +343,20 @@ function RegistersTableRequester()
             CURRENT_APP_URL,
             data,
             function(data) {
+                for (i = 0; i < data.length; i++) {
+                  tagsToReplace = data[i][4].replace(" ","").split(",");
+                  tagsData = ""
+                  for(t = 0; t < tagsToReplace.length; t++) { 
+                     if(typeof TAG_MAPPINGS[tagsToReplace[t]] !== "undefined"){
+                        tagsData += '<a href="https://labjack.com'+ TAG_MAPPINGS[tagsToReplace[t]] +'" target="_blank">' + tagsToReplace[t]+ '</a>, '
+                        console.log(tagsToReplace[t]);
+                        console.log(TAG_MAPPINGS[tagsToReplace[t]]);
+                        }else{
+                          tagsData += tagsToReplace[t] + ", ";
+                        }
+                  }
+                  data[i][4] = tagsData.substring(0, tagsData.length - 2);
+               }
                 updateRegistersTable(data, tableContainer); 
                 callback();
             }
