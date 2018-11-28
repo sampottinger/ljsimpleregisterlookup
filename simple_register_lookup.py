@@ -215,7 +215,7 @@ def lookup():
 
 @app.route('/ljm_constants.json')
 def send_ljm_constants():
-    response = flask.make_response(json.dumps(json.loads(ljmmm.read_file(".\ljm_constants\LabJack\LJM\ljm_constants.json"))))
+    response = flask.make_response(json.dumps(json.loads(ljmmm.read_file("./ljm_constants/LabJack/LJM/ljm_constants.json"))))
     response.headers["X-XSS-Protection"] = "0"
     response.headers["Access-Control-Allow-Origin"] = ALLOWED_REDISPLAY_DOMAIN
     return response
