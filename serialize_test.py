@@ -42,6 +42,7 @@ class SerializeTests(unittest.TestCase):
                 "tags": ["tag3", "tag4"],
                 "description": "test2",
                 "altnames": ["alternate_name"],
+                "usesRAM": True,
             }
         ]
         expected = [
@@ -58,6 +59,7 @@ class SerializeTests(unittest.TestCase):
                 "devices",
                 "constants",
                 "altnames",
+                "usesRAM",
             ],
             [
                 "test_1",
@@ -72,6 +74,7 @@ class SerializeTests(unittest.TestCase):
                 None,
                 None,
                 [],
+                None,
             ],
             [
                 "test_2 (also known as: alternate_name)",
@@ -85,7 +88,8 @@ class SerializeTests(unittest.TestCase):
                 None,
                 None,
                 None,
-                ['alternate_name']
+                ['alternate_name'],
+                True,
             ]
         ]
 
