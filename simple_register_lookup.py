@@ -235,8 +235,8 @@ def decodeview():
     if(target_code['TYPE'].lower() == 'auto'):
         device = ""
         if('Device' in target_code):
-            device = target_code['Device'] + ":"
-        base = '@registers(' + target_code['TITLE'] + '):' + device + target_code['REGISTER']
+            device ="[" + target_code['Device'] + "]"
+        base = '@registers(' + target_code['TITLE'] + ')'+ device + ':' + target_code['REGISTER']
         if('Expanded' in target_code):
             return render_scribe(base, expand=target_code['Expanded'])
         return render_scribe(base)

@@ -185,7 +185,7 @@
                   <a onclick="hideDetails('{{subtag.resolved[0].address}}','{{subtag.resolved[0].address}}IMG')">
                   <img src="https://ljsimpleregisterlookup.herokuapp.com/static/images/details_open.png" id="{{subtag.resolved[0].address}}IMG" onclick="hideDetails('{{subtag.resolved[0].address}}','{{subtag.resolved[0].address}}IMG')"></a>
                   {{ get_full_name(orig_subtag) }} &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 
-                  <span id="{{subtag.resolved[0].address}}SPN"> {{ subtag.resolved[0].description | safe }}</span>
+                  <span id="{{subtag.resolved[0].address}}SPN"> {{ subtag.resolved[0].description  }}</span>
                </p>
             </td>
             <td>{{subtag.resolved[0].address}}</td>

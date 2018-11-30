@@ -59,7 +59,7 @@ function attachListeners(oTable, detailIndices, tableID)
     });
 }
 function linkTagsToDatasheet(data) {
-   TAG_MAPPINGS = LJM_CONSTANTS_RAW["tag_mappings"][0];
+   TAG_MAPPINGS = LJM_CONSTANTS_RAW["tag_mappings"];
    for (i = 0; i < data.length; i++) {
     tagsToReplace = data[i][4].replace(" ","").split(",");
     tagsData = ""
