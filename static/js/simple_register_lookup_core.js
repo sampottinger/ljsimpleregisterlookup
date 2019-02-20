@@ -19,11 +19,29 @@ var LOCAL_TEST_URL = LOOKUP;
 
 var CURRENT_APP_URL = DEPLOY_URL;
 
-var LJM_CONSTANTS_RAW_URL = BASE_URL + "/ljm_constants.json"
-var LJM_CONSTANTS_RAW = ""
-jQuery.get(LJM_CONSTANTS_RAW_URL, function(data) {
-    LJM_CONSTANTS_RAW = JSON.parse(data);
-});
+var TAG_MAPPINGS = {
+    "DIO":            "/support/datasheets/t-series/digital-io/extended-features",
+    "ONEWIRE":        "/support/datasheets/t-series/digital-io/1-wire",
+    "STREAM":         "/support/datasheets/t-series/communication/stream-mode",
+    "RTC":            "/support/datasheets/t-series/rtc",
+    "INTFLASH":       "/support/datasheets/t-series/internal-flash",
+    "UART":           "/support/datasheets/t-series/digital-io/asynchronous-serial",
+    "I2C":            "/support/datasheets/t-series/digital-io/i2c",
+    "WIFI":           "/support/datasheets/t-series/wifi",
+    "USER_RAM":       "/support/datasheets/t-series/hardware-overview/ram",
+    "SPI":            "/support/datasheets/t-series/digital-io/spi",
+    "LUA":            "/support/datasheets/t-series/lua-scripting",
+    "DIO_EF":         "/support/datasheets/t-series/digital-io/extended-features",
+    "AIN":            "/support/datasheets/t-series/ain",
+    "DAC":            "/support/datasheets/t-series/dac",
+    "ETHERNET":       "/support/datasheets/t-series/ethernet",
+    "AIN_EF":         "/support/datasheets/t-series/ain/extended-features",
+    "WATCHDOG":       "/support/datasheets/t-series/watchdog",
+    "ASYNCH":         "/support/datasheets/t-series/digital-io/asynchronous-serial",
+    "SBUS":           "/support/datasheets/t-series/digital-io/sbus",
+    "TDAC":           "/support/datasheets/t-series/appendix-c-2",
+    "FILE_IO":        "/support/datasheets/t-series/sd-card",
+};
 var anOpen = [];
 
 function attachListeners(oTable, detailIndices, tableID)
@@ -59,16 +77,15 @@ function attachListeners(oTable, detailIndices, tableID)
     });
 }
 function linkTagsToDatasheet(data) {
-   TAG_MAPPINGS = LJM_CONSTANTS_RAW["tag_mappings"];
-   for (i = 0; i < data.length; i++) {
-    tagsToReplace = data[i][4].replace(" ","").split(",");
-    tagsData = ""
+  for (i = 0; i < data.length; i++) {
+    var tagsToReplace = data[i][4].replace(" ","").split(",");
+    var tagsData = ""
     for(t = 0; t < tagsToReplace.length; t++) { 
-       if(typeof TAG_MAPPINGS[tagsToReplace[t]] !== "undefined"){
+        if(typeof TAG_MAPPINGS[tagsToReplace[t]] !== "undefined"){
           tagsData += '<a href="https://labjack.com'+ TAG_MAPPINGS[tagsToReplace[t]] +'" target="_blank">' + tagsToReplace[t]+ '</a>, '
-          }else{
-            tagsData += tagsToReplace[t] + ", ";
-          }
+        }else{
+          tagsData += tagsToReplace[t] + ", ";
+        }
     }
     data[i][4] = tagsData.substring(0, tagsData.length - 2); 
  }
