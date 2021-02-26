@@ -4,10 +4,21 @@ LJSimpleRegisterLookup provides a web-based GUI for our device MODBUS maps.
 LJSimpleRegisterLookup is released under the GNU GPL v2 license. 
 
 
+h2. Deploying
+
+To deploy new [ljm_constants.json](https://github.com/labjack/ljm_constants/blob/master/LabJack/LJM/ljm_constants.json) changes:
+
+* [Install](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) and sign into the heroku CLI
+* Pull the new changes into ljsimpleregisterlookup (ljsimpleregisterlookup/ljm_constants is a git submodule)
+* If the ljm_constants.json's `tag_mappings` have changed, update `TAG_MAPPINGS` in `static/js/simple_register_lookup_core.js`.
+* Commit the change to ljsimpleregisterlookup
+* [Deploy](https://devcenter.heroku.com/articles/git#deploying-code) to heroku
+
+
 h2. Overview for the project (tl;dr)
 
 *LJSimpleRegisterLookup*
-Simple Register Lookup provides a device drop-down menu that then displays MODBUS maps in a searchable / paginated table. In addition to this embeddable front-end, a programmatic API is also available using simple HTTP GET requests on URLs following the pattern http://ljsimpleregisterlookup.herokuapp.com/lookup/U3.json. LabJack currently serves this tool at available at http://ljsimpleregisterlookup.herokuapp.com.
+Simple Register Lookup provides a device drop-down menu that then displays MODBUS maps in a searchable / paginated table. In addition to this embeddable front-end, a programmatic API is also available using simple HTTP GET requests on URLs following the pattern http://ljsimpleregisterlookup.herokuapp.com/lookup.json?device_name=T7. LabJack currently serves this tool at available at http://ljsimpleregisterlookup.herokuapp.com.
 
 *LJScribe*
 LJScribe generates HTML documentation for registers based on the JSON modbus map. LabJack currently serves this tool at http://ljsimpleregisterlookup.herokuapp.com/scribe.
