@@ -10,7 +10,7 @@ To deploy new [ljm_constants.json](https://github.com/labjack/ljm_constants/blob
 
 * [Install](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) and sign into the heroku CLI
 * Pull the new changes into ljsimpleregisterlookup (ljsimpleregisterlookup/ljm_constants is a git submodule)
-* If the ljm_constants.json's `tag_mappings` have changed, update `TAG_MAPPINGS` in `static/js/simple_register_lookup_core.js`.
+* If the ljm_constants.json's @tag_mappings@ have changed, update @TAG_MAPPINGS@ in @static/js/simple_register_lookup_core.js@.
 * Commit the change to ljsimpleregisterlookup
 * [Deploy](https://devcenter.heroku.com/articles/git#deploying-code) to heroku
 
