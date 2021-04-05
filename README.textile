@@ -6,13 +6,13 @@ LJSimpleRegisterLookup is released under the GNU GPL v2 license.
 
 h2. Deploying
 
-To deploy new [ljm_constants.json](https://github.com/labjack/ljm_constants/blob/master/LabJack/LJM/ljm_constants.json) changes:
+To deploy new "ljm_constants.json":https://github.com/labjack/ljm_constants/blob/master/LabJack/LJM/ljm_constants.json changes:
 
-* [Install](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) and sign into the heroku CLI
+* "Install":https://devcenter.heroku.com/articles/heroku-cli#download-and-install and sign into the heroku CLI
 * Pull the new changes into ljsimpleregisterlookup (ljsimpleregisterlookup/ljm_constants is a git submodule)
 * If the ljm_constants.json's @tag_mappings@ have changed, update @TAG_MAPPINGS@ in @static/js/simple_register_lookup_core.js@.
 * Commit the change to ljsimpleregisterlookup
-* [Deploy](https://devcenter.heroku.com/articles/git#deploying-code) to heroku
+* "Deploy":https://devcenter.heroku.com/articles/git#deploying-code to heroku
 
 
 h2. Overview for the project (tl;dr)
