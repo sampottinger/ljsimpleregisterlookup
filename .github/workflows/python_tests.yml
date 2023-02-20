@@ -19,7 +19,7 @@ jobs:
           python-version: '3.10' 
           cache: 'pip'
       - name: Setup pip, virtualenv, and install dependencies
-          run: |
+        run: |
           pip install --upgrade pip
           python -m venv venv
           source venv/bin/activate
