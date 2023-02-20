@@ -6,17 +6,22 @@ on:
     branches: [ python3 ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup Python 3.10 and virtualenv, install dependencies
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
           cache: 'pip'
-      - run: | 
+        run: |
           pip install --upgrade pip
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          python runtests.py
+      - name: Run Python Tests
+        run: python runtests.py
