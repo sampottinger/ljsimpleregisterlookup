@@ -3,7 +3,7 @@ name: Run Python Tests
 on:
   workflow_dispatch:
   push:
-    branches: [ python3 ]
+    branches: [ main, development ]
 
 jobs:
   test:
