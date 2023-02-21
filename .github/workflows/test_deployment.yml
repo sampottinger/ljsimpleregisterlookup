@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: Test Deployment to localhost Flask
 
 on:
   workflow_dispatch:
@@ -29,4 +29,7 @@ jobs:
         env:
           IP: "127.0.0.1"
           PORT: 3000
-        run: python simple_register_lookup.py
+        run: |
+          python simple_register_lookup.py
+          sleep 5
+          exit()
