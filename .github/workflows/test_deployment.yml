@@ -1,0 +1,32 @@
+name: Run Python Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, development, ci ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Deploy to Flask
+        env:
+          IP: "127.0.0.1"
+          HOST: 3000
+        run: python simple_register_lookup.py
