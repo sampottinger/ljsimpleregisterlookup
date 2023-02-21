@@ -28,5 +28,5 @@ jobs:
       - name: Deploy to Flask
         env:
           IP: "127.0.0.1"
-          HOST: 3000
+          PORT: 3000
         run: python simple_register_lookup.py
