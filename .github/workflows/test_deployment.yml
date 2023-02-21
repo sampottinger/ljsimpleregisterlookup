@@ -3,7 +3,7 @@ name: Test Deployment to localhost Flask
 on:
   workflow_dispatch:
   push:
-    branches: [ main, development, ci ]
+    branches: [ ci ]
 
 jobs:
   test:
@@ -32,4 +32,4 @@ jobs:
         run: |
           python simple_register_lookup.py
           sleep 5
-          exit()
+          exit 0
