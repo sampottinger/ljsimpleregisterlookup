@@ -27,5 +27,3 @@ jobs:
           pip install -r requirements.txt
       - name: Run Python Tests
         run: python runtests.py
-      - name: Deactivate Virtualenv
-        run: deactivate
