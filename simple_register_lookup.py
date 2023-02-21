@@ -23,8 +23,8 @@ reg_data_compressed = ljmmm.get_registers_data(expand_names=False, inc_orig=Fals
 reg_data_expanded = ljmmm.get_registers_data(expand_names=True, inc_orig=False)
 modbus_maps = ljmmm.get_device_modbus_maps()
 reg_maps = ljmmm.get_device_modbus_maps(expand_names=True, inc_orig=True)
-ALL_DEVICES_NAME = u"All Devices"
-ALL_TAGS_NAME = u"All Tags"
+ALL_DEVICES_NAME = "All Devices"
+ALL_TAGS_NAME = "All Tags"
 INVALID_FILTER_ARGUMENTS = ["null", "undefined"]
 OPTION_TAG_TEMLPATE = "<option value=\"{tag}\">{tag}</option>"
 SELECTED_OPTION_TAB_TEMPLATE = "<option value=\"{tag}\" selected=\"selected\">" \
@@ -41,7 +41,7 @@ def show_ui():
     @rtype: str
     """
 
-    device_options = modbus_maps.keys()
+    device_options = list(modbus_maps.keys())
     device_options.insert(0, ALL_DEVICES_NAME)
 
     tag_options = set()
@@ -49,7 +49,7 @@ def show_ui():
         for reg in modbus_maps[x]:
             for tag in reg["tags"]:
                 tag_options.add(tag)
-    tag_options = sorted(list(filter(None, tag_options)))
+    tag_options = sorted(list([_f for _f in tag_options if _f]))
 
     tag_options = [Markup(OPTION_TAG_TEMLPATE).format(tag=tag)
         for tag in tag_options]
@@ -129,10 +129,7 @@ def lookup():
     expand = request.args.get("expand-addresses", "true")
     dataset_cols = prepareFilterArg(request.args.get("fields", "null"))
 
-    dataset_cols = map(
-        lambda x: "access" if x == "rw" else x,
-        dataset_cols
-    )
+    dataset_cols = ["access" if x == "rw" else x for x in dataset_cols]
 
     # If the desired attributes were not provided, use defaults.
     if not dataset_cols:
@@ -167,20 +164,17 @@ def lookup():
     if add_reg_names:
         for entry in regs_to_use:
             for reg_num in add_reg_names:
-                if unicode(reg_num) in unicode(entry["name"]):
+                if str(reg_num) in str(entry["name"]):
                     unfiltered_registers.append(entry)
 
     if add_regs_str:
-        add_regs = map(lambda x: int(x), add_regs_str)
-        regs_to_use = filter(lambda x: x["address"] in add_regs, regs_to_use)
+        add_regs = [int(x) for x in add_regs_str]
+        regs_to_use = [x for x in regs_to_use if x["address"] in add_regs]
 
     # Filter by tag
-    if tags and unicode(ALL_TAGS_NAME) not in tags:
+    if tags and str(ALL_TAGS_NAME) not in tags:
         tags_set = set(tags)
-        regs_to_use = filter(
-            lambda x: set(x["tags"]).issuperset(tags_set),
-            regs_to_use
-        )
+        regs_to_use = [x for x in regs_to_use if set(x["tags"]).issuperset(tags_set)]
 
     # Filter by not-tag
     if not_tags: # and unicode(NO_TAGS_NAME) not in not_tags:
@@ -188,7 +182,7 @@ def lookup():
         for entry in regs_to_use:
             for map_tag in entry["tags"]:
                 for not_tag in not_tags:
-                    if map_tag.find(unicode(not_tag)) != -1:
+                    if map_tag.find(str(not_tag)) != -1:
                         entries_to_remove.append(entry)
 
         for entry in entries_to_remove:
@@ -198,7 +192,7 @@ def lookup():
     for unfiltered_reg in unfiltered_registers:
         duplicate = False
         for reg in regs_to_use:
-            if unicode(unfiltered_reg["name"]) == unicode(reg["name"]):
+            if str(unfiltered_reg["name"]) == str(reg["name"]):
                 duplicate = True
 
         if not duplicate:
@@ -293,14 +287,11 @@ def render_scribe(target_code, expand=False):
 
     )
 
-    original_names = map(lj_scribe.find_original_tag_str, names)
+    original_names = list(map(lj_scribe.find_original_tag_str, names))
 
-    summaries = map(
-        lambda x: lj_scribe.render_tag_summary(*x ,expand=expand),
-        zip(tag_subtags_by_class, names, original_names)
-    )
+    summaries = [lj_scribe.render_tag_summary(*x ,expand=expand) for x in zip(tag_subtags_by_class, names, original_names)]
 
-    original_names_to_summaries = zip(original_names, summaries)
+    original_names_to_summaries = list(zip(original_names, summaries))
 
     for (original_name, summary) in original_names_to_summaries:
         target_code = target_code.replace(original_name, summary)

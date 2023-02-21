@@ -73,7 +73,7 @@ def serialize_device_modbus_map(target, cols=DEVICE_MODBUS_MAP_COLS):
         else:
             entry["altnames"] = []
 
-        serialized_entry = map(lambda x: entry[x] if x in entry else None, cols)
+        serialized_entry = [entry[x] if x in entry else None for x in cols]
 
         ret_list.append(serialized_entry)
     return ret_list

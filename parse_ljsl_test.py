@@ -36,7 +36,7 @@ class ExpandInjectDataFieldsTests(unittest.TestCase):
     def corpus_matches_tests(self, matches):
         self.assertEqual(len(matches), 2)
 
-        lengths = map(lambda x: len(x), matches)
+        lengths = [len(x) for x in matches]
         self.assertEqual([1, 5], lengths)
 
         target_match = matches[0][0]

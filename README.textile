@@ -92,12 +92,12 @@ h2. Development Standards
 All Python documentation is written in epydoc (http://epydoc.sourceforge.net/) and all JavaScript documentation is written in jsdoc (http://en.wikipedia.org/wiki/JSDoc). The development team has not set the precedent for client-side code testing but server logic should be tested using the Python unittest module as appropriate (http://docs.python.org/2/library/unittest.html). The application uses the ljm_constants.json file in the "LJM_constants":https://github.com/labjack/ljm_constants repository.
 
 
-h2. Virtualenv
+h2. venv
 
-LJSimpleRegister lookup uses virtualenv (http://pypi.python.org/pypi/virtualenv) and the gunicorn server. Also, to accommodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
+LJSimpleRegister lookup uses venv (https://docs.python.org/3/library/venv.html) and the gunicorn server. Also, to accommodate cross-scripting security considerations, the client-side JavaScript has a hard-coded URL.
 
 To set up locally:
-* $ virtualenv venv
+* $ python3 -m venv venv
 * $ source venv/bin/activate
 * $ pip install -r requirements.txt
 

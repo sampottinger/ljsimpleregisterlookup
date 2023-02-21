@@ -51,80 +51,59 @@ def parsed_sub_tag_to_names(entry):
 
 
 def parsed_tag_to_names(tag_entries):
-    return map(parsed_sub_tag_to_names, tag_entries)
+    return list(map(parsed_sub_tag_to_names, tag_entries))
 
 
 def get_unres_reg_names_by_subtag_name(tag_names, unres_regs_by_res_name):
-    return map(
-        lambda x: (x, unres_regs_by_res_name[x]),
-        tag_names
-    )
+    return [(x, unres_regs_by_res_name[x]) for x in tag_names]
 
 
 def get_unres_reg_names_for_tag_names(tag, unres_regs_by_res_name):
-    return map(
-        lambda x: get_unres_reg_names_by_subtag_name(x, unres_regs_by_res_name),
-        tag
-    )
+    return [get_unres_reg_names_by_subtag_name(x, unres_regs_by_res_name) for x in tag]
 
 
 def resolve_registers_by_name_in_tuple(target_tuple, res_regs_by_res_name):
-    return map(
-        lambda x: (res_regs_by_res_name[x[0]], x[1]),
-        target_tuple
-    )
+    return [(res_regs_by_res_name[x[0]], x[1]) for x in target_tuple]
 
 
 def resolve_registers_by_name_in_tag(target_tag, res_regs_by_res_name):
-    return map(
-        lambda x: resolve_registers_by_name_in_tuple(x, res_regs_by_res_name),
-        target_tag
-    )
+    return [resolve_registers_by_name_in_tuple(x, res_regs_by_res_name) for x in target_tag]
 
 
 def convert_unresolved_to_resolved_tuple(target_tuple):
-    return map(
-        lambda x: UnresolvedToResolvedPair(x[1], x[0]),
-        target_tuple
-    )
+    return [UnresolvedToResolvedPair(x[1], x[0]) for x in target_tuple]
 
 
 def convert_unresolved_to_resolved_tag(target_tag):
-    return map(
+    return list(map(
         convert_unresolved_to_resolved_tuple,
         target_tag
-    )
+    ))
 
 
 def find_classes(tag_entries, dev_regs):
-    regs_tuple_res_name_first = map(lambda x: (x[1]["name"], x[0]), dev_regs)
+    regs_tuple_res_name_first = [(x[1]["name"], x[0]) for x in dev_regs]
     unres_regs_by_res_name = dict(regs_tuple_res_name_first)
     res_regs_by_res_name = dict(
-        map(lambda x: (x[1]["name"], x[1]), dev_regs)
+        [(x[1]["name"], x[1]) for x in dev_regs]
     )
 
-    tag_names = map(parsed_tag_to_names, tag_entries)
+    tag_names = list(map(parsed_tag_to_names, tag_entries))
 
     try:
-        res_name_to_unres_entry_tuple = map(
-            lambda x: get_unres_reg_names_for_tag_names(
+        res_name_to_unres_entry_tuple = [get_unres_reg_names_for_tag_names(
                 x,
                 unres_regs_by_res_name
-            ),
-            tag_names
-        )
+            ) for x in tag_names]
     except KeyError as e:
-        raise RegisterNotFoundError(e.message)
+        raise RegisterNotFoundError(e)
 
-    res_entry_to_unres_entry_tuple = map(
-        lambda x: resolve_registers_by_name_in_tag(x, res_regs_by_res_name),
-        res_name_to_unres_entry_tuple
-    )
+    res_entry_to_unres_entry_tuple = [resolve_registers_by_name_in_tag(x, res_regs_by_res_name) for x in res_name_to_unres_entry_tuple]
 
-    return map(
+    return list(map(
         convert_unresolved_to_resolved_tag,
         res_entry_to_unres_entry_tuple
-    )
+    ))
 
 
 def fix_not_found_reg_names(target_code, not_found_reg_names):
@@ -158,13 +137,13 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
     """
     # Flatten reg_maps
     all_regs = []
-    for dev_regs in reg_maps.values():
+    for dev_regs in list(reg_maps.values()):
         all_regs.extend(dev_regs)
 
-    regs_tuple_res_name_first = map(lambda x: (x[1]["name"], x[0]), all_regs)
+    regs_tuple_res_name_first = [(x[1]["name"], x[0]) for x in all_regs]
     unres_regs_by_res_name = dict(regs_tuple_res_name_first)
 
-    regs_tuple_res_altnames_first = map(lambda x: (x[1]["altnames"], x[0]), all_regs)
+    regs_tuple_res_altnames_first = [(x[1]["altnames"], x[0]) for x in all_regs]
 
     def inner_expand_by_altname(unexpanded_altname_list):
         for each_unexpanded_tuple in unexpanded_altname_list:
@@ -176,14 +155,11 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
     unres_regs_by_res_altname = dict(regs_tuple_res_altname_first)
 
     def inner_create_tuple(tag_entries, unres_regs_by_res_name):
-        tag_names = map(parsed_tag_to_names, tag_entries)
-        return map(
-            lambda x: get_unres_reg_names_for_tag_names(
+        tag_names = list(map(parsed_tag_to_names, tag_entries))
+        return [get_unres_reg_names_for_tag_names(
                 x,
                 unres_regs_by_res_name
-            ),
-            tag_names
-        )
+            ) for x in tag_names]
 
     unres_regs_by_res_name.update(unres_regs_by_res_altname)
 
@@ -199,12 +175,12 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
                 # TODO: Add the offending register to a list, which we'll return
                 found = False
                 for entry in tag_entries[0]:
-                    if entry.prefix == e.message:
+                    if entry.prefix == e:
                         found = True
                         tag_entries[0].remove(entry)
-                        not_found_reg_names.append(e.message)
+                        not_found_reg_names.append(e)
                 if not found:
-                    raise RegisterNotFoundError(e.message)
+                    raise RegisterNotFoundError(e)
 
     res_name_to_unres_entry_tuple = inner_try_remove_wrapper(
         tag_entries,
@@ -212,21 +188,18 @@ def find_classes_from_map(tag_entries, reg_maps, not_found_reg_names):
     )
 
     res_regs_by_res_name = dict(
-        map(lambda x: (x[1]["name"], x[1]), all_regs)
+        [(x[1]["name"], x[1]) for x in all_regs]
     )
     res_regs_by_res_name.update(dict(
-        [x for x in inner_expand_by_altname(map(lambda x: (x[1]["altnames"], x[1]), all_regs))]
+        [x for x in inner_expand_by_altname([(x[1]["altnames"], x[1]) for x in all_regs])]
     ))
 
-    res_entry_to_unres_entry_tuple = map(
-        lambda x: resolve_registers_by_name_in_tag(x, res_regs_by_res_name),
-        res_name_to_unres_entry_tuple
-    )
+    res_entry_to_unres_entry_tuple = [resolve_registers_by_name_in_tag(x, res_regs_by_res_name) for x in res_name_to_unres_entry_tuple]
 
-    return map(
+    return list(map(
         convert_unresolved_to_resolved_tag,
         res_entry_to_unres_entry_tuple
-    )
+    ))
 
 
 def fia_find_subtags_by_class(unresolved_resolved_pairs):
@@ -236,7 +209,7 @@ def fia_find_subtags_by_class(unresolved_resolved_pairs):
         unresolved = entry[0].unresolved
         name = unresolved["name"]
         grouping = UnresolvedWithResolvedGrouping(
-            map(lambda x: x.resolved, entry), unresolved
+            [x.resolved for x in entry], unresolved
         )
         ret_dict[name] = grouping
 
@@ -254,29 +227,23 @@ def find_subtags_by_class(unresolved_resolved_pairs, dev_regs):
         unresolved = entry[0].unresolved
         name = unresolved["name"]
         grouping = UnresolvedWithResolvedGrouping(
-            map(lambda x: x.resolved, entry), unresolved)
+            [x.resolved for x in entry], unresolved)
         ret_dict[name] = grouping
 
     return ret_dict
 
 
 def fia_organize_tag_by_class(target_tag):
-    return map(
-        lambda x: fia_find_subtags_by_class(x),
-        target_tag
-    )
+    return [fia_find_subtags_by_class(x) for x in target_tag]
 
 def organize_tag_by_class(target_tag, dev_regs):
-    return map(
-        lambda x: find_subtags_by_class(x, dev_regs),
-        target_tag
-    )
+    return [find_subtags_by_class(x, dev_regs) for x in target_tag]
 
 
 def render_tag_summary(subtag_by_class, orig_tags, orig_tag_str, expand=False):
     return flask.render_template(
         "tag_summary_template.html",
-        tags=zip(orig_tags, subtag_by_class.values()),
+        tags=list(zip(orig_tags, list(subtag_by_class.values()))),
         orig_str=orig_tag_str,
         expand = expand
     )

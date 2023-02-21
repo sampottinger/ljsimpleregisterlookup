@@ -18,10 +18,7 @@ TEST_DEVICE_REGS = (
     ({"name": "ORIG_ANOTHER_200"}, {"name": "ANOTHER_203"})
 )
 
-TEST_RESOLVED_TO_UNRESOLVED_PAIRS = map(
-    lambda x: lj_scribe.UnresolvedToResolvedPair(*x),
-    TEST_DEVICE_REGS
-)
+TEST_RESOLVED_TO_UNRESOLVED_PAIRS = [lj_scribe.UnresolvedToResolvedPair(*x) for x in TEST_DEVICE_REGS]
 
 PRE_POST_ORIG_TAG = parse_ljsl.TagComponent("", "PRE_", 100, 2, 3, "_POST",
     True, [])
@@ -162,21 +159,21 @@ class LJScribeTests(unittest.TestCase):
         self.assertEqual(len(class_group_1), 3)
 
         sub_group_1 = class_group_1[0]
-        sub_name_group_1 = map(lambda x: x[0]["name"], sub_group_1)
+        sub_name_group_1 = [x[0]["name"] for x in sub_group_1]
         self.assertEqual(
             sub_name_group_1,
             ["ORIG_PRE_100_POST", "ORIG_PRE_100_POST"]
         )
 
         sub_group_2 = class_group_1[1]
-        sub_name_group_2 = map(lambda x: x[0]["name"], sub_group_2)
+        sub_name_group_2 = [x[0]["name"] for x in sub_group_2]
         self.assertEqual(
             sub_name_group_2,
             ["ORIG_ANOTHER_200", "ORIG_ANOTHER_200"]
         )
 
         sub_group_3 = class_group_1[2]
-        sub_name_group_3 = map(lambda x: x[0]["name"], sub_group_3)
+        sub_name_group_3 = [x[0]["name"] for x in sub_group_3]
         self.assertEqual(
             sub_name_group_3,
             ["ORIG_PRE_100_POST", "ORIG_PRE_100_POST"]
@@ -186,7 +183,7 @@ class LJScribeTests(unittest.TestCase):
         self.assertEqual(len(class_group_2), 1)
 
         sub_group_4 = class_group_2[0]
-        sub_name_group_4 = map(lambda x: x[0]["name"], sub_group_4)
+        sub_name_group_4 = [x[0]["name"] for x in sub_group_4]
         self.assertEqual(
             sub_name_group_4,
             ["ORIG_PRE_100_POST", "ORIG_PRE_100_POST"]
@@ -202,7 +199,7 @@ class LJScribeTests(unittest.TestCase):
             TEST_DEVICE_REGS
         )
 
-        keys = subtags_by_class.keys()
+        keys = list(subtags_by_class.keys())
         self.assertEqual(len(keys), 2)
         self.assertIn("ORIG_PRE_100_POST", keys)
         self.assertIn("ORIG_ANOTHER_200", keys)
@@ -214,10 +211,7 @@ class LJScribeTests(unittest.TestCase):
         )
         self.assertEqual(len(orig_pre_records.resolved), 6)
         
-        orig_pre_records_names = map(
-            lambda x: x["name"],
-            orig_pre_records.resolved
-        )
+        orig_pre_records_names = [x["name"] for x in orig_pre_records.resolved]
         self.assertIn("PRE_100_POST", orig_pre_records_names)
         self.assertIn("PRE_103_POST", orig_pre_records_names)
         self.assertIn("PRE_200_POST", orig_pre_records_names)
@@ -232,10 +226,7 @@ class LJScribeTests(unittest.TestCase):
         )
         self.assertEqual(len(orig_another_records.resolved), 2)
 
-        another_records_names = map(
-            lambda x: x["name"],
-            orig_another_records.resolved
-        )
+        another_records_names = [x["name"] for x in orig_another_records.resolved]
         self.assertIn("ANOTHER_200", another_records_names)
         self.assertIn("ANOTHER_203", another_records_names)
 
@@ -308,7 +299,7 @@ class LJScribeTests(unittest.TestCase):
     def test_find_classes_from_map(self):
         names = [[parse_ljsl.TagComponent(
             title='',
-            prefix=u'LED_COMM',
+            prefix='LED_COMM',
             start_num=None,
             num_regs=None,
             num_between_regs=None,
