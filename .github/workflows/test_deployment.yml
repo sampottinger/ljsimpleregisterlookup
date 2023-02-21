@@ -1,9 +1,8 @@
 name: Test Deployment to localhost Flask
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ ci ]
+on: workflow_dispatch
+  # push:
+  #   branches: [ ci ]
 
 jobs:
   test:
