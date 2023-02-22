@@ -21,6 +21,7 @@ import serialize
 
 app = flask.Flask(__name__)
 
+# HealthCheck returns status code, used in GitHub CI deployment to check for non-200 status code
 health = HealthCheck()
 app.add_url_rule('/healthcheck', 'healthcheck', view_func=lambda: health.run())
 
