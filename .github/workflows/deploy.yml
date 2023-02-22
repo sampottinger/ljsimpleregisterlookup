@@ -1,18 +1,20 @@
-name: Deploy
+name: Deploy to Heroku Staging Environment
 
 on: 
   workflow_dispatch:
   push:
-    branches: [ ci ]
+    branches: [ main, ci ]
 
 jobs:
-  build:
+  deploy:
     environment: ljsimpleregisterlookup-staging
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: akhileshns/heroku-deploy@v3.12.13 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.13
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "ljsimpleregisterlookup-staging" #Must be unique in Heroku
+          heroku_app_name: "ljsimpleregisterlookup-test"
           heroku_email: "support@labjack.com"
+          healthcheck: "https://ljsimpleregisterlookup-test.herokuapp.com/"
+          delay: 5
