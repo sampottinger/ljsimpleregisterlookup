@@ -10,6 +10,8 @@ import os
 import flask
 from flask import Markup, request
 
+from healthcheck import HealthCheck
+
 from ljm_constants import ljmmm
 import lj_error_scribe
 import lj_scribe
@@ -18,6 +20,10 @@ import parse_ljsl
 import serialize
 
 app = flask.Flask(__name__)
+
+# HealthCheck returns status code, used in GitHub CI deployment to check for non-200 status code
+health = HealthCheck()
+app.add_url_rule('/healthcheck', 'healthcheck', view_func=lambda: health.run())
 
 reg_data_compressed = ljmmm.get_registers_data(expand_names=False, inc_orig=False)
 reg_data_expanded = ljmmm.get_registers_data(expand_names=True, inc_orig=False)
@@ -243,7 +249,7 @@ def decodeview():
                 return render_device_scribe(target_code['Device'], tags=target_code['TAGS'], expand=target_code['Expanded'])
         if('Expanded' in target_code):
                 return render_device_scribe(target_code['Device'], expand=target_code['Expanded'])
-        return render_device_Scribe(target_code['device'])
+        return render_device_scribe(target_code['device'])
     return "Error invalid JSON"
 
 
