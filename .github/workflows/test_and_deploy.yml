@@ -28,6 +28,7 @@ jobs:
         run: python runtests.py
 
   deploy:
+    needs: test # Wait until test job completes before deploying
     environment: ljsimpleregisterlookup-staging
     runs-on: ubuntu-latest
     steps:
