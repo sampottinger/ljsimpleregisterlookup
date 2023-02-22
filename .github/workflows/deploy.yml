@@ -1,13 +1,12 @@
-name: Deploy to Heroku Staging Environment
+name: Deploy to Heroku Testing Environment
 
 on: 
-  workflow_dispatch:
   push:
-    branches: [ main, ci ]
+    branches: [ development ]
 
 jobs:
   deploy:
-    environment: ljsimpleregisterlookup-staging
+    environment: ljsimpleregisterlookup-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,6 +14,6 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "ljsimpleregisterlookup-test"
-          heroku_email: "support@labjack.com"
-          healthcheck: "https://ljsimpleregisterlookup-test.herokuapp.com/"
-          delay: 5
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          # healthcheck: "https://ljsimpleregisterlookup-test.herokuapp.com/" # Don't run healthcheck on test deployment, we may want to see errors in debug console or developer tools
+          # delay: 3
