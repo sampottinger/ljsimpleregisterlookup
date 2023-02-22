@@ -2,7 +2,7 @@ name: Run Python Tests and Deploy to Heroku Staging Environment
 
 on:
   push:
-    branches: [ main, ci]
+    branches: [ main ]
 
 jobs:
   test:
@@ -40,3 +40,4 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           healthcheck: "https://ljsimpleregisterlookup-staging.herokuapp.com/"
           delay: 3
+          # rollbackonhealthcheckfailed: true  # Do we need to rollback in a staging environment? 
