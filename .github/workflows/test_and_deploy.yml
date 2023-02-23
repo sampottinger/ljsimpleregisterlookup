@@ -1,8 +1,8 @@
-name: Run Python Tests and Deploy to Heroku Staging Environment
+name: Run Python Tests and Deploy to Heroku Environment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, development, ci ]
 
 jobs:
   test:
@@ -27,17 +27,36 @@ jobs:
       - name: Run Python Tests
         run: python runtests.py
 
+  environment:
+    runs-on: ubuntu-latest
+    outputs:
+      ENV: ${{ env.ENVIRONMENT }}
+    steps:
+    - name: Set env to test
+      if: endsWith(github.ref, '/ci')
+      run: |
+        echo "ENVIRONMENT=ljsimpleregisterlookup-test" >> $GITHUB_ENV
+    - name: Set env to staging
+      if: endsWith(github.ref, '/development')
+      run: |
+        echo "ENVIRONMENT=ljsimpleregisterlookup-staging" >> $GITHUB_ENV
+    - name: Set env to production
+      if: endsWith(github.ref, '/main')
+      run: |
+       echo "ENVIRONMENT=ljsimpleregisterlookup" >> $GITHUB_ENV
+
   deploy:
-    needs: test # Wait until test job completes before deploying
-    environment: ljsimpleregisterlookup-staging
+    needs: [test, environment] # Wait until test, environment jobs completes before deploying
+    environment: ${{ needs.environment.outputs.ENV }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: akhileshns/heroku-deploy@v3.12.13
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "ljsimpleregisterlookup-staging"
+          heroku_app_name: ${{ vars.APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          healthcheck: "https://ljsimpleregisterlookup-staging.herokuapp.com/"
+          healthcheck: ${{ vars.APP_HEALTHCHECK_LINK }}
           delay: 3
-          # rollbackonhealthcheckfailed: true  # Do we need to rollback in a staging environment? 
+          dontuseforce: true
+          # rollbackonhealthcheckfailed: true  # Do we need to rollback?
