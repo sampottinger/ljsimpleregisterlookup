@@ -114,6 +114,12 @@ runs on Heroku (<http://www.heroku.com/>). The front-end uses jQuery
 
 ## Development Standards
 
+Any new development should be done in a feature branch off of *development*,
+once tested and verified, it can then be merged back into *development*.
+
+The *main* branch reflects the version currently deployed in production,  
+and should only be merged with *development* when ready to deploy.
+
 All Python documentation is written in epydoc
 (<http://epydoc.sourceforge.net/>) and all JavaScript documentation is
 written in jsdoc (<http://en.wikipedia.org/wiki/JSDoc>). The development
@@ -184,18 +190,24 @@ Alternatively, Flask:
 
 ## Deployment
 
-Deployment is handled mostly by GitHub CI/CD actions. After testing locally you can deploy to the staging environment by pushing or merging to the main branch. The action will run when commited and pushed, first running the unit tests, then deploying to <http://ljsimpleregisterlookup-staging.herokuapp.com/>.
-Navigate there to see the deployed app. Make sure you have your CORS extension activated, it will not load the table otherwise. Also, make sure that the Heroku Web Dyno is turned on through the Heroku Dashboard, the page will not load, only a Heroku error page and a 503 HTTP Error Code.
+Deployment is handled mostly by GitHub CI/CD actions. After testing locally you can deploy to the staging environment by pushing or merging to the development branch. The action will run when commited and pushed, first running the unit tests, then deploying to  
+<http://ljsimpleregisterlookup-staging.herokuapp.com/>.
+Navigate there to see the deployed app. Make sure you have your CORS extension activated, it will not load the table otherwise. Also, make sure that the Heroku Web Dyno is turned on through the Heroku Dashboard, the page will not load, only a Heroku error page and a 503 HTTP Error Code. 
+If you don't need to use the staging deployment for a while, turn off the web dyno when complete.
 
-Then, to deploy to production, log into the Heroku Dashboard, verify that staging has built and deployed correctly, and promote the staging environment to production.
+### To Deploy to Production
+
+Merge the development branch into the main branch, or open a pull request.
+The action will run automatically, this time deploying to the production environment.
+
 Check the deployment succeeded on:
 
 - The production deployed website
-  - <http://ljsimpleregisterlookup-staging.herokuapp.com/>
+  - <http://ljsimpleregisterlookup.herokuapp.com/>
 - The embedded Modbus Map on our webite which pulls from prod (link may have changed)
   - <https://labjack.com/pages/support?doc=%2Fdatasheets%2Ft-series-datasheet%2F31-modbus-map-t-series-datasheet%2F>
 
-If either shows an error, you can rollback to the previous deployment the Heroku Dashboard production project activity feed. This will prevent the service from being down while debugging the failed deployment.
+If either link shows an error, you can rollback to the previous deployment on the Heroku Dashboard production project activity feed. This will prevent the service from being down while debugging the failed deployment.
 
 ## Common Tasks
 
