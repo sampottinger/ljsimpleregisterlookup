@@ -190,26 +190,6 @@ Alternatively, Flask:
 
 ## Deployment
 
-<<<<<<< HEAD
-Deployment is handled mostly by GitHub CI/CD actions. After testing locally you can deploy to the staging environment by pushing or merging to the development branch. The action will run when commited and pushed, first running the unit tests, then deploying to  
-<http://ljsimpleregisterlookup-staging.herokuapp.com/>.
-Navigate there to see the deployed app. Make sure you have your CORS extension activated, it will not load the table otherwise. Also, make sure that the Heroku Web Dyno is turned on through the Heroku Dashboard, the page will not load, only a Heroku error page and a 503 HTTP Error Code. 
-If you don't need to use the staging deployment for a while, turn off the web dyno when complete.
-
-### To Deploy to Production
-
-Merge the development branch into the main branch, or open a pull request.
-The action will run automatically, this time deploying to the production environment.
-
-Check the deployment succeeded on:
-
-- The production deployed website
-  - <http://ljsimpleregisterlookup.herokuapp.com/>
-- The embedded Modbus Map on our webite which pulls from prod (link may have changed)
-  - <https://labjack.com/pages/support?doc=%2Fdatasheets%2Ft-series-datasheet%2F31-modbus-map-t-series-datasheet%2F>
-
-If either link shows an error, you can rollback to the previous deployment on the Heroku Dashboard production project activity feed. This will prevent the service from being down while debugging the failed deployment.
-=======
 Deployment is handled mostly by GitHub CI/CD actions. After testing locally you can deploy to the staging environment by pushing or merging to the main branch. The action will run when commited and pushed, first running the unit tests, then deploying to <http://ljsimpleregisterlookup-staging.herokuapp.com/>.
 Navigate there to see the deployed app. Make sure you have your CORS extension activated, it will not load the table otherwise. Also, make sure that the Heroku Web Dyno is turned on through the Heroku Dashboard, the page will not load, only a Heroku error page and a 503 HTTP Error Code.
 
@@ -222,7 +202,6 @@ Check the deployment succeeded on:
   - <https://labjack.com/pages/support?doc=%2Fdatasheets%2Ft-series-datasheet%2F31-modbus-map-t-series-datasheet%2F>
 
 If either shows an error, you can rollback to the previous deployment the Heroku Dashboard production project activity feed. This will prevent the service from being down while debugging the failed deployment.
->>>>>>> development
 
 ## Common Tasks
 
